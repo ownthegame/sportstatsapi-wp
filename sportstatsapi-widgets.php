@@ -28,3 +28,18 @@ require SPORTSTATSAPI_DIR . 'includes/rest.php';
 if ( is_admin() ) {
 	require SPORTSTATSAPI_DIR . 'includes/settings.php';
 }
+
+register_activation_hook(
+	__FILE__,
+	function () {
+		if ( ! wp_next_scheduled( 'sportstatsapi_check_key' ) ) {
+			wp_schedule_event( time() + DAY_IN_SECONDS, 'daily', 'sportstatsapi_check_key' );
+		}
+	}
+);
+register_deactivation_hook(
+	__FILE__,
+	function () {
+		wp_clear_scheduled_hook( 'sportstatsapi_check_key' );
+	}
+);

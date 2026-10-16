@@ -8,6 +8,8 @@
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 delete_option( 'sportstatsapi_settings' );
+delete_option( 'sportstatsapi_key_state' );
+wp_clear_scheduled_hook( 'sportstatsapi_check_key' );
 delete_transient( 'sportstatsapi_competitions' );
 
 // The per-competition teams and fallback caches have hashed names.

@@ -49,7 +49,7 @@ pages that contain a block or a shortcode.
 - Translations (de, es, it, fr) of the plugin UI; wordpress.org assets
   (banner 1544x500, icon 256x256, screenshots).
 
-## Connect: GoalGate endpoint needed
+## Connect (GoalGate PR #435)
 
 Today a free widget key (`ssw_free_...`) is created only on the account page
 (`POST /account/...` → `freeWidgetKey`, session + CSRF). The plugin side of Connect
@@ -67,9 +67,12 @@ is built and switched off until this exists:
    the host of `site`; anything else: an error page, no redirect.
 4. Cancel: redirect to `return?state=<same>&error=denied`.
 
-The plugin checks `state` (per user, 15 minutes, single use) and the key format,
-then saves the key. To switch Connect on: set `SPORTSTATSAPI_CONNECT_URL` (or the
-`sportstatsapi_connect_url` filter) to the URL above; default is empty (button hidden).
+The plugin sends `return` = its settings page, checks `state` (per user, 15 minutes,
+single use) and the key format, then saves the key; `error=denied` shows a notice.
+The URL above is the default (`SPORTSTATSAPI_CONNECT_URL` or the
+`sportstatsapi_connect_url` filter override it). The button shows only when the
+endpoint answers something other than 404 (probe cached 1 h) and the return URL is
+https (http on localhost) on the site's host and port.
 
 Audit: `free_widget_key.create` with `via: wordpress` and the site host.
 
@@ -81,11 +84,11 @@ Audit: `free_widget_key.create` with `via: wordpress` and the site host.
   name slug (`manchester-city`). Fix: add `code` to `WidgetTableRow` / match rows and
   let embed.js match `o.team` against the code too; then the plugin switches to codes
   (stable when a club is renamed).
-- A public competition search (`GET /api/widget/v1/competitions?q=`, CORS, cached)
-  would spare the plugin the 244 KB `sportstatsapi.com/widgets/competitions.json`
-  (it is fine for now: fetched server-side, cached 12 h).
-- An unknown/revoked free key makes even keyless free widgets fail ("Widget not
-  available"). Consider falling back to keyless free behaviour for free widgets.
+- Competition search: `GET /api/widget/v1/competitions?q=&limit=20` (GoalGate PR #436),
+  each query cached 10 min; while it answers 404 the plugin searches the full
+  `competitions.json` (cached 12 h).
+- A refused key (UNKNOWN_KEY, WRONG_WEBSITE) is checked by the plugin after a save and
+  daily (WP-Cron): the widgets then go out without `data-key` and admins see a notice.
 
 ## wordpress.org checklist
 
@@ -93,7 +96,8 @@ Audit: `free_widget_key.create` with `via: wordpress` and the site host.
 - [x] readme.txt: header fields, Description, Installation, FAQ, Screenshots,
       Changelog, External services (what, when, what is sent, terms + privacy links)
 - [x] No tracking, no remote calls on admin pages except the user's own previews,
-      the editor search (on typing) and Connect (on click)
+      the editor search (on typing), the key check (on save, daily), the Connect
+      probe (settings page, at most hourly) and Connect (on click)
 - [x] External script only from the service itself (allowed for SaaS)
 - [x] Nonces + capability checks on every write; sanitize input, escape output
 - [x] Text domain = slug; `load_plugin_textdomain` not needed (WP 4.6+ loads it)

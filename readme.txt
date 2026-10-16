@@ -38,9 +38,10 @@ Shortcode options: `widget` (table, scores, fixtures, ticker, next-match, team-f
 This plugin shows data from SportStatsAPI (https://sportstatsapi.com), a sports data service. Without it the widgets cannot work.
 
 * Visitors' browsers load the widget script from https://api.sportstatsapi.com/api/widget/v1/embed.js on pages with a widget, and the script loads each widget's data, team logos and fonts from api.sportstatsapi.com and img.sportstatsapi.com. Sent: the visitor's IP address and browser details (as with any web request), the page's address (Origin), the widget's settings (widget, competition, team, language) and your widget key if you set one.
-* In the block editor, your server asks sportstatsapi.com for the list of competitions (https://sportstatsapi.com/widgets/competitions.json) and api.sportstatsapi.com for the teams of the chosen competition. Sent: the competition chosen. Kept in a cache for 12 hours.
+* In the block editor, when you type in the competition search, your server asks api.sportstatsapi.com for matching competitions (https://api.sportstatsapi.com/api/widget/v1/competitions; until that is available, the list at https://sportstatsapi.com/widgets/competitions.json), and for the teams of the chosen competition. Sent: the text typed, the competition chosen. Kept in a cache for 10 minutes (searches) and 12 hours (lists, teams).
+* When you save a widget key, and once a day after that, your server asks api.sportstatsapi.com whether the key works. Sent: the key and your site's address. If the key is refused, widgets fall back to free mode.
 * Only if you turn on "Search engines" in Settings → SportStatsAPI: your server loads each widget's data from api.sportstatsapi.com (sent: the widget's settings, and a paid key with your site's address) and keeps it 10 minutes.
-* Only when you click "Connect with SportStatsAPI": your browser goes to account.sportstatsapi.com with your site's address, and comes back with your widget key.
+* On Settings → SportStatsAPI, your server checks at most once an hour whether account.sportstatsapi.com offers Connect (nothing is sent but the request). When you click "Connect with SportStatsAPI", your browser goes to account.sportstatsapi.com with your site's address and the settings page address, and comes back with your widget key.
 
 The plugin itself sets no cookies and does no tracking.
 

@@ -9,13 +9,63 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * The account service URL that connects a site (see PLAN.md, "Connect").
- * Empty until the service offers it: the Connect button is then hidden.
+ * SPORTSTATSAPI_CONNECT_URL or the sportstatsapi_connect_url filter override it.
  *
  * @return string
  */
 function sportstatsapi_connect_url() {
-	$url = defined( 'SPORTSTATSAPI_CONNECT_URL' ) ? SPORTSTATSAPI_CONNECT_URL : '';
+	$url = defined( 'SPORTSTATSAPI_CONNECT_URL' ) ? SPORTSTATSAPI_CONNECT_URL : 'https://account.sportstatsapi.com/connect/wordpress';
 	return (string) apply_filters( 'sportstatsapi_connect_url', $url );
+}
+
+/**
+ * Where the account service sends the key back: this settings page.
+ *
+ * @return string
+ */
+function sportstatsapi_connect_return() {
+	return admin_url( 'options-general.php?page=sportstatsapi' );
+}
+
+/**
+ * Whether Connect can work here: the way back is https (http only on localhost)
+ * on the site's host and port, and the account service answers (checked at
+ * most once an hour; before the service has the endpoint it answers 404).
+ *
+ * @return bool
+ */
+function sportstatsapi_connect_available() {
+	$url  = sportstatsapi_connect_url();
+	$ret  = wp_parse_url( sportstatsapi_connect_return() );
+	$site = wp_parse_url( home_url( '/' ) );
+	if ( '' === $url || empty( $ret['host'] ) || empty( $site['host'] ) ) {
+		return false;
+	}
+	$local = in_array( $ret['host'], array( 'localhost', '127.0.0.1' ), true );
+	if ( 'https' !== $ret['scheme'] && ! ( 'http' === $ret['scheme'] && $local ) ) {
+		return false;
+	}
+	$port = function ( $u ) {
+		return isset( $u['port'] ) ? (int) $u['port'] : ( 'https' === $u['scheme'] ? 443 : 80 );
+	};
+	if ( strtolower( $ret['host'] ) !== strtolower( $site['host'] ) || $port( $ret ) !== $port( $site ) ) {
+		return false;
+	}
+	$cache = 'sportstatsapi_connect_' . md5( $url );
+	$ok    = get_transient( $cache );
+	if ( false === $ok ) {
+		$res  = wp_remote_get(
+			$url,
+			array(
+				'timeout'     => 5,
+				'redirection' => 0,
+			)
+		);
+		$code = is_wp_error( $res ) ? 0 : (int) wp_remote_retrieve_response_code( $res );
+		$ok   = ( $code >= 200 && $code < 500 && 404 !== $code ) ? 'yes' : 'no';
+		set_transient( $cache, $ok, HOUR_IN_SECONDS );
+	}
+	return 'yes' === $ok;
 }
 
 /**
@@ -86,19 +136,18 @@ function sportstatsapi_connect_start() {
 		wp_die( esc_html__( 'You are not allowed to do this.', 'sportstatsapi-widgets' ), 403 );
 	}
 	check_admin_referer( 'sportstatsapi_connect' );
-	$url = sportstatsapi_connect_url();
-	if ( '' === $url ) {
-		wp_die( esc_html__( 'Connect is not available yet: paste your key instead.', 'sportstatsapi-widgets' ) );
+	if ( ! sportstatsapi_connect_available() ) {
+		wp_die( esc_html__( 'Connect is not available right now: paste your key instead.', 'sportstatsapi-widgets' ) );
 	}
-	$state = wp_generate_password( 32, false );
+	$state = wp_generate_password( 32, false ); // [A-Za-z0-9].
 	set_transient( 'sportstatsapi_state_' . get_current_user_id(), $state, 15 * MINUTE_IN_SECONDS );
 	$target = add_query_arg(
 		array(
 			'site'   => rawurlencode( home_url( '/' ) ),
-			'return' => rawurlencode( admin_url( 'admin-post.php?action=sportstatsapi_connected' ) ),
+			'return' => rawurlencode( sportstatsapi_connect_return() ),
 			'state'  => $state,
 		),
-		$url
+		sportstatsapi_connect_url()
 	);
 	// The account service is another host: wp_redirect, not wp_safe_redirect.
 	wp_redirect( $target ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
@@ -107,32 +156,61 @@ function sportstatsapi_connect_start() {
 add_action( 'admin_post_sportstatsapi_connect', 'sportstatsapi_connect_start' );
 
 /**
- * Connect, step 2 (admin-post.php?action=sportstatsapi_connected&state=&key=):
- * the account service sends the key back. The state stands in for a nonce: it
- * was made for this user in step 1 and works once.
+ * Connect, step 2: the account service comes back to the settings page with
+ * state and key, or state and error=denied (by name, among other parameters).
+ * The state stands in for a nonce: made for this user in step 1, 15 minutes, once.
  */
 function sportstatsapi_connect_finish() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_die( esc_html__( 'You are not allowed to do this.', 'sportstatsapi-widgets' ), 403 );
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- the one-time state is the check.
+	if ( ! isset( $_GET['page'], $_GET['state'] ) || 'sportstatsapi' !== $_GET['page'] || ! current_user_can( 'manage_options' ) ) {
+		return;
 	}
+	$state = sanitize_text_field( wp_unslash( $_GET['state'] ) );
+	$key   = isset( $_GET['key'] ) ? sportstatsapi_clean( 'key', sanitize_text_field( wp_unslash( $_GET['key'] ) ) ) : '';
+	$error = isset( $_GET['error'] ) ? sanitize_key( $_GET['error'] ) : '';
+	// phpcs:enable
 	$name     = 'sportstatsapi_state_' . get_current_user_id();
 	$expected = get_transient( $name );
 	delete_transient( $name );
-	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- the one-time state is the check.
-	$state = isset( $_GET['state'] ) ? sanitize_text_field( wp_unslash( $_GET['state'] ) ) : '';
-	$key   = isset( $_GET['key'] ) ? sportstatsapi_clean( 'key', sanitize_text_field( wp_unslash( $_GET['key'] ) ) ) : '';
-	// phpcs:enable
 	$result = 'failed';
-	if ( is_string( $expected ) && '' !== $state && hash_equals( $expected, $state ) && '' !== $key ) {
-		$settings        = sportstatsapi_settings();
-		$settings['key'] = $key;
-		update_option( 'sportstatsapi_settings', $settings );
-		$result = 'connected';
+	if ( is_string( $expected ) && '' !== $state && hash_equals( $expected, $state ) ) {
+		if ( 'denied' === $error ) {
+			$result = 'denied';
+		} elseif ( '' !== $key ) {
+			$settings        = sportstatsapi_settings();
+			$settings['key'] = $key;
+			update_option( 'sportstatsapi_settings', $settings );
+			$result = 'connected';
+		}
 	}
-	wp_safe_redirect( admin_url( 'options-general.php?page=sportstatsapi&sportstatsapi=' . $result ) );
+	wp_safe_redirect( add_query_arg( 'sportstatsapi', $result, sportstatsapi_connect_return() ) );
 	exit;
 }
-add_action( 'admin_post_sportstatsapi_connected', 'sportstatsapi_connect_finish' );
+add_action( 'admin_init', 'sportstatsapi_connect_finish' );
+
+/**
+ * A notice on admin screens while the API refuses the saved key.
+ */
+function sportstatsapi_key_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	$key   = sportstatsapi_clean( 'key', sportstatsapi_settings()['key'] );
+	$error = '' === $key ? '' : sportstatsapi_key_error( $key );
+	if ( '' === $error ) {
+		return;
+	}
+	$text = 'WRONG_WEBSITE' === $error
+		? __( 'SportStatsAPI: your key isn’t set up for this website — widgets fall back to free mode. Add this site on your account page.', 'sportstatsapi-widgets' )
+		: __( 'SportStatsAPI: your key isn’t recognised — widgets fall back to free mode.', 'sportstatsapi-widgets' );
+	printf(
+		'<div class="notice notice-warning"><p>%s <a href="%s">%s</a></p></div>',
+		esc_html( $text ),
+		esc_url( sportstatsapi_connect_return() ),
+		esc_html__( 'Settings', 'sportstatsapi-widgets' )
+	);
+}
+add_action( 'admin_notices', 'sportstatsapi_key_notice' );
 
 /**
  * The settings page.
@@ -142,7 +220,7 @@ function sportstatsapi_settings_page() {
 		return;
 	}
 	$s       = sportstatsapi_settings();
-	$connect = sportstatsapi_connect_url();
+	$connect = sportstatsapi_connect_available();
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only.
 	$result = isset( $_GET['sportstatsapi'] ) && ! isset( $_GET['settings-updated'] ) ? sanitize_key( $_GET['sportstatsapi'] ) : '';
 	$langs  = array(
@@ -163,6 +241,8 @@ function sportstatsapi_settings_page() {
 		<h1><?php esc_html_e( 'SportStatsAPI Widgets', 'sportstatsapi-widgets' ); ?></h1>
 		<?php if ( 'connected' === $result ) : ?>
 			<div class="notice notice-success"><p><?php esc_html_e( 'Connected: your widget key is saved.', 'sportstatsapi-widgets' ); ?></p></div>
+		<?php elseif ( 'denied' === $result ) : ?>
+			<div class="notice notice-info"><p><?php esc_html_e( 'Connect was cancelled. Nothing changed.', 'sportstatsapi-widgets' ); ?></p></div>
 		<?php elseif ( 'failed' === $result ) : ?>
 			<div class="notice notice-error"><p><?php esc_html_e( 'Connect did not finish. Try again, or paste your key.', 'sportstatsapi-widgets' ); ?></p></div>
 		<?php endif; ?>
@@ -175,7 +255,7 @@ function sportstatsapi_settings_page() {
 			<?php esc_html_e( 'Live scores, tables, fixtures, the ticker and next match work without a key for the free competitions. A key from your SportStatsAPI account counts your free views; a paid key opens every competition and widget and removes the credit link.', 'sportstatsapi-widgets' ); ?>
 		</p>
 
-		<?php if ( '' !== $connect ) : ?>
+		<?php if ( $connect ) : ?>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="sportstatsapi_connect">
 				<?php wp_nonce_field( 'sportstatsapi_connect' ); ?>

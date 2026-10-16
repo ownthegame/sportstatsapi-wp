@@ -77,6 +77,79 @@ function sportstatsapi_settings() {
 }
 
 /**
+ * The key to put in widgets: the saved key, or '' while the API refuses it
+ * (unknown, revoked, another website): free widgets then work without it.
+ *
+ * @return string
+ */
+function sportstatsapi_key() {
+	$key = sportstatsapi_clean( 'key', sportstatsapi_settings()['key'] );
+	return ( '' !== $key && '' !== sportstatsapi_key_error( $key ) ) ? '' : $key;
+}
+
+/**
+ * The API's error code for this key at the last check ('' when it worked or was not checked).
+ *
+ * @param string $key Widget key.
+ * @return string
+ */
+function sportstatsapi_key_error( $key ) {
+	$st = get_option( 'sportstatsapi_key_state' );
+	return ( is_array( $st ) && isset( $st['key'], $st['error'] ) && $st['key'] === $key ) ? (string) $st['error'] : '';
+}
+
+/**
+ * Asks the API whether the saved key works (after a save, and daily by WP-Cron),
+ * with a free widget the key must open. Network errors and rate limits keep
+ * the last answer.
+ */
+function sportstatsapi_check_key() {
+	$key = sportstatsapi_clean( 'key', sportstatsapi_settings()['key'] );
+	if ( '' === $key ) {
+		delete_option( 'sportstatsapi_key_state' );
+		return;
+	}
+	$home = wp_parse_url( home_url() );
+	$res  = wp_remote_get(
+		add_query_arg(
+			array(
+				'w'   => 'table',
+				'c'   => 'england--premier-league',
+				'key' => rawurlencode( $key ),
+			),
+			SPORTSTATSAPI_API . '/api/widget/v1/data'
+		),
+		array(
+			'timeout' => 8,
+			'headers' => array( 'Origin' => $home['scheme'] . '://' . $home['host'] . ( isset( $home['port'] ) ? ':' . $home['port'] : '' ) ),
+		)
+	);
+	if ( is_wp_error( $res ) ) {
+		return;
+	}
+	$code  = wp_remote_retrieve_response_code( $res );
+	$body  = json_decode( wp_remote_retrieve_body( $res ), true );
+	$error = isset( $body['error']['code'] ) ? (string) $body['error']['code'] : '';
+	if ( 200 === $code ) {
+		$error = '';
+	} elseif ( ! in_array( $error, array( 'UNKNOWN_KEY', 'WRONG_WEBSITE' ), true ) ) {
+		return;
+	}
+	update_option(
+		'sportstatsapi_key_state',
+		array(
+			'key'     => $key,
+			'error'   => $error,
+			'checked' => time(),
+		),
+		false
+	);
+}
+add_action( 'sportstatsapi_check_key', 'sportstatsapi_check_key' );
+add_action( 'add_option_sportstatsapi_settings', 'sportstatsapi_check_key' );
+add_action( 'update_option_sportstatsapi_settings', 'sportstatsapi_check_key' );
+
+/**
  * Validates one value as the embed script does; '' when it does not pass.
  *
  * @param string $name  Option name.
@@ -150,7 +223,7 @@ function sportstatsapi_attributes( $slug, array $in ) {
 			$out[ $name ] = $v;
 		}
 	}
-	$key = sportstatsapi_clean( 'key', $set['key'] );
+	$key = sportstatsapi_key();
 	if ( '' !== $key ) {
 		$out['key'] = $key;
 	}
@@ -265,7 +338,7 @@ function sportstatsapi_register_blocks() {
 					'lang'   => $set['lang'],
 					'accent' => $set['accent'],
 				),
-				'key'      => sportstatsapi_clean( 'key', $set['key'] ),
+				'key'      => sportstatsapi_key(),
 				'settings' => admin_url( 'options-general.php?page=sportstatsapi' ),
 			)
 		) . ';',
@@ -320,9 +393,8 @@ function sportstatsapi_fallback( array $attrs ) {
 	$headers = array();
 	if ( isset( $attrs['key'] ) && 0 === strpos( $attrs['key'], 'wk_live_' ) ) {
 		$query['key'] = $attrs['key'];
-		$host         = wp_parse_url( home_url(), PHP_URL_HOST );
-		$scheme       = wp_parse_url( home_url(), PHP_URL_SCHEME );
-		$headers      = array( 'Origin' => $scheme . '://' . $host );
+		$home         = wp_parse_url( home_url() );
+		$headers      = array( 'Origin' => $home['scheme'] . '://' . $home['host'] . ( isset( $home['port'] ) ? ':' . $home['port'] : '' ) );
 	}
 	$url   = add_query_arg( array_map( 'rawurlencode', $query ), SPORTSTATSAPI_API . '/api/widget/v1/data' );
 	$cache = 'sportstatsapi_fb_' . md5( $url );

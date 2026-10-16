@@ -29,7 +29,7 @@
 	}
 
 	function compLabel( x ) {
-		return x.name + ' · ' + x.country + ( x.sport && x.sport !== 'Soccer' ? ' · ' + x.sport : '' ) + ( x.free ? '' : ' · ' + __( 'paid', D ) );
+		return x.name + ( x.country ? ' · ' + x.country : '' ) + ( x.sport && x.sport.toLowerCase() !== 'soccer' ? ' · ' + x.sport : '' ) + ( x.free === false ? ' · ' + __( 'paid', D ) : '' );
 	}
 
 	// The data-* attributes, as the PHP render builds them (includes/widgets.php).
@@ -83,7 +83,6 @@
 				}, function () { setList( [] ); } );
 			}, q ? 250 : 0 );
 		}
-		useEffect( function () { search( '' ); }, [] );
 		var options = list.map( function ( x ) { return { value: x.key, label: compLabel( x ) }; } );
 		if ( a.competition && ! options.some( function ( o ) { return o.value === a.competition; } ) ) {
 			options.unshift( { value: a.competition, label: a.competitionName || a.competition } );
@@ -153,7 +152,7 @@
 			var paidKey = /^wk_live_/.test( cfg.key || '' );
 			var comp = comps[ a.competition ];
 			var notices = [];
-			if ( ! paidKey && ( ! w.free || ( comp && ! comp.free ) ) ) {
+			if ( ! paidKey && ( ! w.free || ( comp && comp.free === false ) ) ) {
 				notices.push( ! w.free ? __( 'This widget needs a paid plan key (Settings → SportStatsAPI).', D ) : __( 'This competition needs a paid plan key (Settings → SportStatsAPI).', D ) );
 			}
 			if ( w.team === 'required' && ! a.team ) {

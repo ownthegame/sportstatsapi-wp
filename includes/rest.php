@@ -74,25 +74,75 @@ function sportstatsapi_rest_routes() {
 add_action( 'rest_api_init', 'sportstatsapi_rest_routes' );
 
 /**
- * GET /sportstatsapi/v1/competitions?search=premier: up to 20 competitions
- * whose name, country or sport matches (free ones first); no search: the free ones.
+ * GET /sportstatsapi/v1/competitions?search=premier: up to 20 competitions from
+ * the API's search (/api/widget/v1/competitions, each query kept 10 minutes).
+ * Before that endpoint is live (404): the full list, filtered here.
  *
  * @param WP_REST_Request $request Request.
  * @return WP_REST_Response|WP_Error
  */
 function sportstatsapi_rest_competitions( WP_REST_Request $request ) {
+	$search = trim( $request['search'] );
+	if ( '' === $search ) {
+		return rest_ensure_response( array() );
+	}
+	$search = function_exists( 'mb_substr' ) ? mb_substr( $search, 0, 100 ) : substr( $search, 0, 100 );
+	$cache  = 'sportstatsapi_cs_' . md5( strtolower( $search ) );
+	$hit    = get_transient( $cache );
+	if ( is_array( $hit ) ) {
+		return rest_ensure_response( $hit );
+	}
+	$url  = add_query_arg(
+		array(
+			'q'     => rawurlencode( $search ),
+			'limit' => 20,
+		),
+		SPORTSTATSAPI_API . '/api/widget/v1/competitions'
+	);
+	$res  = wp_remote_get( $url, array( 'timeout' => 8 ) );
+	$code = is_wp_error( $res ) ? 0 : wp_remote_retrieve_response_code( $res );
+	if ( 404 === $code ) {
+		$out = sportstatsapi_search_full_list( $search );
+	} elseif ( 200 === $code ) {
+		$body = json_decode( wp_remote_retrieve_body( $res ), true );
+		$out  = array();
+		foreach ( isset( $body['data'] ) && is_array( $body['data'] ) ? $body['data'] : array() as $c ) {
+			if ( ! empty( $c['key'] ) && ! empty( $c['name'] ) ) {
+				$out[] = array(
+					'key'     => (string) $c['key'],
+					'name'    => (string) $c['name'],
+					'country' => isset( $c['country'] ) ? (string) $c['country'] : '',
+					'sport'   => isset( $c['sport'] ) ? (string) $c['sport'] : '',
+				);
+			}
+		}
+	} else {
+		$out = null;
+	}
+	if ( null === $out ) {
+		return new WP_Error( 'sportstatsapi_unavailable', __( 'SportStatsAPI cannot be reached right now.', 'sportstatsapi-widgets' ), array( 'status' => 502 ) );
+	}
+	set_transient( $cache, $out, 10 * MINUTE_IN_SECONDS );
+	return rest_ensure_response( $out );
+}
+
+/**
+ * The fallback search: sportstatsapi.com/widgets/competitions.json (kept 12 hours),
+ * name, country or sport containing the text, free ones first.
+ *
+ * @param string $search Search text.
+ * @return array|null Null when the list cannot be loaded.
+ */
+function sportstatsapi_search_full_list( $search ) {
 	// [key, name, country, sport, free].
 	$all = sportstatsapi_remote_json( SPORTSTATSAPI_SITE . '/widgets/competitions.json', 'sportstatsapi_competitions' );
 	if ( null === $all ) {
-		return new WP_Error( 'sportstatsapi_unavailable', __( 'SportStatsAPI cannot be reached right now.', 'sportstatsapi-widgets' ), array( 'status' => 502 ) );
+		return null;
 	}
-	$search = strtolower( trim( $request['search'] ) );
+	$search = strtolower( $search );
 	$out    = array();
 	foreach ( $all as $c ) {
-		if ( ! is_array( $c ) || count( $c ) < 5 ) {
-			continue;
-		}
-		if ( '' === $search ? $c[4] : false !== strpos( strtolower( $c[1] . ' ' . $c[2] . ' ' . $c[3] ), $search ) ) {
+		if ( is_array( $c ) && count( $c ) >= 5 && false !== strpos( strtolower( $c[1] . ' ' . $c[2] . ' ' . $c[3] ), $search ) ) {
 			$out[] = array(
 				'key'     => (string) $c[0],
 				'name'    => (string) $c[1],
@@ -108,7 +158,7 @@ function sportstatsapi_rest_competitions( WP_REST_Request $request ) {
 			return (int) $b['free'] - (int) $a['free'];
 		}
 	);
-	return rest_ensure_response( array_slice( $out, 0, 20 ) );
+	return array_slice( $out, 0, 20 );
 }
 
 /**
