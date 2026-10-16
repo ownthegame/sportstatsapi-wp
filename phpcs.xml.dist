@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ruleset name="SportStatsAPI Widgets">
+	<file>.</file>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<arg name="extensions" value="php"/>
+	<arg value="sp"/>
+	<config name="testVersion" value="7.4-"/>
+	<config name="minimum_wp_version" value="6.3"/>
+	<rule ref="WordPress"/>
+	<rule ref="PHPCompatibilityWP"/>
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array"><element value="sportstatsapi-widgets"/></property>
+		</properties>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array"><element value="sportstatsapi"/></property>
+		</properties>
+	</rule>
+</ruleset>

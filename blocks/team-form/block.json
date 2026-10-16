@@ -1,0 +1,83 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "sportstatsapi/team-form",
+	"title": "Team form",
+	"category": "widgets",
+	"icon": "chart-bar",
+	"description": "A team's form and statistics (paid plan).",
+	"keywords": [
+		"sportstatsapi",
+		"sport",
+		"form",
+		"stats",
+		"team"
+	],
+	"textdomain": "sportstatsapi-widgets",
+	"attributes": {
+		"competition": {
+			"type": "string",
+			"default": ""
+		},
+		"competitionName": {
+			"type": "string",
+			"default": ""
+		},
+		"team": {
+			"type": "string",
+			"default": ""
+		},
+		"teamName": {
+			"type": "string",
+			"default": ""
+		},
+		"theme": {
+			"type": "string",
+			"default": ""
+		},
+		"lang": {
+			"type": "string",
+			"default": ""
+		},
+		"accent": {
+			"type": "string",
+			"default": ""
+		},
+		"rows": {
+			"type": "string",
+			"default": ""
+		},
+		"size": {
+			"type": "string",
+			"default": ""
+		},
+		"view": {
+			"type": "string",
+			"default": ""
+		},
+		"country": {
+			"type": "string",
+			"default": ""
+		},
+		"round": {
+			"type": "string",
+			"default": ""
+		},
+		"radius": {
+			"type": "string",
+			"default": ""
+		},
+		"font": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		]
+	},
+	"editorScript": "sportstatsapi-editor"
+}

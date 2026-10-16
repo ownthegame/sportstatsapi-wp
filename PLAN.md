@@ -73,6 +73,20 @@ then saves the key. To switch Connect on: set `SPORTSTATSAPI_CONNECT_URL` (or th
 
 Audit: `free_widget_key.create` with `via: wordpress` and the site host.
 
+## Other GoalGate / site changes (nice to have)
+
+- Team by code everywhere: `data-team` takes a team code server-side (`team=`), but
+  the table and scores highlight a row by the team's *name* slug in embed.js
+  (`slug(r.team)`), and table rows carry no `code`. The plugin therefore stores the
+  name slug (`manchester-city`). Fix: add `code` to `WidgetTableRow` / match rows and
+  let embed.js match `o.team` against the code too; then the plugin switches to codes
+  (stable when a club is renamed).
+- A public competition search (`GET /api/widget/v1/competitions?q=`, CORS, cached)
+  would spare the plugin the 244 KB `sportstatsapi.com/widgets/competitions.json`
+  (it is fine for now: fetched server-side, cached 12 h).
+- An unknown/revoked free key makes even keyless free widgets fail ("Widget not
+  available"). Consider falling back to keyless free behaviour for free widgets.
+
 ## wordpress.org checklist
 
 - [x] GPL-2.0-or-later, all code ours, no minified code without source
@@ -84,7 +98,7 @@ Audit: `free_widget_key.create` with `via: wordpress` and the site host.
 - [x] Nonces + capability checks on every write; sanitize input, escape output
 - [x] Text domain = slug; `load_plugin_textdomain` not needed (WP 4.6+ loads it)
 - [x] uninstall.php removes options and transients
-- [x] Plugin Check plugin: no errors
+- [x] Plugin Check plugin: no errors (on the .distignore'd build)
 - [ ] Banner, icon, screenshots in `.wordpress-org/` (designer)
 - [ ] Slug check: `sportstatsapi-widgets` free on wordpress.org
 - [ ] Submit, answer the review (usually 1–4 weeks), then SVN deploy (GitHub Action later)
