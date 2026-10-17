@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Live Scores & League Tables – SportStatsAPI Widgets
+ * Plugin Name:       Live Scores & League Tables
  * Plugin URI:        https://sportstatsapi.com/widgets/
  * Description:       Live scores, league tables, fixtures, a results ticker, next match and team calendar widgets from SportStatsAPI, as blocks and shortcodes.
  * Version:           0.1.0
@@ -29,14 +29,17 @@ if ( is_admin() ) {
 	require SPORTSTATSAPI_DIR . 'includes/settings.php';
 }
 
-register_activation_hook(
-	__FILE__,
-	function () {
-		if ( ! wp_next_scheduled( 'sportstatsapi_check_key' ) ) {
-			wp_schedule_event( time() + DAY_IN_SECONDS, 'daily', 'sportstatsapi_check_key' );
-		}
+/**
+ * Schedules the daily key check on every site with a key (activation alone
+ * reaches only the current site of a network).
+ */
+function sportstatsapi_schedule_check() {
+	if ( '' !== sportstatsapi_settings()['key'] && ! wp_next_scheduled( 'sportstatsapi_check_key' ) ) {
+		wp_schedule_event( time() + DAY_IN_SECONDS, 'daily', 'sportstatsapi_check_key' );
 	}
-);
+}
+add_action( 'init', 'sportstatsapi_schedule_check' );
+
 register_deactivation_hook(
 	__FILE__,
 	function () {

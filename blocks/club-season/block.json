@@ -1,0 +1,113 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "sportstatsapi/club-season",
+	"title": "Club season (paid plan)",
+	"category": "sportstatsapi",
+	"description": "A team's season: results, position and form over time. Needs a paid SportStatsAPI plan.",
+	"keywords": [
+		"sportstatsapi",
+		"sport",
+		"club season",
+		"paid"
+	],
+	"textdomain": "live-scores-league-tables",
+	"attributes": {
+		"competition": {
+			"type": "string",
+			"default": ""
+		},
+		"competitionName": {
+			"type": "string",
+			"default": ""
+		},
+		"team": {
+			"type": "string",
+			"default": ""
+		},
+		"teamName": {
+			"type": "string",
+			"default": ""
+		},
+		"theme": {
+			"type": "string",
+			"default": ""
+		},
+		"lang": {
+			"type": "string",
+			"default": ""
+		},
+		"accent": {
+			"type": "string",
+			"default": ""
+		},
+		"rows": {
+			"type": "string",
+			"default": ""
+		},
+		"size": {
+			"type": "string",
+			"default": ""
+		},
+		"view": {
+			"type": "string",
+			"default": ""
+		},
+		"country": {
+			"type": "string",
+			"default": ""
+		},
+		"round": {
+			"type": "string",
+			"default": ""
+		},
+		"radius": {
+			"type": "string",
+			"default": ""
+		},
+		"leagues": {
+			"type": "string",
+			"default": ""
+		},
+		"teams": {
+			"type": "string",
+			"default": ""
+		},
+		"stat": {
+			"type": "string",
+			"default": ""
+		},
+		"match": {
+			"type": "string",
+			"default": ""
+		},
+		"player": {
+			"type": "string",
+			"default": ""
+		},
+		"tournament": {
+			"type": "string",
+			"default": ""
+		},
+		"style": {
+			"type": "string",
+			"default": ""
+		},
+		"font": {
+			"type": "boolean",
+			"default": false
+		},
+		"langs": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		]
+	},
+	"editorScript": "sportstatsapi-editor"
+}

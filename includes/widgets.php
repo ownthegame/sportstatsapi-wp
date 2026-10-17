@@ -8,69 +8,52 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * The widgets: slug => kind (the embed's data-widget), team (none, optional,
- * required), the extra options it takes and whether it works without a plan.
+ * The widgets, free ones first (the service's 19 widget kinds). Paid ones need a
+ * paid plan key; the match widgets take a team (its live, next or last match) or
+ * a match code.
  *
  * @return array<string, array<string, mixed>>
  */
 function sportstatsapi_widgets() {
-	return array(
-		'table'      => array(
-			'kind'    => 'table',
-			'title'   => __( 'League table', 'live-scores-league-tables' ),
-			'team'    => 'optional',
-			'options' => array( 'size', 'rows' ),
-			'free'    => true,
-		),
-		'scores'     => array(
-			'kind'    => 'scores',
-			'title'   => __( 'Live scores', 'live-scores-league-tables' ),
-			'team'    => 'optional',
-			'options' => array( 'round' ),
-			'free'    => true,
-		),
-		'fixtures'   => array(
-			'kind'    => 'fixtures',
-			'title'   => __( 'Fixtures', 'live-scores-league-tables' ),
-			'team'    => 'optional',
-			'options' => array( 'view', 'country' ),
-			'free'    => true,
-		),
-		'ticker'     => array(
-			'kind'    => 'ticker',
-			'title'   => __( 'Results ticker', 'live-scores-league-tables' ),
-			'team'    => 'none',
-			'options' => array(),
-			'free'    => true,
-		),
-		'next-match' => array(
-			'kind'    => 'next-match',
-			'title'   => __( 'Next match', 'live-scores-league-tables' ),
-			'team'    => 'required',
-			'options' => array( 'country' ),
-			'free'    => true,
-		),
-		'calendar'   => array(
-			'kind'    => 'calendar',
-			'title'   => __( 'Team calendar', 'live-scores-league-tables' ),
-			'team'    => 'required',
-			'options' => array(),
-			'free'    => true,
-		),
-		'team-form'  => array(
-			'kind'    => 'team-form',
-			'title'   => __( 'Team form', 'live-scores-league-tables' ),
-			'team'    => 'required',
-			'options' => array(),
-			'free'    => false,
-		),
+	// slug => kind (the embed's data-widget), title, team (none, optional, required), options, free.
+	$list = array(
+		'table'        => array( 'table', __( 'League table', 'live-scores-league-tables' ), 'optional', array( 'size', 'rows' ), true ),
+		'scores'       => array( 'scores', __( 'Live scores', 'live-scores-league-tables' ), 'optional', array( 'round' ), true ),
+		'fixtures'     => array( 'fixtures', __( 'Fixtures', 'live-scores-league-tables' ), 'optional', array( 'view', 'country' ), true ),
+		'ticker'       => array( 'ticker', __( 'Results ticker', 'live-scores-league-tables' ), 'none', array( 'leagues' ), true ),
+		'next-match'   => array( 'next-match', __( 'Next match', 'live-scores-league-tables' ), 'required', array( 'country' ), true ),
+		'calendar'     => array( 'calendar', __( 'Team calendar', 'live-scores-league-tables' ), 'required', array(), true ),
+		'match-centre' => array( 'match-centre', __( 'Match centre', 'live-scores-league-tables' ), 'optional', array( 'match' ), false ),
+		'match-facts'  => array( 'match-facts', __( 'Match facts', 'live-scores-league-tables' ), 'none', array( 'style', 'langs' ), false ),
+		'preview'      => array( 'preview', __( 'Match preview', 'live-scores-league-tables' ), 'optional', array( 'match' ), false ),
+		'head-to-head' => array( 'head-to-head', __( 'Head to head', 'live-scores-league-tables' ), 'optional', array( 'match' ), false ),
+		'box-score'    => array( 'box-score', __( 'Box score', 'live-scores-league-tables' ), 'optional', array( 'match' ), false ),
+		'team-form'    => array( 'team-form', __( 'Team form', 'live-scores-league-tables' ), 'required', array(), false ),
+		'club-season'  => array( 'club-season', __( 'Club season', 'live-scores-league-tables' ), 'required', array(), false ),
+		'squad'        => array( 'squad', __( 'Squad', 'live-scores-league-tables' ), 'required', array(), false ),
+		'injuries'     => array( 'injuries', __( 'Injuries and suspensions', 'live-scores-league-tables' ), 'optional', array(), false ),
+		'race'         => array( 'race', __( 'Season race', 'live-scores-league-tables' ), 'optional', array( 'teams' ), false ),
+		'top-players'  => array( 'top-players', __( 'Top players', 'live-scores-league-tables' ), 'none', array( 'stat', 'rows' ), false ),
+		'player'       => array( 'player', __( 'Player card', 'live-scores-league-tables' ), 'required', array( 'player' ), false ),
+		'tennis'       => array( 'tennis', __( 'Tennis', 'live-scores-league-tables' ), 'none', array( 'player', 'tournament' ), false ),
 	);
+	$out  = array();
+	foreach ( $list as $slug => $w ) {
+		$out[ $slug ] = array(
+			'kind'    => $w[0],
+			'title'   => $w[1],
+			'team'    => $w[2],
+			'options' => $w[3],
+			'free'    => $w[4],
+		);
+	}
+	return $out;
 }
 
 /**
  * The plugin settings with defaults.
  *
- * @return array{key:string,theme:string,accent:string,lang:string,fallback:bool}
+ * @return array{key:string,theme:string,accent:string,lang:string,fallback:bool,credit:bool}
  */
 function sportstatsapi_settings() {
 	$s = get_option( 'sportstatsapi_settings', array() );
@@ -80,6 +63,7 @@ function sportstatsapi_settings() {
 		'accent'   => isset( $s['accent'] ) ? (string) $s['accent'] : '',
 		'lang'     => isset( $s['lang'] ) ? (string) $s['lang'] : '',
 		'fallback' => ! empty( $s['fallback'] ),
+		'credit'   => ! empty( $s['credit'] ),
 	);
 }
 
@@ -91,8 +75,23 @@ function sportstatsapi_settings() {
  * @return string
  */
 function sportstatsapi_key() {
-	$key = sportstatsapi_clean( 'key', sportstatsapi_settings()['key'] );
-	return ( '' !== $key && '' !== sportstatsapi_key_error( $key ) ) ? '' : $key;
+	$key   = sportstatsapi_clean( 'key', sportstatsapi_settings()['key'] );
+	$error = '' === $key ? '' : sportstatsapi_key_error( $key );
+	// VIEW_LIMIT keeps the key: the widget itself tells visitors the free views are used up.
+	return ( '' !== $error && 'VIEW_LIMIT' !== $error ) ? '' : $key;
+}
+
+/**
+ * The site's origin (scheme://host[:port]) for the Origin header, '' when unknown.
+ *
+ * @return string
+ */
+function sportstatsapi_origin() {
+	$home = wp_parse_url( home_url() );
+	if ( empty( $home['scheme'] ) || empty( $home['host'] ) ) {
+		return '';
+	}
+	return $home['scheme'] . '://' . $home['host'] . ( isset( $home['port'] ) ? ':' . $home['port'] : '' );
 }
 
 /**
@@ -109,16 +108,17 @@ function sportstatsapi_key_error( $key ) {
 /**
  * Asks the API whether the saved key works (after a save, and daily by WP-Cron),
  * with a free widget the key must open. Network errors and rate limits keep
- * the last answer.
+ * the last answer. Without a key the daily check stops.
  */
 function sportstatsapi_check_key() {
 	$key = sportstatsapi_clean( 'key', sportstatsapi_settings()['key'] );
 	if ( '' === $key ) {
 		delete_option( 'sportstatsapi_key_state' );
+		wp_clear_scheduled_hook( 'sportstatsapi_check_key' );
 		return;
 	}
-	$home = wp_parse_url( home_url() );
-	$res  = wp_remote_get(
+	$origin = sportstatsapi_origin();
+	$res    = wp_remote_get(
 		add_query_arg(
 			array(
 				'w'   => 'table',
@@ -129,7 +129,7 @@ function sportstatsapi_check_key() {
 		),
 		array(
 			'timeout' => 8,
-			'headers' => array( 'Origin' => $home['scheme'] . '://' . $home['host'] . ( isset( $home['port'] ) ? ':' . $home['port'] : '' ) ),
+			'headers' => '' === $origin ? array() : array( 'Origin' => $origin ),
 		)
 	);
 	if ( is_wp_error( $res ) ) {
@@ -140,7 +140,7 @@ function sportstatsapi_check_key() {
 	$error = isset( $body['error']['code'] ) ? (string) $body['error']['code'] : '';
 	if ( 200 === $code ) {
 		$error = '';
-	} elseif ( ! in_array( $error, array( 'UNKNOWN_KEY', 'WRONG_WEBSITE' ), true ) ) {
+	} elseif ( ! in_array( $error, array( 'UNKNOWN_KEY', 'WRONG_WEBSITE', 'VIEW_LIMIT' ), true ) ) {
 		return;
 	}
 	update_option(
@@ -150,7 +150,7 @@ function sportstatsapi_check_key() {
 			'error'   => $error,
 			'checked' => time(),
 		),
-		false
+		true // Small, and read on every page with a widget.
 	);
 }
 add_action( 'sportstatsapi_check_key', 'sportstatsapi_check_key' );
@@ -168,12 +168,17 @@ function sportstatsapi_clean( $name, $value ) {
 	if ( is_bool( $value ) ) {
 		$value = $value ? '1' : '';
 	}
+	if ( ! is_scalar( $value ) ) {
+		return '';
+	}
 	$value = trim( (string) $value );
 	$enums = array(
 		'theme' => array( 'light', 'dark', 'auto' ),
 		'lang'  => array( 'en', 'de', 'es', 'it', 'fr' ),
 		'size'  => array( 'compact', 'standard', 'full' ),
 		'view'  => array( 'round', 'date' ),
+		'stat'  => array( 'goals', 'assists', 'cards', 'rating' ),
+		'style' => array( 'one' ),
 	);
 	if ( isset( $enums[ $name ] ) ) {
 		return in_array( $value, $enums[ $name ], true ) ? $value : '';
@@ -195,6 +200,17 @@ function sportstatsapi_clean( $name, $value ) {
 			return ( (int) $value >= 1 && (int) $value <= 99 ) ? (string) (int) $value : '';
 		case 'radius':
 			return ( '' !== $value && is_numeric( $value ) && (int) $value >= 0 && (int) $value <= 20 ) ? (string) (int) $value : '';
+		case 'leagues':
+			return substr( preg_replace( '/[^a-z0-9,-]/', '', $value ), 0, 400 );
+		case 'teams':
+			return substr( preg_replace( "/[^A-Za-z0-9 ,.'-]/", '', $value ), 0, 300 );
+		case 'match':
+			return preg_match( '#^[A-Za-z0-9/-]{1,400}$#', $value ) ? $value : '';
+		case 'player':
+		case 'tournament':
+			return preg_match( '/^[a-z0-9-]{1,80}$/', $value ) ? $value : '';
+		case 'langs':
+			return in_array( $value, array( '1', 'true', 'yes' ), true ) ? 'true' : '';
 		case 'font':
 			return in_array( $value, array( '1', 'true', 'inherit', 'yes' ), true ) ? 'inherit' : '';
 	}
@@ -259,6 +275,12 @@ function sportstatsapi_render( $slug, array $in ) {
 			? '<p class="sportstatsapi-missing"><a href="' . esc_url( admin_url( 'options-general.php?page=sportstatsapi' ) ) . '">' . esc_html__( 'Connect SportStatsAPI to show this widget', 'live-scores-league-tables' ) . '</a></p>'
 			: '';
 	}
+	// A free key needs the site owner's yes to the credit link the free plan shows (settings).
+	if ( 0 === strpos( $attrs['key'], 'ssw_free_' ) && ! sportstatsapi_settings()['credit'] ) {
+		return $admin
+			? '<p class="sportstatsapi-missing"><a href="' . esc_url( admin_url( 'options-general.php?page=sportstatsapi' ) ) . '">' . esc_html__( 'Free widgets show a small "Data by SportStatsAPI" link. Agree to it in the settings to show this widget.', 'live-scores-league-tables' ) . '</a></p>'
+			: '';
+	}
 	wp_enqueue_script( 'sportstatsapi-embed' );
 
 	$html = '<div class="sportstats-widget"';
@@ -312,6 +334,14 @@ function sportstatsapi_shortcode( $atts ) {
 			'round'       => '',
 			'font'        => '',
 			'radius'      => '',
+			'leagues'     => '',
+			'teams'       => '',
+			'stat'        => '',
+			'match'       => '',
+			'player'      => '',
+			'tournament'  => '',
+			'style'       => '',
+			'langs'       => '',
 		),
 		$atts,
 		'sportstatsapi'
@@ -354,6 +384,7 @@ function sportstatsapi_register_blocks() {
 					'accent' => $set['accent'],
 				),
 				'key'      => sportstatsapi_key(),
+				'credit'   => $set['credit'],
 				'settings' => admin_url( 'options-general.php?page=sportstatsapi' ),
 			)
 		) . ';',
@@ -376,6 +407,24 @@ function sportstatsapi_register_blocks() {
 add_action( 'init', 'sportstatsapi_register_blocks' );
 
 /**
+ * The "SportStatsAPI" inserter category, first in the list.
+ *
+ * @param array $categories Block categories.
+ * @return array
+ */
+function sportstatsapi_block_category( $categories ) {
+	array_unshift(
+		$categories,
+		array(
+			'slug'  => 'sportstatsapi',
+			'title' => 'SportStatsAPI',
+		)
+	);
+	return $categories;
+}
+add_filter( 'block_categories_all', 'sportstatsapi_block_category' );
+
+/**
  * Server fallback: the widget's data as plain HTML in <noscript>, for search
  * engines and visitors without JavaScript. Cached 10 minutes per widget.
  *
@@ -390,7 +439,9 @@ function sportstatsapi_fallback( array $attrs ) {
 		'ticker'     => 'ticker',
 		'next-match' => 'nextmatch',
 	);
-	if ( ! isset( $kinds[ $attrs['widget'] ] ) ) {
+	// Paid keys only: a free key's views are counted by the script in the visitor's
+	// browser, so a server fetch must not use it.
+	if ( ! isset( $kinds[ $attrs['widget'] ], $attrs['key'] ) || 0 !== strpos( $attrs['key'], 'wk_live_' ) ) {
 		return '';
 	}
 	$query = array(
@@ -403,14 +454,10 @@ function sportstatsapi_fallback( array $attrs ) {
 			$query[ $name ] = $attrs[ $name ];
 		}
 	}
-	// Only a paid key goes server-side (with the site as Origin): free widgets need none,
-	// and a free key's views are counted in the browser.
-	$headers = array();
-	if ( isset( $attrs['key'] ) && 0 === strpos( $attrs['key'], 'wk_live_' ) ) {
-		$query['key'] = $attrs['key'];
-		$home         = wp_parse_url( home_url() );
-		$headers      = array( 'Origin' => $home['scheme'] . '://' . $home['host'] . ( isset( $home['port'] ) ? ':' . $home['port'] : '' ) );
-	}
+	$query['key'] = $attrs['key'];
+	$origin       = sportstatsapi_origin();
+	$headers      = '' === $origin ? array() : array( 'Origin' => $origin );
+
 	$url   = add_query_arg( array_map( 'rawurlencode', $query ), SPORTSTATSAPI_API . '/api/widget/v1/data' );
 	$cache = 'sportstatsapi_fb_' . md5( $url );
 	$html  = get_transient( $cache );
@@ -442,37 +489,44 @@ function sportstatsapi_fallback( array $attrs ) {
  * @return string
  */
 function sportstatsapi_fallback_html( array $d ) {
-	$out = '';
-	if ( ! empty( $d['table']['rows'] ) ) {
-		$out .= '<table class="sportstatsapi-fallback"><thead><tr><th>#</th><th>' . esc_html__( 'Team', 'live-scores-league-tables' ) . '</th><th>' . esc_html__( 'P', 'live-scores-league-tables' ) . '</th><th>' . esc_html__( 'Pts', 'live-scores-league-tables' ) . '</th></tr></thead><tbody>';
-		foreach ( $d['table']['rows'] as $r ) {
-			$out .= '<tr><td>' . (int) $r['pos'] . '</td><td>' . esc_html( $r['team'] ) . '</td><td>' . (int) $r['played'] . '</td><td>' . (int) $r['points'] . '</td></tr>';
+	$out  = '';
+	$rows = isset( $d['table']['rows'] ) && is_array( $d['table']['rows'] ) ? $d['table']['rows'] : array();
+	$body = '';
+	foreach ( $rows as $r ) {
+		if ( ! is_array( $r ) || ! isset( $r['pos'], $r['team'], $r['played'], $r['points'] ) || ! is_scalar( $r['team'] ) ) {
+			continue;
 		}
-		$out .= '</tbody></table>';
+		$body .= '<tr><td>' . (int) $r['pos'] . '</td><td>' . esc_html( (string) $r['team'] ) . '</td><td>' . (int) $r['played'] . '</td><td>' . (int) $r['points'] . '</td></tr>';
 	}
-	$matches = isset( $d['matches'] ) ? $d['matches'] : array();
-	if ( ! empty( $d['groups'] ) ) {
+	if ( '' !== $body ) {
+		$out .= '<table class="sportstatsapi-fallback"><thead><tr><th>#</th><th>' . esc_html__( 'Team', 'live-scores-league-tables' ) . '</th><th>' . esc_html__( 'P', 'live-scores-league-tables' ) . '</th><th>' . esc_html__( 'Pts', 'live-scores-league-tables' ) . '</th></tr></thead><tbody>' . $body . '</tbody></table>';
+	}
+	$matches = isset( $d['matches'] ) && is_array( $d['matches'] ) ? $d['matches'] : array();
+	if ( ! empty( $d['groups'] ) && is_array( $d['groups'] ) ) {
 		foreach ( $d['groups'] as $g ) {
-			$matches = array_merge( $matches, isset( $g['matches'] ) ? $g['matches'] : array() );
+			if ( isset( $g['matches'] ) && is_array( $g['matches'] ) ) {
+				$matches = array_merge( $matches, $g['matches'] );
+			}
 		}
 	}
 	if ( ! empty( $d['club']['next'] ) ) {
 		$matches[] = $d['club']['next'];
 	}
-	if ( $matches ) {
-		$out .= '<ul class="sportstatsapi-fallback">';
-		foreach ( $matches as $m ) {
-			$score = ( ! empty( $m['played'] ) || ! empty( $m['live'] ) ) && isset( $m['home_score'], $m['away_score'] )
-				? $m['home_score'] . '–' . $m['away_score']
-				: 'v';
-			$when  = empty( $m['kickoff'] ) ? '' : wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $m['kickoff'] ) );
-			$text  = esc_html( $m['home'] . ' ' . $score . ' ' . $m['away'] ) . ( $when ? ' <small>' . esc_html( $when ) . '</small>' : '' );
-			$out  .= '<li>' . ( empty( $m['url'] ) || '/' !== $m['url'][0] ? $text : '<a href="' . esc_url( SPORTSTATSAPI_SITE . $m['url'] ) . '">' . $text . '</a>' ) . '</li>';
+	$items = '';
+	foreach ( $matches as $m ) {
+		if ( ! is_array( $m ) || ! isset( $m['home'], $m['away'] ) || ! is_scalar( $m['home'] ) || ! is_scalar( $m['away'] ) ) {
+			continue;
 		}
-		$out .= '</ul>';
+		$score = ( ! empty( $m['played'] ) || ! empty( $m['live'] ) ) && isset( $m['home_score'], $m['away_score'] ) && is_scalar( $m['home_score'] ) && is_scalar( $m['away_score'] )
+			? $m['home_score'] . '–' . $m['away_score']
+			: 'v';
+		$time  = ! empty( $m['kickoff'] ) && is_string( $m['kickoff'] ) ? strtotime( $m['kickoff'] ) : false;
+		$when  = false === $time ? '' : wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $time );
+		// Plain text: the fallback adds no links.
+		$items .= '<li>' . esc_html( $m['home'] . ' ' . $score . ' ' . $m['away'] ) . ( $when ? ' <small>' . esc_html( $when ) . '</small>' : '' ) . '</li>';
 	}
-	if ( '' !== $out && ! empty( $d['branding'] ) ) {
-		$out .= '<p><a href="' . esc_url( SPORTSTATSAPI_SITE . '/' ) . '">' . esc_html__( 'Data by SportStatsAPI', 'live-scores-league-tables' ) . '</a></p>';
+	if ( '' !== $items ) {
+		$out .= '<ul class="sportstatsapi-fallback">' . $items . '</ul>';
 	}
 	return $out;
 }

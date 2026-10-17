@@ -3,15 +3,13 @@
 	"apiVersion": 3,
 	"name": "sportstatsapi/fixtures",
 	"title": "Fixtures",
-	"category": "widgets",
-	"icon": "calendar-alt",
-	"description": "Coming matches of a competition or a team.",
+	"category": "sportstatsapi",
+	"description": "Coming matches of a competition or one team, with TV channels.",
 	"keywords": [
 		"sportstatsapi",
 		"sport",
 		"fixtures",
-		"schedule",
-		"calendar"
+		"free"
 	],
 	"textdomain": "live-scores-league-tables",
 	"attributes": {
@@ -67,7 +65,39 @@
 			"type": "string",
 			"default": ""
 		},
+		"leagues": {
+			"type": "string",
+			"default": ""
+		},
+		"teams": {
+			"type": "string",
+			"default": ""
+		},
+		"stat": {
+			"type": "string",
+			"default": ""
+		},
+		"match": {
+			"type": "string",
+			"default": ""
+		},
+		"player": {
+			"type": "string",
+			"default": ""
+		},
+		"tournament": {
+			"type": "string",
+			"default": ""
+		},
+		"style": {
+			"type": "string",
+			"default": ""
+		},
 		"font": {
+			"type": "boolean",
+			"default": false
+		},
+		"langs": {
 			"type": "boolean",
 			"default": false
 		}

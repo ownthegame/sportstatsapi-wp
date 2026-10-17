@@ -32,8 +32,11 @@ pages that contain a block or a shortcode.
 
 ## MVP (this PR)
 
-- 7 widgets as blocks and shortcodes: league table, live scores, fixtures,
-  results ticker, next match, team calendar (free) and team form (paid plan).
+- All 19 GoalGate widget kinds as blocks (inserter group "SportStatsAPI", free first)
+  and shortcodes. Free: league table, live scores, fixtures, results ticker, next match,
+  team calendar. Paid ("(paid plan)" in the inserter, a notice with a free key): match
+  centre, match facts, preview, head to head, box score, team form, club season, squad,
+  injuries, season race, top players, player card, tennis.
 - Connect is required (owner, 2026-10-17): without a working key the front end shows
   nothing (editors see a "Connect SportStatsAPI to show this widget" link); the editor
   preview works keyless with a "Connect to publish" notice. A refused key hides the
@@ -47,8 +50,8 @@ pages that contain a block or a shortcode.
 
 ## Later
 
-- The other 13 widgets (match centre, facts, race, top players, calendar, season,
-  squad, injuries, h2h, preview, player, tennis, box score).
+- Pickers with data for player (a players endpoint) and match (a match search);
+  today these are text fields (player slug, match code or page path).
 - Elementor widgets (same render function), classic widget for old themes.
 - Ticker with several competitions (paid key), round/country pickers with data.
 - Block patterns ("Matchday sidebar") and a block variation per sport.
@@ -109,8 +112,8 @@ Audit: `free_widget_key.create` with `via: wordpress` and the site host.
 - [x] Text domain = slug; `load_plugin_textdomain` not needed (WP 4.6+ loads it)
 - [x] uninstall.php removes options and transients
 - [x] Plugin Check plugin: no errors (on the .distignore'd build)
-- [ ] Banner and icon in `.wordpress-org/` (designer)
-- [ ] Slug check: `live-scores-league-tables` free on wordpress.org
+- [x] Banner and icon in `.wordpress-org/` (designer)
+- [x] Slug check: `live-scores-league-tables` not taken on wordpress.org (2026-10-17); name "Live Scores & League Tables", account `modulout`
 - [x] Screenshots 1200x900 in `.wordpress-org/` (made from the test site)
 - [ ] Submit, answer the review (usually 1–4 weeks), then SVN deploy (GitHub Action later)
 
@@ -121,6 +124,9 @@ Audit: `free_widget_key.create` with `via: wordpress` and the site host.
 - Name "Live Scores & League Tables – SportStatsAPI Widgets", slug `live-scores-league-tables`.
 
 ## Open questions
+
+0. Tennis: GoalGate serves it keyless as a free widget (`widgetKinds["tennis"] = true`), the
+   owner's list makes it paid; the plugin labels it paid. Make GoalGate paid too, or label it free?
 
 1. Contributors field for wordpress.org: which wordpress.org user (currently `sportstatsapi`)?
 2. Merge GoalGate #435 / #436 before the wordpress.org submission (Connect must work for

@@ -113,6 +113,7 @@ function sportstatsapi_rest_competitions( WP_REST_Request $request ) {
 					'name'    => (string) $c['name'],
 					'country' => isset( $c['country'] ) ? (string) $c['country'] : '',
 					'sport'   => isset( $c['sport'] ) ? (string) $c['sport'] : '',
+					'free'    => isset( $c['free'] ) ? (bool) $c['free'] : null,
 				);
 			}
 		}

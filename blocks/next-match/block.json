@@ -3,15 +3,13 @@
 	"apiVersion": 3,
 	"name": "sportstatsapi/next-match",
 	"title": "Next match",
-	"category": "widgets",
-	"icon": "clock",
+	"category": "sportstatsapi",
 	"description": "A team's next match with a countdown.",
 	"keywords": [
 		"sportstatsapi",
 		"sport",
-		"next",
-		"match",
-		"countdown"
+		"next match",
+		"free"
 	],
 	"textdomain": "live-scores-league-tables",
 	"attributes": {
@@ -67,7 +65,39 @@
 			"type": "string",
 			"default": ""
 		},
+		"leagues": {
+			"type": "string",
+			"default": ""
+		},
+		"teams": {
+			"type": "string",
+			"default": ""
+		},
+		"stat": {
+			"type": "string",
+			"default": ""
+		},
+		"match": {
+			"type": "string",
+			"default": ""
+		},
+		"player": {
+			"type": "string",
+			"default": ""
+		},
+		"tournament": {
+			"type": "string",
+			"default": ""
+		},
+		"style": {
+			"type": "string",
+			"default": ""
+		},
 		"font": {
+			"type": "boolean",
+			"default": false
+		},
+		"langs": {
 			"type": "boolean",
 			"default": false
 		}
