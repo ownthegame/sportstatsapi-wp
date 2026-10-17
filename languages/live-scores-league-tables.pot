@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-17T05:46:03+00:00\n"
+"POT-Creation-Date: 2026-10-17T06:09:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: live-scores-league-tables\n"
@@ -105,7 +105,7 @@ msgid "Add widgets with the SportStatsAPI blocks in the editor, or with a shortc
 msgstr ""
 
 #: includes/settings.php:255
-msgid "Widgets show on your site once it is connected: Connect creates a free SportStatsAPI key (live scores, tables, fixtures, ticker, next match and calendar for the free competitions, 50,000 views a month). A paid key opens every competition and widget and removes the credit link."
+msgid "Widgets show on your site once it is connected: Connect creates a free SportStatsAPI key (live scores, tables, fixtures, ticker, next match and calendar for the free competitions, 50,000 views a month). A paid key opens all 19 widgets and every competition, and removes the credit link."
 msgstr ""
 
 #: includes/settings.php:263
@@ -165,52 +165,178 @@ msgstr ""
 msgid "League table"
 msgstr ""
 
-#: includes/widgets.php:27
+#: includes/widgets.php:21
 msgid "Live scores"
 msgstr ""
 
-#: includes/widgets.php:34
+#: includes/widgets.php:22
 msgid "Fixtures"
 msgstr ""
 
-#: includes/widgets.php:41
+#: includes/widgets.php:23
 msgid "Results ticker"
 msgstr ""
 
-#: includes/widgets.php:48
+#: includes/widgets.php:24
 msgid "Next match"
 msgstr ""
 
-#: includes/widgets.php:55
+#: includes/widgets.php:25
 msgid "Team calendar"
 msgstr ""
 
-#: includes/widgets.php:62
+#: includes/widgets.php:26
+msgid "Match centre"
+msgstr ""
+
+#: includes/widgets.php:27
+msgid "Match facts"
+msgstr ""
+
+#: includes/widgets.php:28
+msgid "Match preview"
+msgstr ""
+
+#: includes/widgets.php:29
+msgid "Head to head"
+msgstr ""
+
+#: includes/widgets.php:30
+msgid "Box score"
+msgstr ""
+
+#: includes/widgets.php:31
 msgid "Team form"
 msgstr ""
 
-#: includes/widgets.php:253
+#: includes/widgets.php:32
+msgid "Club season"
+msgstr ""
+
+#: includes/widgets.php:33
+msgid "Squad"
+msgstr ""
+
+#: includes/widgets.php:34
+msgid "Injuries and suspensions"
+msgstr ""
+
+#: includes/widgets.php:35
+msgid "Season race"
+msgstr ""
+
+#: includes/widgets.php:36
+msgid "Top players"
+msgstr ""
+
+#: includes/widgets.php:37
+msgid "Player card"
+msgstr ""
+
+#: includes/widgets.php:38
+msgid "Tennis"
+msgstr ""
+
+#: includes/widgets.php:249
 msgid "SportStatsAPI: choose a widget and a competition."
 msgstr ""
 
-#: includes/widgets.php:259
+#: includes/widgets.php:255
 msgid "Connect SportStatsAPI to show this widget"
 msgstr ""
 
-#: includes/widgets.php:447
+#: includes/widgets.php:469
 msgid "Team"
 msgstr ""
 
-#: includes/widgets.php:447
+#: includes/widgets.php:469
 msgid "P"
 msgstr ""
 
-#: includes/widgets.php:447
+#: includes/widgets.php:469
 msgid "Pts"
 msgstr ""
 
-#: includes/widgets.php:475
+#: includes/widgets.php:497
 msgid "Data by SportStatsAPI"
+msgstr ""
+
+#: blocks/box-score/block.json
+msgctxt "block title"
+msgid "Box score (paid plan)"
+msgstr ""
+
+#: blocks/box-score/block.json
+msgctxt "block description"
+msgid "Player statistics of a match (basketball, hockey, American football). Needs a paid SportStatsAPI plan."
+msgstr ""
+
+#: blocks/box-score/block.json
+#: blocks/calendar/block.json
+#: blocks/club-season/block.json
+#: blocks/fixtures/block.json
+#: blocks/head-to-head/block.json
+#: blocks/injuries/block.json
+#: blocks/match-centre/block.json
+#: blocks/match-facts/block.json
+#: blocks/next-match/block.json
+#: blocks/player/block.json
+#: blocks/preview/block.json
+#: blocks/race/block.json
+#: blocks/scores/block.json
+#: blocks/squad/block.json
+#: blocks/table/block.json
+#: blocks/team-form/block.json
+#: blocks/tennis/block.json
+#: blocks/ticker/block.json
+#: blocks/top-players/block.json
+msgctxt "block keyword"
+msgid "sportstatsapi"
+msgstr ""
+
+#: blocks/box-score/block.json
+#: blocks/calendar/block.json
+#: blocks/club-season/block.json
+#: blocks/fixtures/block.json
+#: blocks/head-to-head/block.json
+#: blocks/injuries/block.json
+#: blocks/match-centre/block.json
+#: blocks/match-facts/block.json
+#: blocks/next-match/block.json
+#: blocks/player/block.json
+#: blocks/preview/block.json
+#: blocks/race/block.json
+#: blocks/scores/block.json
+#: blocks/squad/block.json
+#: blocks/table/block.json
+#: blocks/team-form/block.json
+#: blocks/tennis/block.json
+#: blocks/ticker/block.json
+#: blocks/top-players/block.json
+msgctxt "block keyword"
+msgid "sport"
+msgstr ""
+
+#: blocks/box-score/block.json
+msgctxt "block keyword"
+msgid "box score"
+msgstr ""
+
+#: blocks/box-score/block.json
+#: blocks/club-season/block.json
+#: blocks/head-to-head/block.json
+#: blocks/injuries/block.json
+#: blocks/match-centre/block.json
+#: blocks/match-facts/block.json
+#: blocks/player/block.json
+#: blocks/preview/block.json
+#: blocks/race/block.json
+#: blocks/squad/block.json
+#: blocks/team-form/block.json
+#: blocks/tennis/block.json
+#: blocks/top-players/block.json
+msgctxt "block keyword"
+msgid "paid"
 msgstr ""
 
 #: blocks/calendar/block.json
@@ -220,46 +346,37 @@ msgstr ""
 
 #: blocks/calendar/block.json
 msgctxt "block description"
-msgid "A team's matches to add to the visitor's calendar (.ics subscription)."
+msgid "A team's matches for visitors to add to their calendar (.ics)."
 msgstr ""
 
 #: blocks/calendar/block.json
-#: blocks/fixtures/block.json
-#: blocks/next-match/block.json
-#: blocks/scores/block.json
-#: blocks/table/block.json
-#: blocks/team-form/block.json
-#: blocks/ticker/block.json
-msgctxt "block keyword"
-msgid "sportstatsapi"
-msgstr ""
-
-#: blocks/calendar/block.json
-#: blocks/fixtures/block.json
-#: blocks/next-match/block.json
-#: blocks/scores/block.json
-#: blocks/table/block.json
-#: blocks/team-form/block.json
-#: blocks/ticker/block.json
-msgctxt "block keyword"
-msgid "sport"
-msgstr ""
-
-#: blocks/calendar/block.json
-#: blocks/fixtures/block.json
 msgctxt "block keyword"
 msgid "calendar"
 msgstr ""
 
 #: blocks/calendar/block.json
+#: blocks/fixtures/block.json
+#: blocks/next-match/block.json
+#: blocks/scores/block.json
+#: blocks/table/block.json
+#: blocks/ticker/block.json
 msgctxt "block keyword"
-msgid "ics"
+msgid "free"
 msgstr ""
 
-#: blocks/calendar/block.json
-#: blocks/fixtures/block.json
+#: blocks/club-season/block.json
+msgctxt "block title"
+msgid "Club season (paid plan)"
+msgstr ""
+
+#: blocks/club-season/block.json
+msgctxt "block description"
+msgid "A team's season: results, position and form over time. Needs a paid SportStatsAPI plan."
+msgstr ""
+
+#: blocks/club-season/block.json
 msgctxt "block keyword"
-msgid "schedule"
+msgid "club season"
 msgstr ""
 
 #: blocks/fixtures/block.json
@@ -269,12 +386,72 @@ msgstr ""
 
 #: blocks/fixtures/block.json
 msgctxt "block description"
-msgid "Coming matches of a competition or a team."
+msgid "Coming matches of a competition or one team, with TV channels."
 msgstr ""
 
 #: blocks/fixtures/block.json
 msgctxt "block keyword"
 msgid "fixtures"
+msgstr ""
+
+#: blocks/head-to-head/block.json
+msgctxt "block title"
+msgid "Head to head (paid plan)"
+msgstr ""
+
+#: blocks/head-to-head/block.json
+msgctxt "block description"
+msgid "Past meetings of two teams (a team's next match, or a match code). Needs a paid SportStatsAPI plan."
+msgstr ""
+
+#: blocks/head-to-head/block.json
+msgctxt "block keyword"
+msgid "head to head"
+msgstr ""
+
+#: blocks/injuries/block.json
+msgctxt "block title"
+msgid "Injuries and suspensions (paid plan)"
+msgstr ""
+
+#: blocks/injuries/block.json
+msgctxt "block description"
+msgid "Injured and suspended players of a team, or of the whole league. Needs a paid SportStatsAPI plan."
+msgstr ""
+
+#: blocks/injuries/block.json
+msgctxt "block keyword"
+msgid "injuries"
+msgstr ""
+
+#: blocks/match-centre/block.json
+msgctxt "block title"
+msgid "Match centre (paid plan)"
+msgstr ""
+
+#: blocks/match-centre/block.json
+msgctxt "block description"
+msgid "One match live: events, line-ups, statistics (a team's live, next or last match, or a match code). Needs a paid SportStatsAPI plan."
+msgstr ""
+
+#: blocks/match-centre/block.json
+msgctxt "block keyword"
+msgid "match centre"
+msgstr ""
+
+#: blocks/match-facts/block.json
+msgctxt "block title"
+msgid "Match facts (paid plan)"
+msgstr ""
+
+#: blocks/match-facts/block.json
+msgctxt "block description"
+msgid "Facts about the latest matches of a league. Needs a paid SportStatsAPI plan."
+msgstr ""
+
+#: blocks/match-facts/block.json
+msgctxt "block keyword"
+msgid "match facts"
 msgstr ""
 
 #: blocks/next-match/block.json
@@ -289,17 +466,52 @@ msgstr ""
 
 #: blocks/next-match/block.json
 msgctxt "block keyword"
-msgid "next"
+msgid "next match"
 msgstr ""
 
-#: blocks/next-match/block.json
-msgctxt "block keyword"
-msgid "match"
+#: blocks/player/block.json
+msgctxt "block title"
+msgid "Player card (paid plan)"
 msgstr ""
 
-#: blocks/next-match/block.json
+#: blocks/player/block.json
+msgctxt "block description"
+msgid "One player's card with season statistics. Needs a paid SportStatsAPI plan."
+msgstr ""
+
+#: blocks/player/block.json
 msgctxt "block keyword"
-msgid "countdown"
+msgid "player"
+msgstr ""
+
+#: blocks/preview/block.json
+msgctxt "block title"
+msgid "Match preview (paid plan)"
+msgstr ""
+
+#: blocks/preview/block.json
+msgctxt "block description"
+msgid "A preview of a team's next match, or of a match by code. Needs a paid SportStatsAPI plan."
+msgstr ""
+
+#: blocks/preview/block.json
+msgctxt "block keyword"
+msgid "preview"
+msgstr ""
+
+#: blocks/race/block.json
+msgctxt "block title"
+msgid "Season race (paid plan)"
+msgstr ""
+
+#: blocks/race/block.json
+msgctxt "block description"
+msgid "The title or relegation race as a chart over the season. Needs a paid SportStatsAPI plan."
+msgstr ""
+
+#: blocks/race/block.json
+msgctxt "block keyword"
+msgid "race"
 msgstr ""
 
 #: blocks/scores/block.json
@@ -309,13 +521,7 @@ msgstr ""
 
 #: blocks/scores/block.json
 msgctxt "block description"
-msgid "Today's matches and live scores of a competition."
-msgstr ""
-
-#: blocks/scores/block.json
-#: blocks/ticker/block.json
-msgctxt "block keyword"
-msgid "live"
+msgid "The current round's matches and live scores."
 msgstr ""
 
 #: blocks/scores/block.json
@@ -323,10 +529,19 @@ msgctxt "block keyword"
 msgid "scores"
 msgstr ""
 
-#: blocks/scores/block.json
-#: blocks/ticker/block.json
+#: blocks/squad/block.json
+msgctxt "block title"
+msgid "Squad (paid plan)"
+msgstr ""
+
+#: blocks/squad/block.json
+msgctxt "block description"
+msgid "A team's players by position. Needs a paid SportStatsAPI plan."
+msgstr ""
+
+#: blocks/squad/block.json
 msgctxt "block keyword"
-msgid "results"
+msgid "squad"
 msgstr ""
 
 #: blocks/table/block.json
@@ -344,16 +559,6 @@ msgctxt "block keyword"
 msgid "table"
 msgstr ""
 
-#: blocks/table/block.json
-msgctxt "block keyword"
-msgid "standings"
-msgstr ""
-
-#: blocks/table/block.json
-msgctxt "block keyword"
-msgid "league"
-msgstr ""
-
 #: blocks/team-form/block.json
 msgctxt "block title"
 msgid "Team form (paid plan)"
@@ -366,17 +571,22 @@ msgstr ""
 
 #: blocks/team-form/block.json
 msgctxt "block keyword"
-msgid "form"
+msgid "team form"
 msgstr ""
 
-#: blocks/team-form/block.json
-msgctxt "block keyword"
-msgid "stats"
+#: blocks/tennis/block.json
+msgctxt "block title"
+msgid "Tennis (paid plan)"
 msgstr ""
 
-#: blocks/team-form/block.json
+#: blocks/tennis/block.json
+msgctxt "block description"
+msgid "Live tennis: a tournament's matches, or one player's. Needs a paid SportStatsAPI plan."
+msgstr ""
+
+#: blocks/tennis/block.json
 msgctxt "block keyword"
-msgid "team"
+msgid "tennis"
 msgstr ""
 
 #: blocks/ticker/block.json
@@ -392,4 +602,19 @@ msgstr ""
 #: blocks/ticker/block.json
 msgctxt "block keyword"
 msgid "ticker"
+msgstr ""
+
+#: blocks/top-players/block.json
+msgctxt "block title"
+msgid "Top players (paid plan)"
+msgstr ""
+
+#: blocks/top-players/block.json
+msgctxt "block description"
+msgid "The league's top scorers, assists, cards or ratings. Needs a paid SportStatsAPI plan."
+msgstr ""
+
+#: blocks/top-players/block.json
+msgctxt "block keyword"
+msgid "top players"
 msgstr ""
