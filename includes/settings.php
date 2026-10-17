@@ -124,6 +124,7 @@ function sportstatsapi_sanitize_settings( $in ) {
 		'accent'   => isset( $in['accent'] ) ? sportstatsapi_clean( 'accent', $in['accent'] ) : '',
 		'lang'     => isset( $in['lang'] ) ? sportstatsapi_clean( 'lang', $in['lang'] ) : '',
 		'fallback' => ! empty( $in['fallback'] ),
+		'credit'   => ! empty( $in['credit'] ),
 	);
 }
 
@@ -139,6 +140,14 @@ function sportstatsapi_connect_start() {
 	if ( ! sportstatsapi_connect_available() ) {
 		wp_die( esc_html__( 'Connect is not available right now: paste your key instead.', 'live-scores-league-tables' ) );
 	}
+	// The free key comes with the free plan's credit link: no yes, no Connect.
+	if ( empty( $_POST['sportstatsapi_credit'] ) ) {
+		wp_safe_redirect( add_query_arg( 'sportstatsapi', 'credit', sportstatsapi_connect_return() ) );
+		exit;
+	}
+	$settings           = sportstatsapi_settings();
+	$settings['credit'] = true;
+	update_option( 'sportstatsapi_settings', $settings );
 	$state = wp_generate_password( 32, false ); // [A-Za-z0-9].
 	set_transient( 'sportstatsapi_state_' . get_current_user_id(), $state, 15 * MINUTE_IN_SECONDS );
 	$target = add_query_arg(
@@ -245,6 +254,8 @@ function sportstatsapi_settings_page() {
 			<div class="notice notice-success"><p><?php esc_html_e( 'Connected: your widget key is saved.', 'live-scores-league-tables' ); ?></p></div>
 		<?php elseif ( 'denied' === $result ) : ?>
 			<div class="notice notice-info"><p><?php esc_html_e( 'Connect was cancelled. Nothing changed.', 'live-scores-league-tables' ); ?></p></div>
+		<?php elseif ( 'credit' === $result ) : ?>
+			<div class="notice notice-warning"><p><?php esc_html_e( 'To connect, agree that free widgets show a small "Data by SportStatsAPI" link.', 'live-scores-league-tables' ); ?></p></div>
 		<?php elseif ( 'failed' === $result ) : ?>
 			<div class="notice notice-error"><p><?php esc_html_e( 'Connect did not finish. Try again, or paste your key.', 'live-scores-league-tables' ); ?></p></div>
 		<?php endif; ?>
@@ -254,13 +265,19 @@ function sportstatsapi_settings_page() {
 			<code>[sportstatsapi widget="table" competition="england--premier-league"]</code>
 		</p>
 		<p>
-			<?php esc_html_e( 'Widgets show on your site once it is connected: Connect creates a free SportStatsAPI key (live scores, tables, fixtures, ticker, next match and calendar for the free competitions, 50,000 views a month). A paid key opens all 19 widgets and every competition, and removes the credit link.', 'live-scores-league-tables' ); ?>
+			<?php esc_html_e( 'Widgets show on your site once it is connected: Connect creates a free SportStatsAPI key (live scores, tables, fixtures, ticker, next match and calendar for the free competitions, 25,000 views a month, with a small "Data by SportStatsAPI" link in each widget). A paid key opens all 19 widgets and every competition, and removes the credit link.', 'live-scores-league-tables' ); ?>
 		</p>
 
 		<?php if ( $connect ) : ?>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="sportstatsapi_connect">
 				<?php wp_nonce_field( 'sportstatsapi_connect' ); ?>
+				<p>
+					<label>
+						<input type="checkbox" name="sportstatsapi_credit" value="1" required <?php checked( $s['credit'] ); ?>>
+						<?php esc_html_e( 'Yes, free widgets may show a small "Data by SportStatsAPI" link (required for the free key).', 'live-scores-league-tables' ); ?>
+					</label>
+				</p>
 				<p>
 					<?php submit_button( __( 'Connect with SportStatsAPI', 'live-scores-league-tables' ), 'secondary', 'sportstatsapi-connect', false ); ?>
 					<span class="description"><?php esc_html_e( 'Opens your SportStatsAPI account and brings this site’s free widget key back here.', 'live-scores-league-tables' ); ?></span>
@@ -286,6 +303,16 @@ function sportstatsapi_settings_page() {
 							);
 							?>
 						</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Credit link', 'live-scores-league-tables' ); ?></th>
+					<td>
+						<label>
+							<input type="checkbox" name="sportstatsapi_settings[credit]" value="1" <?php checked( $s['credit'] ); ?>>
+							<?php esc_html_e( 'Yes, free widgets may show a small "Data by SportStatsAPI" link', 'live-scores-league-tables' ); ?>
+						</label>
+						<p class="description"><?php esc_html_e( 'Required for a free key: without it free widgets are not shown. Paid keys show no link.', 'live-scores-league-tables' ); ?></p>
 					</td>
 				</tr>
 				<tr>

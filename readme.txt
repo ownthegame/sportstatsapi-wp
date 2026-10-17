@@ -27,14 +27,14 @@ Free (with the free key from Connect):
 
 With a paid SportStatsAPI plan: match centre, match facts, match preview, head to head, box score, team form, club season, squad, injuries and suspensions, season race, top players, player card and tennis.
 
-Connect your site once (Settings → SportStatsAPI → Connect) to get the free key: the six free widgets for the free competitions (Premier League, Bundesliga, LaLiga, Serie A, Ligue 1, MLS, NBA, NHL, MLB, NFL, EuroLeague, the Champions League and more), 50,000 views a month. A paid key opens every widget, about 3,000 competitions, your accent colour and no credit link. Until the site is connected, widgets show only in the editor preview.
+Connect your site once (Settings → SportStatsAPI → Connect) to get the free key: the six free widgets for the free competitions (Premier League, Bundesliga, LaLiga, Serie A, Ligue 1, MLS, NBA, NHL, MLB, NFL, EuroLeague, the Champions League and more), 25,000 views a month. A paid key opens every widget, about 3,000 competitions, your accent colour and no credit link. Until the site is connected, widgets show only in the editor preview.
 
 = Free and paid =
 
 The plugin is free and complete: all 19 blocks and the shortcode are in it, with no code that is switched off or unlocked by payment. The widgets are drawn and their data served by the SportStatsAPI service (https://sportstatsapi.com), and the service decides what a key may show:
 
-* No key: nothing on your site; the editor shows a preview and a "Connect" notice. Every widget needs a key, the free ones too: the free key identifies your site and counts its 50,000 free views a month, so the service needs it.
-* Free key (Connect, no payment): the six free widgets above, for the free competitions, 50,000 views a month. As part of the free plan's terms (https://sportstatsapi.com/legal/terms/) the SportStatsAPI script draws a small "Data by SportStatsAPI" credit link inside each widget; the plugin itself adds no links or credits to your site.
+* No key: nothing on your site; the editor shows a preview and a "Connect" notice. Every widget needs a key, the free ones too: the free key identifies your site and counts its free views (25,000 a month), so the service needs it.
+* Free key (Connect, no payment): the six free widgets above, for the free competitions, 25,000 views a month. From 25,000 to 30,000 views the widgets keep working and you are told the free limit is reached; from 30,000 views until the month ends they show no data unless you move to a paid plan. To use the free key you tick "Yes, free widgets may show a small 'Data by SportStatsAPI' link" (at Connect or in the settings); without that yes free widgets are not shown. As part of the free plan's terms (https://sportstatsapi.com/legal/terms/) the SportStatsAPI script draws a small "Data by SportStatsAPI" credit link inside each widget; the plugin itself adds no links or credits to your site.
 * Paid key (a SportStatsAPI plan, see https://sportstatsapi.com/pricing/): all 19 widgets, about 3,000 competitions, your accent colour, no credit link.
 
 With a free key the 13 paid blocks are marked "(paid plan)" in the inserter, show a notice in the editor, and the service answers "Widget not available" for them. You can use the plugin forever with the free key.
@@ -74,11 +74,11 @@ Cookies: https://sportstatsapi.com/legal/cookies/
 
 = Do I need an account? =
 
-A free one: Connect creates it with your email address and brings the free key back (50,000 views a month). Without a key, widgets show only in the editor. A paid key opens every competition and widget.
+A free one: Connect creates it with your email address and brings the free key back (25,000 views a month; you agree that free widgets show a small "Data by SportStatsAPI" link). Without a key, widgets show only in the editor. A paid key opens every competition and widget.
 
 = What is free and what needs a paid plan? =
 
-Free, with the free key from Connect: league table, live scores, fixtures, results ticker, next match and team calendar, for the free competitions (50,000 views a month). Every other widget, every other competition, the accent colour and removing the credit link need a paid SportStatsAPI plan (https://sportstatsapi.com/pricing/). The plugin is the same in both cases: the service decides what a key shows.
+Free, with the free key from Connect: league table, live scores, fixtures, results ticker, next match and team calendar, for the free competitions (25,000 views a month, up to 30,000 before they stop until the next month). Every other widget, every other competition, the accent colour and removing the credit link need a paid SportStatsAPI plan (https://sportstatsapi.com/pricing/). The plugin is the same in both cases: the service decides what a key shows.
 
 = Does the plugin send data anywhere? =
 

@@ -63,6 +63,7 @@ function sportstatsapi_settings() {
 		'accent'   => isset( $s['accent'] ) ? (string) $s['accent'] : '',
 		'lang'     => isset( $s['lang'] ) ? (string) $s['lang'] : '',
 		'fallback' => ! empty( $s['fallback'] ),
+		'credit'   => ! empty( $s['credit'] ),
 	);
 }
 
@@ -255,6 +256,12 @@ function sportstatsapi_render( $slug, array $in ) {
 			? '<p class="sportstatsapi-missing"><a href="' . esc_url( admin_url( 'options-general.php?page=sportstatsapi' ) ) . '">' . esc_html__( 'Connect SportStatsAPI to show this widget', 'live-scores-league-tables' ) . '</a></p>'
 			: '';
 	}
+	// A free key needs the site owner's yes to the credit link the free plan shows (settings).
+	if ( 0 === strpos( $attrs['key'], 'ssw_free_' ) && ! sportstatsapi_settings()['credit'] ) {
+		return $admin
+			? '<p class="sportstatsapi-missing"><a href="' . esc_url( admin_url( 'options-general.php?page=sportstatsapi' ) ) . '">' . esc_html__( 'Free widgets show a small "Data by SportStatsAPI" link. Agree to it in the settings to show this widget.', 'live-scores-league-tables' ) . '</a></p>'
+			: '';
+	}
 	wp_enqueue_script( 'sportstatsapi-embed' );
 
 	$html = '<div class="sportstats-widget"';
@@ -427,7 +434,7 @@ function sportstatsapi_fallback( array $attrs ) {
 	}
 	// Every widget needs a key (checked in sportstatsapi_render). Only a paid key goes
 	// server-side (with the site as Origin): a free key identifies the site and its
-	// 50,000 free views a month are counted by the script in the visitor's browser,
+	// free views a month are counted by the script in the visitor's browser,
 	// so the server fetch must not count them again.
 	$headers = array();
 	if ( isset( $attrs['key'] ) && 0 === strpos( $attrs['key'], 'wk_live_' ) ) {
