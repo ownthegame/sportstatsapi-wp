@@ -13,7 +13,7 @@
 	var __ = wp.i18n.__;
 	var be = wp.blockEditor;
 	var c = wp.components;
-	var D = 'sportstatsapi-widgets';
+	var D = 'live-scores-league-tables';
 
 	var comps = {}; // competition key: {key, name, country, sport, free}, as searched
 
@@ -152,8 +152,11 @@
 			var paidKey = /^wk_live_/.test( cfg.key || '' );
 			var comp = comps[ a.competition ];
 			var notices = [];
+			var connect = ! cfg.key ? el( c.Notice, { status: 'info', isDismissible: false },
+				__( 'Connect to publish: visitors see this widget once SportStatsAPI is connected.', D ) + ' ',
+				el( 'a', { href: cfg.settings, target: '_blank', rel: 'noopener' }, __( 'Settings → SportStatsAPI', D ) ) ) : null;
 			if ( ! paidKey && ( ! w.free || ( comp && comp.free === false ) ) ) {
-				notices.push( ! w.free ? __( 'This widget needs a paid plan key (Settings → SportStatsAPI).', D ) : __( 'This competition needs a paid plan key (Settings → SportStatsAPI).', D ) );
+				notices.push( ! w.free ? __( 'This widget needs a paid SportStatsAPI plan: with a free key it shows “Widget not available”.', D ) : __( 'This competition needs a paid plan key (Settings → SportStatsAPI).', D ) );
 			}
 			if ( w.team === 'required' && ! a.team ) {
 				notices.push( __( 'Choose a team in the block settings.', D ) );
@@ -174,6 +177,7 @@
 			var body = ! a.competition
 				? el( c.Placeholder, { icon: 'chart-area', label: wp.blocks.getBlockType( props.name ).title, instructions: __( 'Choose a competition.', D ) }, el( 'div', { style: { width: '100%', maxWidth: '420px' } }, el( CompetitionPicker, props ) ) )
 				: el( 'div', null,
+					connect,
 					notices.map( function ( t, i ) { return el( c.Notice, { key: i, status: 'warning', isDismissible: false }, t ); } ),
 					el( Preview, { attrs: dataAttrs( slug, a ) } ) );
 			return el( 'div', blockProps, inspector, body );

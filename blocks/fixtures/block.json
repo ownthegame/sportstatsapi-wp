@@ -13,7 +13,7 @@
 		"schedule",
 		"calendar"
 	],
-	"textdomain": "sportstatsapi-widgets",
+	"textdomain": "live-scores-league-tables",
 	"attributes": {
 		"competition": {
 			"type": "string",

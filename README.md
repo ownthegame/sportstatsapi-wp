@@ -1,7 +1,7 @@
 # SportStatsAPI Widgets for WordPress
 
 Gutenberg blocks and shortcodes for the [SportStatsAPI](https://sportstatsapi.com/widgets/)
-embeddable widgets: league tables, live scores, fixtures, results ticker, next match, team form.
+embeddable widgets: league tables, live scores, fixtures, results ticker, next match, team calendar, team form.
 
 See [PLAN.md](PLAN.md) for the architecture and roadmap, `readme.txt` for the
 wordpress.org description.

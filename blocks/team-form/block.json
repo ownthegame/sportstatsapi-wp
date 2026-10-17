@@ -2,10 +2,10 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "sportstatsapi/team-form",
-	"title": "Team form",
+	"title": "Team form (paid plan)",
 	"category": "widgets",
 	"icon": "chart-bar",
-	"description": "A team's form and statistics (paid plan).",
+	"description": "A team's form and statistics. Needs a paid SportStatsAPI plan.",
 	"keywords": [
 		"sportstatsapi",
 		"sport",
@@ -13,7 +13,7 @@
 		"stats",
 		"team"
 	],
-	"textdomain": "sportstatsapi-widgets",
+	"textdomain": "live-scores-league-tables",
 	"attributes": {
 		"competition": {
 			"type": "string",

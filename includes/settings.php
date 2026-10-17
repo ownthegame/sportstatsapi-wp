@@ -99,10 +99,10 @@ add_action( 'admin_menu', 'sportstatsapi_admin_menu' );
  * @return array
  */
 function sportstatsapi_action_links( $links ) {
-	array_unshift( $links, '<a href="' . esc_url( admin_url( 'options-general.php?page=sportstatsapi' ) ) . '">' . esc_html__( 'Settings', 'sportstatsapi-widgets' ) . '</a>' );
+	array_unshift( $links, '<a href="' . esc_url( admin_url( 'options-general.php?page=sportstatsapi' ) ) . '">' . esc_html__( 'Settings', 'live-scores-league-tables' ) . '</a>' );
 	return $links;
 }
-add_filter( 'plugin_action_links_' . plugin_basename( SPORTSTATSAPI_DIR . 'sportstatsapi-widgets.php' ), 'sportstatsapi_action_links' );
+add_filter( 'plugin_action_links_' . plugin_basename( SPORTSTATSAPI_DIR . 'live-scores-league-tables.php' ), 'sportstatsapi_action_links' );
 
 /**
  * Sanitizes the settings form.
@@ -114,7 +114,7 @@ function sportstatsapi_sanitize_settings( $in ) {
 	$in  = is_array( $in ) ? $in : array();
 	$key = isset( $in['key'] ) ? trim( sanitize_text_field( $in['key'] ) ) : '';
 	if ( '' !== $key && '' === sportstatsapi_clean( 'key', $key ) ) {
-		add_settings_error( 'sportstatsapi_settings', 'key', __( 'That is not a SportStatsAPI widget key (ssw_free_… or wk_live_…). The key was not saved.', 'sportstatsapi-widgets' ) );
+		add_settings_error( 'sportstatsapi_settings', 'key', __( 'That is not a SportStatsAPI widget key (ssw_free_… or wk_live_…). The key was not saved.', 'live-scores-league-tables' ) );
 		$key = sportstatsapi_settings()['key'];
 	}
 	$theme = isset( $in['theme'] ) ? sportstatsapi_clean( 'theme', $in['theme'] ) : '';
@@ -133,11 +133,11 @@ function sportstatsapi_sanitize_settings( $in ) {
  */
 function sportstatsapi_connect_start() {
 	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_die( esc_html__( 'You are not allowed to do this.', 'sportstatsapi-widgets' ), 403 );
+		wp_die( esc_html__( 'You are not allowed to do this.', 'live-scores-league-tables' ), 403 );
 	}
 	check_admin_referer( 'sportstatsapi_connect' );
 	if ( ! sportstatsapi_connect_available() ) {
-		wp_die( esc_html__( 'Connect is not available right now: paste your key instead.', 'sportstatsapi-widgets' ) );
+		wp_die( esc_html__( 'Connect is not available right now: paste your key instead.', 'live-scores-league-tables' ) );
 	}
 	$state = wp_generate_password( 32, false ); // [A-Za-z0-9].
 	set_transient( 'sportstatsapi_state_' . get_current_user_id(), $state, 15 * MINUTE_IN_SECONDS );
@@ -201,13 +201,13 @@ function sportstatsapi_key_notice() {
 		return;
 	}
 	$text = 'WRONG_WEBSITE' === $error
-		? __( 'SportStatsAPI: your key isn’t set up for this website — widgets fall back to free mode. Add this site on your account page.', 'sportstatsapi-widgets' )
-		: __( 'SportStatsAPI: your key isn’t recognised — widgets fall back to free mode.', 'sportstatsapi-widgets' );
+		? __( 'SportStatsAPI: your key isn’t set up for this website, so widgets are hidden on your site. Add this site on your account page, or connect again.', 'live-scores-league-tables' )
+		: __( 'SportStatsAPI: your key isn’t recognised, so widgets are hidden on your site. Connect again or paste a working key.', 'live-scores-league-tables' );
 	printf(
 		'<div class="notice notice-warning"><p>%s <a href="%s">%s</a></p></div>',
 		esc_html( $text ),
 		esc_url( sportstatsapi_connect_return() ),
-		esc_html__( 'Settings', 'sportstatsapi-widgets' )
+		esc_html__( 'Settings', 'live-scores-league-tables' )
 	);
 }
 add_action( 'admin_notices', 'sportstatsapi_key_notice' );
@@ -224,7 +224,7 @@ function sportstatsapi_settings_page() {
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only.
 	$result = isset( $_GET['sportstatsapi'] ) && ! isset( $_GET['settings-updated'] ) ? sanitize_key( $_GET['sportstatsapi'] ) : '';
 	$langs  = array(
-		''   => __( 'The page’s language', 'sportstatsapi-widgets' ),
+		''   => __( 'The page’s language', 'live-scores-league-tables' ),
 		'en' => 'English',
 		'de' => 'Deutsch',
 		'es' => 'Español',
@@ -232,27 +232,27 @@ function sportstatsapi_settings_page() {
 		'fr' => 'Français',
 	);
 	$themes = array(
-		'auto'  => __( 'Auto (the visitor’s setting)', 'sportstatsapi-widgets' ),
-		'light' => __( 'Light', 'sportstatsapi-widgets' ),
-		'dark'  => __( 'Dark', 'sportstatsapi-widgets' ),
+		'auto'  => __( 'Auto (the visitor’s setting)', 'live-scores-league-tables' ),
+		'light' => __( 'Light', 'live-scores-league-tables' ),
+		'dark'  => __( 'Dark', 'live-scores-league-tables' ),
 	);
 	?>
 	<div class="wrap">
-		<h1><?php esc_html_e( 'SportStatsAPI Widgets', 'sportstatsapi-widgets' ); ?></h1>
+		<h1><?php esc_html_e( 'SportStatsAPI Widgets', 'live-scores-league-tables' ); ?></h1>
 		<?php if ( 'connected' === $result ) : ?>
-			<div class="notice notice-success"><p><?php esc_html_e( 'Connected: your widget key is saved.', 'sportstatsapi-widgets' ); ?></p></div>
+			<div class="notice notice-success"><p><?php esc_html_e( 'Connected: your widget key is saved.', 'live-scores-league-tables' ); ?></p></div>
 		<?php elseif ( 'denied' === $result ) : ?>
-			<div class="notice notice-info"><p><?php esc_html_e( 'Connect was cancelled. Nothing changed.', 'sportstatsapi-widgets' ); ?></p></div>
+			<div class="notice notice-info"><p><?php esc_html_e( 'Connect was cancelled. Nothing changed.', 'live-scores-league-tables' ); ?></p></div>
 		<?php elseif ( 'failed' === $result ) : ?>
-			<div class="notice notice-error"><p><?php esc_html_e( 'Connect did not finish. Try again, or paste your key.', 'sportstatsapi-widgets' ); ?></p></div>
+			<div class="notice notice-error"><p><?php esc_html_e( 'Connect did not finish. Try again, or paste your key.', 'live-scores-league-tables' ); ?></p></div>
 		<?php endif; ?>
 
 		<p>
-			<?php esc_html_e( 'Add widgets with the SportStatsAPI blocks in the editor, or with a shortcode:', 'sportstatsapi-widgets' ); ?>
+			<?php esc_html_e( 'Add widgets with the SportStatsAPI blocks in the editor, or with a shortcode:', 'live-scores-league-tables' ); ?>
 			<code>[sportstatsapi widget="table" competition="england--premier-league"]</code>
 		</p>
 		<p>
-			<?php esc_html_e( 'Live scores, tables, fixtures, the ticker and next match work without a key for the free competitions. A key from your SportStatsAPI account counts your free views; a paid key opens every competition and widget and removes the credit link.', 'sportstatsapi-widgets' ); ?>
+			<?php esc_html_e( 'Widgets show on your site once it is connected: Connect creates a free SportStatsAPI key (live scores, tables, fixtures, ticker, next match and calendar for the free competitions, 50,000 views a month). A paid key opens every competition and widget and removes the credit link.', 'live-scores-league-tables' ); ?>
 		</p>
 
 		<?php if ( $connect ) : ?>
@@ -260,32 +260,34 @@ function sportstatsapi_settings_page() {
 				<input type="hidden" name="action" value="sportstatsapi_connect">
 				<?php wp_nonce_field( 'sportstatsapi_connect' ); ?>
 				<p>
-					<?php submit_button( __( 'Connect with SportStatsAPI', 'sportstatsapi-widgets' ), 'secondary', 'sportstatsapi-connect', false ); ?>
-					<span class="description"><?php esc_html_e( 'Opens your SportStatsAPI account and brings this site’s free widget key back here.', 'sportstatsapi-widgets' ); ?></span>
+					<?php submit_button( __( 'Connect with SportStatsAPI', 'live-scores-league-tables' ), 'secondary', 'sportstatsapi-connect', false ); ?>
+					<span class="description"><?php esc_html_e( 'Opens your SportStatsAPI account and brings this site’s free widget key back here.', 'live-scores-league-tables' ); ?></span>
 				</p>
 			</form>
+		<?php else : ?>
+			<p class="description"><?php esc_html_e( 'Connect is not available right now: paste the widget key from your SportStatsAPI account below.', 'live-scores-league-tables' ); ?></p>
 		<?php endif; ?>
 
 		<form method="post" action="options.php">
 			<?php settings_fields( 'sportstatsapi' ); ?>
 			<table class="form-table" role="presentation">
 				<tr>
-					<th scope="row"><label for="sportstatsapi-key"><?php esc_html_e( 'Widget key', 'sportstatsapi-widgets' ); ?></label></th>
+					<th scope="row"><label for="sportstatsapi-key"><?php esc_html_e( 'Widget key', 'live-scores-league-tables' ); ?></label></th>
 					<td>
 						<input type="text" class="regular-text" id="sportstatsapi-key" name="sportstatsapi_settings[key]" value="<?php echo esc_attr( $s['key'] ); ?>" placeholder="ssw_free_… / wk_live_…" autocomplete="off">
 						<p class="description">
 							<?php
 							printf(
 								/* translators: %s: link to the SportStatsAPI account page */
-								esc_html__( 'Optional. Find it on your %s.', 'sportstatsapi-widgets' ),
-								'<a href="https://account.sportstatsapi.com/account#widgets" target="_blank" rel="noopener">' . esc_html__( 'account page', 'sportstatsapi-widgets' ) . '</a>'
+								esc_html__( 'Required to show widgets. Connect fills it in, or copy it from your %s.', 'live-scores-league-tables' ),
+								'<a href="https://account.sportstatsapi.com/account#widgets" target="_blank" rel="noopener">' . esc_html__( 'account page', 'live-scores-league-tables' ) . '</a>'
 							);
 							?>
 						</p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="sportstatsapi-theme"><?php esc_html_e( 'Theme', 'sportstatsapi-widgets' ); ?></label></th>
+					<th scope="row"><label for="sportstatsapi-theme"><?php esc_html_e( 'Theme', 'live-scores-league-tables' ); ?></label></th>
 					<td>
 						<select id="sportstatsapi-theme" name="sportstatsapi_settings[theme]">
 							<?php foreach ( $themes as $value => $label ) : ?>
@@ -295,14 +297,14 @@ function sportstatsapi_settings_page() {
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="sportstatsapi-accent"><?php esc_html_e( 'Accent colour', 'sportstatsapi-widgets' ); ?></label></th>
+					<th scope="row"><label for="sportstatsapi-accent"><?php esc_html_e( 'Accent colour', 'live-scores-league-tables' ); ?></label></th>
 					<td>
 						<input type="text" id="sportstatsapi-accent" name="sportstatsapi_settings[accent]" value="<?php echo esc_attr( $s['accent'] ); ?>" placeholder="#2340F5" pattern="#[0-9a-fA-F]{6}" size="9" maxlength="7">
-						<p class="description"><?php esc_html_e( 'Your brand colour as #RRGGBB. Applies with a paid key.', 'sportstatsapi-widgets' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Your brand colour as #RRGGBB. Applies with a paid key.', 'live-scores-league-tables' ); ?></p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="sportstatsapi-lang"><?php esc_html_e( 'Language', 'sportstatsapi-widgets' ); ?></label></th>
+					<th scope="row"><label for="sportstatsapi-lang"><?php esc_html_e( 'Language', 'live-scores-league-tables' ); ?></label></th>
 					<td>
 						<select id="sportstatsapi-lang" name="sportstatsapi_settings[lang]">
 							<?php foreach ( $langs as $value => $label ) : ?>
@@ -312,13 +314,13 @@ function sportstatsapi_settings_page() {
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Search engines', 'sportstatsapi-widgets' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Search engines', 'live-scores-league-tables' ); ?></th>
 					<td>
 						<label>
 							<input type="checkbox" name="sportstatsapi_settings[fallback]" value="1" <?php checked( $s['fallback'] ); ?>>
-							<?php esc_html_e( 'Also print the data as plain HTML for visitors without JavaScript', 'sportstatsapi-widgets' ); ?>
+							<?php esc_html_e( 'Also print the data as plain HTML for visitors without JavaScript', 'live-scores-league-tables' ); ?>
 						</label>
-						<p class="description"><?php esc_html_e( 'Your server loads each widget’s data from api.sportstatsapi.com and keeps it 10 minutes.', 'sportstatsapi-widgets' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Your server loads each widget’s data from api.sportstatsapi.com and keeps it 10 minutes.', 'live-scores-league-tables' ); ?></p>
 					</td>
 				</tr>
 			</table>

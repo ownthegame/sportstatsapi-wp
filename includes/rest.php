@@ -120,7 +120,7 @@ function sportstatsapi_rest_competitions( WP_REST_Request $request ) {
 		$out = null;
 	}
 	if ( null === $out ) {
-		return new WP_Error( 'sportstatsapi_unavailable', __( 'SportStatsAPI cannot be reached right now.', 'sportstatsapi-widgets' ), array( 'status' => 502 ) );
+		return new WP_Error( 'sportstatsapi_unavailable', __( 'SportStatsAPI cannot be reached right now.', 'live-scores-league-tables' ), array( 'status' => 502 ) );
 	}
 	set_transient( $cache, $out, 10 * MINUTE_IN_SECONDS );
 	return rest_ensure_response( $out );
@@ -170,11 +170,11 @@ function sportstatsapi_search_full_list( $search ) {
 function sportstatsapi_rest_teams( WP_REST_Request $request ) {
 	$comp = sportstatsapi_clean( 'competition', $request['competition'] );
 	if ( '' === $comp ) {
-		return new WP_Error( 'sportstatsapi_competition', __( 'Unknown competition.', 'sportstatsapi-widgets' ), array( 'status' => 400 ) );
+		return new WP_Error( 'sportstatsapi_competition', __( 'Unknown competition.', 'live-scores-league-tables' ), array( 'status' => 400 ) );
 	}
 	$data = sportstatsapi_remote_json( SPORTSTATSAPI_API . '/api/widget/v1/teams?c=' . rawurlencode( $comp ), 'sportstatsapi_teams_' . md5( $comp ) );
 	if ( null === $data ) {
-		return new WP_Error( 'sportstatsapi_unavailable', __( 'SportStatsAPI cannot be reached right now.', 'sportstatsapi-widgets' ), array( 'status' => 502 ) );
+		return new WP_Error( 'sportstatsapi_unavailable', __( 'SportStatsAPI cannot be reached right now.', 'live-scores-league-tables' ), array( 'status' => 502 ) );
 	}
 	$out = array();
 	foreach ( isset( $data['data'] ) && is_array( $data['data'] ) ? $data['data'] : array() as $t ) {

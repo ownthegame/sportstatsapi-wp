@@ -1,4 +1,6 @@
-# SportStatsAPI Widgets for WordPress: plan
+# Live Scores & League Tables – SportStatsAPI Widgets (WordPress): plan
+
+Slug and text domain: `live-scores-league-tables` (PHP prefix stays `sportstatsapi_`).
 
 ## Architecture
 
@@ -12,7 +14,7 @@ widget itself: it prints the markup the script expects and loads the script.
 <script src="https://api.sportstatsapi.com/api/widget/v1/embed.js" async></script>
 ```
 
-- `sportstatsapi-widgets.php`: bootstrap.
+- `live-scores-league-tables.php`: bootstrap.
 - `includes/widgets.php`: the widget list (one PHP array), the markup builder, the
   shortcode, dynamic block rendering, script enqueue, the optional server fallback.
 - `includes/settings.php`: Settings → SportStatsAPI (key, Connect, defaults).
@@ -30,14 +32,18 @@ pages that contain a block or a shortcode.
 
 ## MVP (this PR)
 
-- 6 widgets as blocks and shortcodes: league table, live scores, fixtures,
-  results ticker, next match, team form.
+- 7 widgets as blocks and shortcodes: league table, live scores, fixtures,
+  results ticker, next match, team calendar (free) and team form (paid plan).
+- Connect is required (owner, 2026-10-17): without a working key the front end shows
+  nothing (editors see a "Connect SportStatsAPI to show this widget" link); the editor
+  preview works keyless with a "Connect to publish" notice. A refused key hides the
+  widgets and shows an admin notice.
 - Settings: widget key (paste), Connect (see below), default theme, accent, language,
   server fallback toggle (off by default).
 - Server fallback: the public `/api/widget/v1/data` JSON, fetched with
   `wp_remote_get`, cached 10 minutes in a transient, printed as `<noscript>` HTML.
 - readme.txt (wordpress.org format, External services section), uninstall.php,
-  i18n (text domain `sportstatsapi-widgets`), PHPCS (WordPress standard).
+  i18n (text domain `live-scores-league-tables`), PHPCS (WordPress standard).
 
 ## Later
 
@@ -103,17 +109,19 @@ Audit: `free_widget_key.create` with `via: wordpress` and the site host.
 - [x] Text domain = slug; `load_plugin_textdomain` not needed (WP 4.6+ loads it)
 - [x] uninstall.php removes options and transients
 - [x] Plugin Check plugin: no errors (on the .distignore'd build)
-- [ ] Banner, icon, screenshots in `.wordpress-org/` (designer)
-- [ ] Slug check: `sportstatsapi-widgets` free on wordpress.org
+- [ ] Banner and icon in `.wordpress-org/` (designer)
+- [ ] Slug check: `live-scores-league-tables` free on wordpress.org
+- [x] Screenshots 1200x900 in `.wordpress-org/` (made from the test site)
 - [ ] Submit, answer the review (usually 1–4 weeks), then SVN deploy (GitHub Action later)
 
-## Questions for the owner
+## Owner decisions (2026-10-17)
 
-1. Keyless free widgets work today (no key, "Data by SportStatsAPI" link). Should the
-   plugin work without a key (simplest, as now) or require Connect, so every site has a
-   free key and its 50k views a month are counted?
-2. Team form is a paid widget: keep it in the MVP block list with a "needs a plan"
-   notice (as now), or swap it for calendar (free)?
-3. Plugin name and slug: "SportStatsAPI Widgets" / `sportstatsapi-widgets`. OK?
-4. Contributors field for wordpress.org: which wordpress.org user (Modulout?)
-5. Build the Connect endpoint in GoalGate (account service) as described above?
+- Connect required, no keyless mode on the front end.
+- Calendar replaces team form among the free six; team form stays as a 7th, paid block.
+- Name "Live Scores & League Tables – SportStatsAPI Widgets", slug `live-scores-league-tables`.
+
+## Open questions
+
+1. Contributors field for wordpress.org: which wordpress.org user (currently `sportstatsapi`)?
+2. Merge GoalGate #435 / #436 before the wordpress.org submission (Connect must work for
+   new sites: with the endpoint missing, a new site can only paste a key).

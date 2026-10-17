@@ -11,7 +11,7 @@
 	<rule ref="PHPCompatibilityWP"/>
 	<rule ref="WordPress.WP.I18n">
 		<properties>
-			<property name="text_domain" type="array"><element value="sportstatsapi-widgets"/></property>
+			<property name="text_domain" type="array"><element value="live-scores-league-tables"/></property>
 		</properties>
 	</rule>
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">

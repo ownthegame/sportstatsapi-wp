@@ -17,42 +17,49 @@ function sportstatsapi_widgets() {
 	return array(
 		'table'      => array(
 			'kind'    => 'table',
-			'title'   => __( 'League table', 'sportstatsapi-widgets' ),
+			'title'   => __( 'League table', 'live-scores-league-tables' ),
 			'team'    => 'optional',
 			'options' => array( 'size', 'rows' ),
 			'free'    => true,
 		),
 		'scores'     => array(
 			'kind'    => 'scores',
-			'title'   => __( 'Live scores', 'sportstatsapi-widgets' ),
+			'title'   => __( 'Live scores', 'live-scores-league-tables' ),
 			'team'    => 'optional',
 			'options' => array( 'round' ),
 			'free'    => true,
 		),
 		'fixtures'   => array(
 			'kind'    => 'fixtures',
-			'title'   => __( 'Fixtures', 'sportstatsapi-widgets' ),
+			'title'   => __( 'Fixtures', 'live-scores-league-tables' ),
 			'team'    => 'optional',
 			'options' => array( 'view', 'country' ),
 			'free'    => true,
 		),
 		'ticker'     => array(
 			'kind'    => 'ticker',
-			'title'   => __( 'Results ticker', 'sportstatsapi-widgets' ),
+			'title'   => __( 'Results ticker', 'live-scores-league-tables' ),
 			'team'    => 'none',
 			'options' => array(),
 			'free'    => true,
 		),
 		'next-match' => array(
 			'kind'    => 'next-match',
-			'title'   => __( 'Next match', 'sportstatsapi-widgets' ),
+			'title'   => __( 'Next match', 'live-scores-league-tables' ),
 			'team'    => 'required',
 			'options' => array( 'country' ),
 			'free'    => true,
 		),
+		'calendar'   => array(
+			'kind'    => 'calendar',
+			'title'   => __( 'Team calendar', 'live-scores-league-tables' ),
+			'team'    => 'required',
+			'options' => array(),
+			'free'    => true,
+		),
 		'team-form'  => array(
 			'kind'    => 'team-form',
-			'title'   => __( 'Team form', 'sportstatsapi-widgets' ),
+			'title'   => __( 'Team form', 'live-scores-league-tables' ),
 			'team'    => 'required',
 			'options' => array(),
 			'free'    => false,
@@ -77,8 +84,9 @@ function sportstatsapi_settings() {
 }
 
 /**
- * The key to put in widgets: the saved key, or '' while the API refuses it
- * (unknown, revoked, another website): free widgets then work without it.
+ * The key to put in widgets: the saved key, or '' when there is none or the API
+ * refuses it (unknown, revoked, another website). Without a key nothing is shown.
+ * A key not checked yet (the API could not be reached) counts as working.
  *
  * @return string
  */
@@ -239,9 +247,16 @@ function sportstatsapi_attributes( $slug, array $in ) {
  */
 function sportstatsapi_render( $slug, array $in ) {
 	$attrs = sportstatsapi_attributes( $slug, $in );
+	$admin = current_user_can( 'edit_posts' );
 	if ( null === $attrs || empty( $attrs['competition'] ) ) {
-		return current_user_can( 'edit_posts' )
-			? '<p class="sportstatsapi-missing">' . esc_html__( 'SportStatsAPI: choose a widget and a competition.', 'sportstatsapi-widgets' ) . '</p>'
+		return $admin
+			? '<p class="sportstatsapi-missing">' . esc_html__( 'SportStatsAPI: choose a widget and a competition.', 'live-scores-league-tables' ) . '</p>'
+			: '';
+	}
+	// Connect is required: no key, no widget (editors see why).
+	if ( empty( $attrs['key'] ) ) {
+		return $admin
+			? '<p class="sportstatsapi-missing"><a href="' . esc_url( admin_url( 'options-general.php?page=sportstatsapi' ) ) . '">' . esc_html__( 'Connect SportStatsAPI to show this widget', 'live-scores-league-tables' ) . '</a></p>'
 			: '';
 	}
 	wp_enqueue_script( 'sportstatsapi-embed' );
@@ -344,7 +359,7 @@ function sportstatsapi_register_blocks() {
 		) . ';',
 		'before'
 	);
-	wp_set_script_translations( 'sportstatsapi-editor', 'sportstatsapi-widgets' );
+	wp_set_script_translations( 'sportstatsapi-editor', 'live-scores-league-tables' );
 
 	foreach ( array_keys( sportstatsapi_widgets() ) as $slug ) {
 		register_block_type(
@@ -429,7 +444,7 @@ function sportstatsapi_fallback( array $attrs ) {
 function sportstatsapi_fallback_html( array $d ) {
 	$out = '';
 	if ( ! empty( $d['table']['rows'] ) ) {
-		$out .= '<table class="sportstatsapi-fallback"><thead><tr><th>#</th><th>' . esc_html__( 'Team', 'sportstatsapi-widgets' ) . '</th><th>' . esc_html__( 'P', 'sportstatsapi-widgets' ) . '</th><th>' . esc_html__( 'Pts', 'sportstatsapi-widgets' ) . '</th></tr></thead><tbody>';
+		$out .= '<table class="sportstatsapi-fallback"><thead><tr><th>#</th><th>' . esc_html__( 'Team', 'live-scores-league-tables' ) . '</th><th>' . esc_html__( 'P', 'live-scores-league-tables' ) . '</th><th>' . esc_html__( 'Pts', 'live-scores-league-tables' ) . '</th></tr></thead><tbody>';
 		foreach ( $d['table']['rows'] as $r ) {
 			$out .= '<tr><td>' . (int) $r['pos'] . '</td><td>' . esc_html( $r['team'] ) . '</td><td>' . (int) $r['played'] . '</td><td>' . (int) $r['points'] . '</td></tr>';
 		}
@@ -457,7 +472,7 @@ function sportstatsapi_fallback_html( array $d ) {
 		$out .= '</ul>';
 	}
 	if ( '' !== $out && ! empty( $d['branding'] ) ) {
-		$out .= '<p><a href="' . esc_url( SPORTSTATSAPI_SITE . '/' ) . '">' . esc_html__( 'Data by SportStatsAPI', 'sportstatsapi-widgets' ) . '</a></p>';
+		$out .= '<p><a href="' . esc_url( SPORTSTATSAPI_SITE . '/' ) . '">' . esc_html__( 'Data by SportStatsAPI', 'live-scores-league-tables' ) . '</a></p>';
 	}
 	return $out;
 }
