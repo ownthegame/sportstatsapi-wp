@@ -3,15 +3,13 @@
 	"apiVersion": 3,
 	"name": "sportstatsapi/ticker",
 	"title": "Results ticker",
-	"category": "widgets",
-	"icon": "editor-insertmore",
+	"category": "sportstatsapi",
 	"description": "A compact strip of live scores and results.",
 	"keywords": [
 		"sportstatsapi",
 		"sport",
 		"ticker",
-		"live",
-		"results"
+		"free"
 	],
 	"textdomain": "live-scores-league-tables",
 	"attributes": {
@@ -67,7 +65,39 @@
 			"type": "string",
 			"default": ""
 		},
+		"leagues": {
+			"type": "string",
+			"default": ""
+		},
+		"teams": {
+			"type": "string",
+			"default": ""
+		},
+		"stat": {
+			"type": "string",
+			"default": ""
+		},
+		"match": {
+			"type": "string",
+			"default": ""
+		},
+		"player": {
+			"type": "string",
+			"default": ""
+		},
+		"tournament": {
+			"type": "string",
+			"default": ""
+		},
+		"style": {
+			"type": "string",
+			"default": ""
+		},
 		"font": {
+			"type": "boolean",
+			"default": false
+		},
+		"langs": {
 			"type": "boolean",
 			"default": false
 		}

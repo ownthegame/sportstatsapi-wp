@@ -3,15 +3,13 @@
 	"apiVersion": 3,
 	"name": "sportstatsapi/table",
 	"title": "League table",
-	"category": "widgets",
-	"icon": "editor-table",
+	"category": "sportstatsapi",
 	"description": "Standings of a league, with form and zones.",
 	"keywords": [
 		"sportstatsapi",
 		"sport",
 		"table",
-		"standings",
-		"league"
+		"free"
 	],
 	"textdomain": "live-scores-league-tables",
 	"attributes": {
@@ -67,7 +65,39 @@
 			"type": "string",
 			"default": ""
 		},
+		"leagues": {
+			"type": "string",
+			"default": ""
+		},
+		"teams": {
+			"type": "string",
+			"default": ""
+		},
+		"stat": {
+			"type": "string",
+			"default": ""
+		},
+		"match": {
+			"type": "string",
+			"default": ""
+		},
+		"player": {
+			"type": "string",
+			"default": ""
+		},
+		"tournament": {
+			"type": "string",
+			"default": ""
+		},
+		"style": {
+			"type": "string",
+			"default": ""
+		},
 		"font": {
+			"type": "boolean",
+			"default": false
+		},
+		"langs": {
 			"type": "boolean",
 			"default": false
 		}

@@ -3,15 +3,13 @@
 	"apiVersion": 3,
 	"name": "sportstatsapi/calendar",
 	"title": "Team calendar",
-	"category": "widgets",
-	"icon": "calendar",
-	"description": "A team's matches to add to the visitor's calendar (.ics subscription).",
+	"category": "sportstatsapi",
+	"description": "A team's matches for visitors to add to their calendar (.ics).",
 	"keywords": [
 		"sportstatsapi",
 		"sport",
 		"calendar",
-		"ics",
-		"schedule"
+		"free"
 	],
 	"textdomain": "live-scores-league-tables",
 	"attributes": {
@@ -67,7 +65,39 @@
 			"type": "string",
 			"default": ""
 		},
+		"leagues": {
+			"type": "string",
+			"default": ""
+		},
+		"teams": {
+			"type": "string",
+			"default": ""
+		},
+		"stat": {
+			"type": "string",
+			"default": ""
+		},
+		"match": {
+			"type": "string",
+			"default": ""
+		},
+		"player": {
+			"type": "string",
+			"default": ""
+		},
+		"tournament": {
+			"type": "string",
+			"default": ""
+		},
+		"style": {
+			"type": "string",
+			"default": ""
+		},
 		"font": {
+			"type": "boolean",
+			"default": false
+		},
+		"langs": {
 			"type": "boolean",
 			"default": false
 		}

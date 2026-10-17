@@ -14,7 +14,9 @@ Live scores, league tables and fixtures for football, soccer, NBA, NFL and more:
 
 Add live sports data to your site in a few clicks. Pick a widget block, type a competition, and the editor shows the real widget with live data.
 
-Widgets:
+All 19 SportStatsAPI widgets, each a block (in the SportStatsAPI group of the inserter) and a shortcode.
+
+Free (with the free key from Connect):
 
 * League table: standings with form and zones, one team highlighted if you like.
 * Live scores: the current round, updated every 30 seconds.
@@ -22,9 +24,10 @@ Widgets:
 * Results ticker: a compact strip of live scores and results.
 * Next match: a team's next match with a countdown.
 * Team calendar: a team's matches, for visitors to add to their calendar.
-* Team form: a team's form and statistics (needs a paid plan).
 
-Free: connect your site once (Settings → SportStatsAPI → Connect) and get a free key: the first six widgets for the free competitions (Premier League, Bundesliga, LaLiga, Serie A, Ligue 1, MLS, NBA, NHL, MLB, NFL, EuroLeague, the Champions League and more), 50,000 views a month. A paid key opens about 3,000 competitions, every widget, your accent colour and no credit link. Until the site is connected, widgets show only in the editor preview.
+With a paid plan: match centre, match facts, match preview, head to head, box score, team form, club season, squad, injuries and suspensions, season race, top players, player card and tennis.
+
+Connect your site once (Settings → SportStatsAPI → Connect) to get the free key: the six free widgets for the free competitions (Premier League, Bundesliga, LaLiga, Serie A, Ligue 1, MLS, NBA, NHL, MLB, NFL, EuroLeague, the Champions League and more), 50,000 views a month. A paid key opens every widget, about 3,000 competitions, your accent colour and no credit link. Until the site is connected, widgets show only in the editor preview.
 
 Light, dark or automatic theme, in English, German, Spanish, Italian or French.
 
@@ -32,7 +35,7 @@ Every widget is also a shortcode:
 
 `[sportstatsapi widget="table" competition="england--premier-league" team="arsenal" theme="dark" lang="de"]`
 
-Shortcode options: `widget` (table, scores, fixtures, ticker, next-match, calendar, team-form), `competition` (the competition key, as on sportstatsapi.com), `team` (a team's name slug, e.g. arsenal or manchester-city: highlights the team in the table and scores, filters fixtures, picks the team of next match, calendar and team form), `theme` (light, dark, auto), `lang` (en, de, es, it, fr), `accent` (#RRGGBB, paid), `rows` (table), `size` (table: compact, standard, full), `view` (fixtures: round, date), `country` (fixtures and next match: TV channels), `round` (scores), `font="inherit"` (your theme's font), `radius` (0–20, corners).
+Shortcode options: `widget` (table, scores, fixtures, ticker, next-match, calendar, match-centre, match-facts, preview, head-to-head, box-score, team-form, club-season, squad, injuries, race, top-players, player, tennis), `competition` (the competition key, as on sportstatsapi.com), `team` (a team's name slug, e.g. arsenal or manchester-city: highlights the team in the table and scores, filters fixtures, picks the team of next match, calendar and team form), `theme` (light, dark, auto), `lang` (en, de, es, it, fr), `accent` (#RRGGBB, paid), `rows` (table), `size` (table: compact, standard, full), `view` (fixtures: round, date), `country` (fixtures and next match: TV channels), `round` (scores), `match` (match widgets: a match code or page path), `stat` (top players: goals, assists, cards, rating), `teams` (season race: names, comma separated), `player` (player card, tennis), `tournament` (tennis), `leagues` (ticker: more competitions), `style="one"` and `langs="true"` (match facts), `font="inherit"` (your theme's font), `radius` (0–20, corners).
 
 == External services ==
 
@@ -77,8 +80,9 @@ The widget script loads once, asynchronously, only on pages with a widget, and w
 3. Live scores and fixtures on a page.
 4. Next match and results ticker.
 5. Settings → SportStatsAPI with Connect.
+6. All 19 widgets in the SportStatsAPI group of the block inserter.
 
 == Changelog ==
 
 = 0.1.0 =
-* First version: seven widgets as blocks and shortcodes, Connect, settings, optional server fallback.
+* First version: all 19 widgets as blocks and shortcodes, Connect, settings, optional server fallback.

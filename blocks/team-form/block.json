@@ -3,15 +3,13 @@
 	"apiVersion": 3,
 	"name": "sportstatsapi/team-form",
 	"title": "Team form (paid plan)",
-	"category": "widgets",
-	"icon": "chart-bar",
+	"category": "sportstatsapi",
 	"description": "A team's form and statistics. Needs a paid SportStatsAPI plan.",
 	"keywords": [
 		"sportstatsapi",
 		"sport",
-		"form",
-		"stats",
-		"team"
+		"team form",
+		"paid"
 	],
 	"textdomain": "live-scores-league-tables",
 	"attributes": {
@@ -67,7 +65,39 @@
 			"type": "string",
 			"default": ""
 		},
+		"leagues": {
+			"type": "string",
+			"default": ""
+		},
+		"teams": {
+			"type": "string",
+			"default": ""
+		},
+		"stat": {
+			"type": "string",
+			"default": ""
+		},
+		"match": {
+			"type": "string",
+			"default": ""
+		},
+		"player": {
+			"type": "string",
+			"default": ""
+		},
+		"tournament": {
+			"type": "string",
+			"default": ""
+		},
+		"style": {
+			"type": "string",
+			"default": ""
+		},
 		"font": {
+			"type": "boolean",
+			"default": false
+		},
+		"langs": {
 			"type": "boolean",
 			"default": false
 		}

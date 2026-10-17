@@ -15,6 +15,10 @@
 	var c = wp.components;
 	var D = 'live-scores-league-tables';
 
+	// The SportStatsAPI icon (assets/icon.svg), drawn for the inserter.
+	var icon = { src: el( 'svg', { viewBox: '0 0 24 24', xmlns: 'http://www.w3.org/2000/svg' },
+		el( 'rect', { width: 24, height: 24, rx: 5, fill: '#2340F5' } ),
+		el( 'path', { d: 'M7 17v-5M12 17V7M17 17v-8', stroke: '#FFFFFF', strokeWidth: 2.4, strokeLinecap: 'round', fill: 'none' } ) ) };
 	var comps = {}; // competition key: {key, name, country, sport, free}, as searched
 
 	// A team's name slug, as the embed script makes it: data-team takes it in every
@@ -37,7 +41,7 @@
 		var w = cfg.widgets[ slug ], d = cfg.defaults;
 		var out = { widget: w.kind, competition: a.competition, lang: a.lang || d.lang, theme: a.theme || d.theme, accent: a.accent || d.accent };
 		if ( w.team !== 'none' ) out.team = a.team;
-		w.options.forEach( function ( n ) { out[ n ] = a[ n ]; } );
+		w.options.forEach( function ( n ) { out[ n ] = n === 'langs' ? ( a.langs ? 'true' : '' ) : a[ n ]; } );
 		if ( a.font ) out.font = 'inherit';
 		if ( a.radius !== '' ) out.radius = a.radius;
 		if ( cfg.key ) out.key = cfg.key;
@@ -137,8 +141,16 @@
 		switch ( name ) {
 			case 'size': return sel( __( 'Size', D ), [ { value: '', label: __( 'Default', D ) }, { value: 'compact', label: __( 'Compact', D ) }, { value: 'standard', label: __( 'Standard', D ) }, { value: 'full', label: __( 'Full', D ) } ] );
 			case 'view': return sel( __( 'View', D ), [ { value: '', label: __( 'By round', D ) }, { value: 'date', label: __( 'By date', D ) } ] );
-			case 'rows': return txt( __( 'Rows', D ), 'number', __( 'Empty: the whole table.', D ) );
+			case 'rows': return txt( __( 'Rows', D ), 'number', __( 'Empty: the default.', D ) );
 			case 'round': return txt( __( 'Round', D ), 'number', __( 'Empty: the current round.', D ) );
+			case 'stat': return sel( __( 'Statistic', D ), [ { value: '', label: __( 'Goals', D ) }, { value: 'assists', label: __( 'Assists', D ) }, { value: 'cards', label: __( 'Cards', D ) }, { value: 'rating', label: __( 'Rating', D ) } ] );
+			case 'style': return sel( __( 'Style', D ), [ { value: '', label: __( 'List of facts', D ) }, { value: 'one', label: __( 'One big fact', D ) } ] );
+			case 'langs': return el( c.ToggleControl, { key: name, label: __( 'Language buttons', D ), checked: !! a.langs, onChange: function ( v ) { set( { langs: v } ); }, __nextHasNoMarginBottom: true } );
+			case 'match': return txt( __( 'Match', D ), 'text', __( 'A match code or its page path on sportstatsapi.com. Empty: the team’s live, next or last match.', D ) );
+			case 'teams': return txt( __( 'Teams', D ), 'text', __( 'Team names, comma separated. Empty: the leading teams.', D ) );
+			case 'leagues': return txt( __( 'More competitions', D ), 'text', __( 'Competition keys, comma separated (paid plan).', D ) );
+			case 'player': return txt( __( 'Player', D ), 'text', __( 'The player’s name as the website writes it, e.g. joao-pedro.', D ) );
+			case 'tournament': return txt( __( 'Tournament', D ), 'text', __( 'A tournament for the live tab, e.g. us-open.', D ) );
 			case 'country': return txt( __( 'TV country', D ), 'text', __( 'Shows TV channels in this country, e.g. United Kingdom.', D ) );
 		}
 		return null;
@@ -161,6 +173,12 @@
 			if ( w.team === 'required' && ! a.team ) {
 				notices.push( __( 'Choose a team in the block settings.', D ) );
 			}
+			if ( w.options.indexOf( 'match' ) >= 0 && ! a.team && ! a.match ) {
+				notices.push( __( 'Choose a team or enter a match in the block settings.', D ) );
+			}
+			if ( w.options.indexOf( 'player' ) >= 0 && slug === 'player' && ! a.player ) {
+				notices.push( __( 'Enter a player in the block settings.', D ) );
+			}
 			var inspector = el( be.InspectorControls, null,
 				el( c.PanelBody, { title: __( 'Widget', D ) },
 					row( el( CompetitionPicker, props ), 'c' ),
@@ -175,7 +193,7 @@
 				)
 			);
 			var body = ! a.competition
-				? el( c.Placeholder, { icon: 'chart-area', label: wp.blocks.getBlockType( props.name ).title, instructions: __( 'Choose a competition.', D ) }, el( 'div', { style: { width: '100%', maxWidth: '420px' } }, el( CompetitionPicker, props ) ) )
+				? el( c.Placeholder, { icon: icon.src, label: wp.blocks.getBlockType( props.name ).title, instructions: __( 'Choose a competition.', D ) }, el( 'div', { style: { width: '100%', maxWidth: '420px' } }, el( CompetitionPicker, props ) ) )
 				: el( 'div', null,
 					connect,
 					notices.map( function ( t, i ) { return el( c.Notice, { key: i, status: 'warning', isDismissible: false }, t ); } ),
@@ -184,7 +202,10 @@
 		};
 	}
 
+	if ( wp.blocks.updateCategory ) {
+		wp.blocks.updateCategory( 'sportstatsapi', { icon: icon.src } );
+	}
 	Object.keys( cfg.widgets ).forEach( function ( slug ) {
-		wp.blocks.registerBlockType( 'sportstatsapi/' + slug, { edit: makeEdit( slug ), save: function () { return null; } } );
+		wp.blocks.registerBlockType( 'sportstatsapi/' + slug, { icon: icon, edit: makeEdit( slug ), save: function () { return null; } } );
 	} );
 }( window.wp, window.sportstatsapiEditor ) );
