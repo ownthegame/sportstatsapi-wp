@@ -238,7 +238,7 @@ function sportstatsapi_settings_page() {
 	);
 	?>
 	<div class="wrap">
-		<h1 style="display:flex;align-items:center;gap:10px"><img src="<?php echo esc_url( SPORTSTATSAPI_URL . 'assets/icon.svg' ); ?>" width="32" height="32" alt="" style="border-radius:7px"> <?php esc_html_e( 'SportStatsAPI Widgets', 'live-scores-league-tables' ); ?></h1>
+		<h1 style="display:flex;align-items:center;gap:10px"><img src="<?php echo esc_url( SPORTSTATSAPI_URL . 'assets/icon.svg' ); ?>" width="32" height="32" alt="" style="border-radius:7px"> <?php esc_html_e( 'Live Scores & League Tables', 'live-scores-league-tables' ); ?></h1>
 		<?php if ( 'connected' === $result ) : ?>
 			<div class="notice notice-success"><p><?php esc_html_e( 'Connected: your widget key is saved.', 'live-scores-league-tables' ); ?></p></div>
 		<?php elseif ( 'denied' === $result ) : ?>

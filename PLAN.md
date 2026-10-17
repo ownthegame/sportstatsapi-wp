@@ -112,8 +112,8 @@ Audit: `free_widget_key.create` with `via: wordpress` and the site host.
 - [x] Text domain = slug; `load_plugin_textdomain` not needed (WP 4.6+ loads it)
 - [x] uninstall.php removes options and transients
 - [x] Plugin Check plugin: no errors (on the .distignore'd build)
-- [ ] Banner and icon in `.wordpress-org/` (designer)
-- [ ] Slug check: `live-scores-league-tables` free on wordpress.org
+- [x] Banner and icon in `.wordpress-org/` (designer)
+- [x] Slug check: `live-scores-league-tables` not taken on wordpress.org (2026-10-17); name "Live Scores & League Tables", account `modulout`
 - [x] Screenshots 1200x900 in `.wordpress-org/` (made from the test site)
 - [ ] Submit, answer the review (usually 1–4 weeks), then SVN deploy (GitHub Action later)
 

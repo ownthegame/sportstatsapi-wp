@@ -1,5 +1,5 @@
-=== Live Scores & League Tables – SportStatsAPI Widgets ===
-Contributors: sportstatsapi
+=== Live Scores & League Tables ===
+Contributors: modulout
 Tags: live scores, football, soccer, league table, fixtures
 Requires at least: 6.3
 Tested up to: 7.1
@@ -25,9 +25,19 @@ Free (with the free key from Connect):
 * Next match: a team's next match with a countdown.
 * Team calendar: a team's matches, for visitors to add to their calendar.
 
-With a paid plan: match centre, match facts, match preview, head to head, box score, team form, club season, squad, injuries and suspensions, season race, top players, player card and tennis.
+With a paid SportStatsAPI plan: match centre, match facts, match preview, head to head, box score, team form, club season, squad, injuries and suspensions, season race, top players, player card and tennis.
 
 Connect your site once (Settings → SportStatsAPI → Connect) to get the free key: the six free widgets for the free competitions (Premier League, Bundesliga, LaLiga, Serie A, Ligue 1, MLS, NBA, NHL, MLB, NFL, EuroLeague, the Champions League and more), 50,000 views a month. A paid key opens every widget, about 3,000 competitions, your accent colour and no credit link. Until the site is connected, widgets show only in the editor preview.
+
+= Free and paid =
+
+The plugin is free and complete: all 19 blocks and the shortcode are in it, with no code that is switched off or unlocked by payment. The widgets are drawn and their data served by the SportStatsAPI service (https://sportstatsapi.com), and the service decides what a key may show:
+
+* No key: nothing on your site; the editor shows a preview and a "Connect" notice.
+* Free key (Connect, no payment): the six free widgets above, for the free competitions, 50,000 views a month, with a small "Data by SportStatsAPI" credit link.
+* Paid key (a SportStatsAPI plan, see https://sportstatsapi.com/pricing/): all 19 widgets, about 3,000 competitions, your accent colour, no credit link.
+
+With a free key the 13 paid blocks are marked "(paid plan)" in the inserter, show a notice in the editor, and the service answers "Widget not available" for them. You can use the plugin forever with the free key.
 
 Light, dark or automatic theme, in English, German, Spanish, Italian or French.
 
@@ -41,11 +51,12 @@ Shortcode options: `widget` (table, scores, fixtures, ticker, next-match, calend
 
 This plugin shows data from SportStatsAPI (https://sportstatsapi.com), a sports data service. Without it the widgets cannot work.
 
+* In the block editor, the preview of a block is the real widget: the editor loads the same script and data from api.sportstatsapi.com as visitors do (below), with your widget key if one is saved.
 * Visitors' browsers load the widget script from https://api.sportstatsapi.com/api/widget/v1/embed.js on pages with a widget, and the script loads each widget's data, team logos and fonts from api.sportstatsapi.com and img.sportstatsapi.com. Sent: the visitor's IP address and browser details (as with any web request), the page's address (Origin), the widget's settings (widget, competition, team, language) and your widget key.
 * In the block editor, when you type in the competition search, your server asks api.sportstatsapi.com for matching competitions (https://api.sportstatsapi.com/api/widget/v1/competitions; until that is available, the list at https://sportstatsapi.com/widgets/competitions.json), and for the teams of the chosen competition. Sent: the text typed, the competition chosen. Kept in a cache for 10 minutes (searches) and 12 hours (lists, teams).
-* When you save a widget key, and once a day after that, your server asks api.sportstatsapi.com whether the key works. Sent: the key and your site's address. If the key is refused, widgets fall back to free mode.
+* When you save a widget key, and once a day after that, your server asks api.sportstatsapi.com whether the key works. Sent: the key and your site's address. If the key is refused, widgets are hidden and admins see a notice.
 * Only if you turn on "Search engines" in Settings → SportStatsAPI: your server loads each widget's data from api.sportstatsapi.com (sent: the widget's settings, and a paid key with your site's address) and keeps it 10 minutes.
-* On Settings → SportStatsAPI, your server checks at most once an hour whether account.sportstatsapi.com offers Connect (nothing is sent but the request). When you click "Connect with SportStatsAPI", your browser goes to account.sportstatsapi.com with your site's address and the settings page address, and comes back with your widget key.
+* On Settings → SportStatsAPI, your server checks at most once an hour whether account.sportstatsapi.com offers Connect (nothing is sent but the request). When you click "Connect with SportStatsAPI", your browser goes to account.sportstatsapi.com with your site's address and the settings page address; there you sign in or create a free account with your email address, and your browser comes back with your widget key.
 
 The plugin itself sets no cookies and does no tracking.
 
@@ -64,6 +75,14 @@ Cookies: https://sportstatsapi.com/legal/cookies/
 = Do I need an account? =
 
 A free one: Connect creates it with your email address and brings the free key back (50,000 views a month). Without a key, widgets show only in the editor. A paid key opens every competition and widget.
+
+= What is free and what needs a paid plan? =
+
+Free, with the free key from Connect: league table, live scores, fixtures, results ticker, next match and team calendar, for the free competitions (50,000 views a month). Every other widget, every other competition, the accent colour and removing the credit link need a paid SportStatsAPI plan (https://sportstatsapi.com/pricing/). The plugin is the same in both cases: the service decides what a key shows.
+
+= Does the plugin send data anywhere? =
+
+Only to SportStatsAPI, the service that draws the widgets. See "External services" below for what is sent and when. The plugin sets no cookies and does no tracking.
 
 = Where do I find competition keys and team names? =
 

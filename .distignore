@@ -10,3 +10,5 @@ composer.lock
 phpcs.xml.dist
 PLAN.md
 README.md
+/bin
+/build

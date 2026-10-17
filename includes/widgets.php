@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * The widgets, free ones first (GoalGate's 19 widget kinds). Paid ones need a
+ * The widgets, free ones first (the service's 19 widget kinds). Paid ones need a
  * paid plan key; the match widgets take a team (its live, next or last match) or
  * a match code.
  *
