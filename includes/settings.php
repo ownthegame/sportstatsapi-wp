@@ -189,10 +189,12 @@ function sportstatsapi_connect_finish() {
 add_action( 'admin_init', 'sportstatsapi_connect_finish' );
 
 /**
- * A notice on admin screens while the API refuses the saved key.
+ * A dismissible notice on the dashboard, the Plugins screen and the settings page
+ * while the API refuses the saved key.
  */
 function sportstatsapi_key_notice() {
-	if ( ! current_user_can( 'manage_options' ) ) {
+	$screen = get_current_screen();
+	if ( ! current_user_can( 'manage_options' ) || ! $screen || ! in_array( $screen->id, array( 'dashboard', 'plugins', 'settings_page_sportstatsapi' ), true ) ) {
 		return;
 	}
 	$key   = sportstatsapi_clean( 'key', sportstatsapi_settings()['key'] );
@@ -204,7 +206,7 @@ function sportstatsapi_key_notice() {
 		? __( 'SportStatsAPI: your key isn’t set up for this website, so widgets are hidden on your site. Add this site on your account page, or connect again.', 'live-scores-league-tables' )
 		: __( 'SportStatsAPI: your key isn’t recognised, so widgets are hidden on your site. Connect again or paste a working key.', 'live-scores-league-tables' );
 	printf(
-		'<div class="notice notice-warning"><p>%s <a href="%s">%s</a></p></div>',
+		'<div class="notice notice-warning is-dismissible"><p>%s <a href="%s">%s</a></p></div>',
 		esc_html( $text ),
 		esc_url( sportstatsapi_connect_return() ),
 		esc_html__( 'Settings', 'live-scores-league-tables' )

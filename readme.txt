@@ -33,8 +33,8 @@ Connect your site once (Settings → SportStatsAPI → Connect) to get the free 
 
 The plugin is free and complete: all 19 blocks and the shortcode are in it, with no code that is switched off or unlocked by payment. The widgets are drawn and their data served by the SportStatsAPI service (https://sportstatsapi.com), and the service decides what a key may show:
 
-* No key: nothing on your site; the editor shows a preview and a "Connect" notice.
-* Free key (Connect, no payment): the six free widgets above, for the free competitions, 50,000 views a month, with a small "Data by SportStatsAPI" credit link.
+* No key: nothing on your site; the editor shows a preview and a "Connect" notice. Every widget needs a key, the free ones too: the free key identifies your site and counts its 50,000 free views a month, so the service needs it.
+* Free key (Connect, no payment): the six free widgets above, for the free competitions, 50,000 views a month. As part of the free plan's terms (https://sportstatsapi.com/legal/terms/) the SportStatsAPI script draws a small "Data by SportStatsAPI" credit link inside each widget; the plugin itself adds no links or credits to your site.
 * Paid key (a SportStatsAPI plan, see https://sportstatsapi.com/pricing/): all 19 widgets, about 3,000 competitions, your accent colour, no credit link.
 
 With a free key the 13 paid blocks are marked "(paid plan)" in the inserter, show a notice in the editor, and the service answers "Widget not available" for them. You can use the plugin forever with the free key.
@@ -58,7 +58,7 @@ This plugin shows data from SportStatsAPI (https://sportstatsapi.com), a sports 
 * Only if you turn on "Search engines" in Settings → SportStatsAPI: your server loads each widget's data from api.sportstatsapi.com (sent: the widget's settings, and a paid key with your site's address) and keeps it 10 minutes.
 * On Settings → SportStatsAPI, your server checks at most once an hour whether account.sportstatsapi.com offers Connect (nothing is sent but the request). When you click "Connect with SportStatsAPI", your browser goes to account.sportstatsapi.com with your site's address and the settings page address; there you sign in or create a free account with your email address, and your browser comes back with your widget key.
 
-The plugin itself sets no cookies and does no tracking.
+The plugin itself sets no cookies, does no tracking and adds no links or credits to your pages. With a free key, the SportStatsAPI script draws a credit link inside each widget, as the free plan's terms require (https://sportstatsapi.com/legal/terms/); a paid key removes it.
 
 SportStatsAPI terms: https://sportstatsapi.com/legal/terms/
 Privacy policy: https://sportstatsapi.com/legal/privacy/

@@ -425,8 +425,10 @@ function sportstatsapi_fallback( array $attrs ) {
 			$query[ $name ] = $attrs[ $name ];
 		}
 	}
-	// Only a paid key goes server-side (with the site as Origin): free widgets need none,
-	// and a free key's views are counted in the browser.
+	// Every widget needs a key (checked in sportstatsapi_render). Only a paid key goes
+	// server-side (with the site as Origin): a free key identifies the site and its
+	// 50,000 free views a month are counted by the script in the visitor's browser,
+	// so the server fetch must not count them again.
 	$headers = array();
 	if ( isset( $attrs['key'] ) && 0 === strpos( $attrs['key'], 'wk_live_' ) ) {
 		$query['key'] = $attrs['key'];
@@ -464,37 +466,44 @@ function sportstatsapi_fallback( array $attrs ) {
  * @return string
  */
 function sportstatsapi_fallback_html( array $d ) {
-	$out = '';
-	if ( ! empty( $d['table']['rows'] ) ) {
-		$out .= '<table class="sportstatsapi-fallback"><thead><tr><th>#</th><th>' . esc_html__( 'Team', 'live-scores-league-tables' ) . '</th><th>' . esc_html__( 'P', 'live-scores-league-tables' ) . '</th><th>' . esc_html__( 'Pts', 'live-scores-league-tables' ) . '</th></tr></thead><tbody>';
-		foreach ( $d['table']['rows'] as $r ) {
-			$out .= '<tr><td>' . (int) $r['pos'] . '</td><td>' . esc_html( $r['team'] ) . '</td><td>' . (int) $r['played'] . '</td><td>' . (int) $r['points'] . '</td></tr>';
+	$out  = '';
+	$rows = isset( $d['table']['rows'] ) && is_array( $d['table']['rows'] ) ? $d['table']['rows'] : array();
+	$body = '';
+	foreach ( $rows as $r ) {
+		if ( ! is_array( $r ) || ! isset( $r['pos'], $r['team'], $r['played'], $r['points'] ) || ! is_scalar( $r['team'] ) ) {
+			continue;
 		}
-		$out .= '</tbody></table>';
+		$body .= '<tr><td>' . (int) $r['pos'] . '</td><td>' . esc_html( (string) $r['team'] ) . '</td><td>' . (int) $r['played'] . '</td><td>' . (int) $r['points'] . '</td></tr>';
 	}
-	$matches = isset( $d['matches'] ) ? $d['matches'] : array();
-	if ( ! empty( $d['groups'] ) ) {
+	if ( '' !== $body ) {
+		$out .= '<table class="sportstatsapi-fallback"><thead><tr><th>#</th><th>' . esc_html__( 'Team', 'live-scores-league-tables' ) . '</th><th>' . esc_html__( 'P', 'live-scores-league-tables' ) . '</th><th>' . esc_html__( 'Pts', 'live-scores-league-tables' ) . '</th></tr></thead><tbody>' . $body . '</tbody></table>';
+	}
+	$matches = isset( $d['matches'] ) && is_array( $d['matches'] ) ? $d['matches'] : array();
+	if ( ! empty( $d['groups'] ) && is_array( $d['groups'] ) ) {
 		foreach ( $d['groups'] as $g ) {
-			$matches = array_merge( $matches, isset( $g['matches'] ) ? $g['matches'] : array() );
+			if ( isset( $g['matches'] ) && is_array( $g['matches'] ) ) {
+				$matches = array_merge( $matches, $g['matches'] );
+			}
 		}
 	}
 	if ( ! empty( $d['club']['next'] ) ) {
 		$matches[] = $d['club']['next'];
 	}
-	if ( $matches ) {
-		$out .= '<ul class="sportstatsapi-fallback">';
-		foreach ( $matches as $m ) {
-			$score = ( ! empty( $m['played'] ) || ! empty( $m['live'] ) ) && isset( $m['home_score'], $m['away_score'] )
-				? $m['home_score'] . '–' . $m['away_score']
-				: 'v';
-			$when  = empty( $m['kickoff'] ) ? '' : wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $m['kickoff'] ) );
-			$text  = esc_html( $m['home'] . ' ' . $score . ' ' . $m['away'] ) . ( $when ? ' <small>' . esc_html( $when ) . '</small>' : '' );
-			$out  .= '<li>' . ( empty( $m['url'] ) || '/' !== $m['url'][0] ? $text : '<a href="' . esc_url( SPORTSTATSAPI_SITE . $m['url'] ) . '">' . $text . '</a>' ) . '</li>';
+	$items = '';
+	foreach ( $matches as $m ) {
+		if ( ! is_array( $m ) || ! isset( $m['home'], $m['away'] ) || ! is_scalar( $m['home'] ) || ! is_scalar( $m['away'] ) ) {
+			continue;
 		}
-		$out .= '</ul>';
+		$score = ( ! empty( $m['played'] ) || ! empty( $m['live'] ) ) && isset( $m['home_score'], $m['away_score'] ) && is_scalar( $m['home_score'] ) && is_scalar( $m['away_score'] )
+			? $m['home_score'] . '–' . $m['away_score']
+			: 'v';
+		$time  = ! empty( $m['kickoff'] ) && is_string( $m['kickoff'] ) ? strtotime( $m['kickoff'] ) : false;
+		$when  = false === $time ? '' : wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $time );
+		// Plain text: the fallback adds no links.
+		$items .= '<li>' . esc_html( $m['home'] . ' ' . $score . ' ' . $m['away'] ) . ( $when ? ' <small>' . esc_html( $when ) . '</small>' : '' ) . '</li>';
 	}
-	if ( '' !== $out && ! empty( $d['branding'] ) ) {
-		$out .= '<p><a href="' . esc_url( SPORTSTATSAPI_SITE . '/' ) . '">' . esc_html__( 'Data by SportStatsAPI', 'live-scores-league-tables' ) . '</a></p>';
+	if ( '' !== $items ) {
+		$out .= '<ul class="sportstatsapi-fallback">' . $items . '</ul>';
 	}
 	return $out;
 }

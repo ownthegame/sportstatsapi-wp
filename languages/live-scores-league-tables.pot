@@ -3,19 +3,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Live Scores & League Tables 0.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/live-scores-league-tables\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-17T12:52:59+00:00\n"
+"POT-Creation-Date: 2026-10-17T12:58:49+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: live-scores-league-tables\n"
 
 #. Plugin Name of the plugin
-#: includes/settings.php:241
+#: includes/settings.php:243
 msgid "Live Scores & League Tables"
 msgstr ""
 
@@ -45,7 +45,7 @@ msgid "Unknown competition."
 msgstr ""
 
 #: includes/settings.php:102
-#: includes/settings.php:210
+#: includes/settings.php:212
 msgid "Settings"
 msgstr ""
 
@@ -61,100 +61,105 @@ msgstr ""
 msgid "Connect is not available right now: paste your key instead."
 msgstr ""
 
-#: includes/settings.php:204
+#: includes/settings.php:206
 msgid "SportStatsAPI: your key isn’t set up for this website, so widgets are hidden on your site. Add this site on your account page, or connect again."
 msgstr ""
 
-#: includes/settings.php:205
+#: includes/settings.php:207
 msgid "SportStatsAPI: your key isn’t recognised, so widgets are hidden on your site. Connect again or paste a working key."
 msgstr ""
 
-#: includes/settings.php:227
+#: includes/settings.php:229
 msgid "The page’s language"
 msgstr ""
 
-#: includes/settings.php:235
+#: includes/settings.php:237
 msgid "Auto (the visitor’s setting)"
 msgstr ""
 
-#: includes/settings.php:236
+#: includes/settings.php:238
+#: assets/editor.js:188
 msgid "Light"
 msgstr ""
 
-#: includes/settings.php:237
+#: includes/settings.php:239
+#: assets/editor.js:188
 msgid "Dark"
 msgstr ""
 
-#: includes/settings.php:243
+#: includes/settings.php:245
 msgid "Connected: your widget key is saved."
 msgstr ""
 
-#: includes/settings.php:245
+#: includes/settings.php:247
 msgid "Connect was cancelled. Nothing changed."
 msgstr ""
 
-#: includes/settings.php:247
+#: includes/settings.php:249
 msgid "Connect did not finish. Try again, or paste your key."
 msgstr ""
 
-#: includes/settings.php:251
+#: includes/settings.php:253
 msgid "Add widgets with the SportStatsAPI blocks in the editor, or with a shortcode:"
 msgstr ""
 
-#: includes/settings.php:255
+#: includes/settings.php:257
 msgid "Widgets show on your site once it is connected: Connect creates a free SportStatsAPI key (live scores, tables, fixtures, ticker, next match and calendar for the free competitions, 50,000 views a month). A paid key opens all 19 widgets and every competition, and removes the credit link."
 msgstr ""
 
-#: includes/settings.php:263
+#: includes/settings.php:265
 msgid "Connect with SportStatsAPI"
 msgstr ""
 
-#: includes/settings.php:264
+#: includes/settings.php:266
 msgid "Opens your SportStatsAPI account and brings this site’s free widget key back here."
 msgstr ""
 
-#: includes/settings.php:268
+#: includes/settings.php:270
 msgid "Connect is not available right now: paste the widget key from your SportStatsAPI account below."
 msgstr ""
 
-#: includes/settings.php:275
+#: includes/settings.php:277
 msgid "Widget key"
 msgstr ""
 
 #. translators: %s: link to the SportStatsAPI account page
-#: includes/settings.php:282
+#: includes/settings.php:284
 msgid "Required to show widgets. Connect fills it in, or copy it from your %s."
 msgstr ""
 
-#: includes/settings.php:283
+#: includes/settings.php:285
 msgid "account page"
 msgstr ""
 
-#: includes/settings.php:290
+#: includes/settings.php:292
+#: assets/editor.js:188
 msgid "Theme"
 msgstr ""
 
-#: includes/settings.php:300
+#: includes/settings.php:302
+#: assets/editor.js:190
 msgid "Accent colour"
 msgstr ""
 
-#: includes/settings.php:303
+#: includes/settings.php:305
 msgid "Your brand colour as #RRGGBB. Applies with a paid key."
 msgstr ""
 
-#: includes/settings.php:307
+#: includes/settings.php:309
+#: assets/editor.js:189
 msgid "Language"
 msgstr ""
 
-#: includes/settings.php:317
+#: includes/settings.php:319
 msgid "Search engines"
 msgstr ""
 
-#: includes/settings.php:321
+#: includes/settings.php:323
 msgid "Also print the data as plain HTML for visitors without JavaScript"
 msgstr ""
 
-#: includes/settings.php:323
+#: includes/settings.php:325
 msgid "Your server loads each widget’s data from api.sportstatsapi.com and keeps it 10 minutes."
 msgstr ""
 
@@ -242,20 +247,234 @@ msgstr ""
 msgid "Connect SportStatsAPI to show this widget"
 msgstr ""
 
-#: includes/widgets.php:469
+#: includes/widgets.php:479
+#: assets/editor.js:121
 msgid "Team"
 msgstr ""
 
-#: includes/widgets.php:469
+#: includes/widgets.php:479
 msgid "P"
 msgstr ""
 
-#: includes/widgets.php:469
+#: includes/widgets.php:479
 msgid "Pts"
 msgstr ""
 
-#: includes/widgets.php:497
-msgid "Data by SportStatsAPI"
+#: assets/editor.js:35
+msgid "paid"
+msgstr ""
+
+#: assets/editor.js:94
+msgid "Competition"
+msgstr ""
+
+#: assets/editor.js:95
+msgid "Type a league, cup or country."
+msgstr ""
+
+#: assets/editor.js:115
+msgid "Choose a team"
+msgstr ""
+
+#: assets/editor.js:115
+msgid "No team"
+msgstr ""
+
+#: assets/editor.js:122
+msgid "Loading teams…"
+msgstr ""
+
+#: assets/editor.js:122
+msgid "Optional: highlights or filters one team."
+msgstr ""
+
+#: assets/editor.js:141
+msgid "Size"
+msgstr ""
+
+#: assets/editor.js:141
+msgid "Default"
+msgstr ""
+
+#: assets/editor.js:141
+msgid "Compact"
+msgstr ""
+
+#: assets/editor.js:141
+msgid "Standard"
+msgstr ""
+
+#: assets/editor.js:141
+msgid "Full"
+msgstr ""
+
+#: assets/editor.js:142
+msgid "View"
+msgstr ""
+
+#: assets/editor.js:142
+msgid "By round"
+msgstr ""
+
+#: assets/editor.js:142
+msgid "By date"
+msgstr ""
+
+#: assets/editor.js:143
+msgid "Rows"
+msgstr ""
+
+#: assets/editor.js:143
+msgid "Empty: the default."
+msgstr ""
+
+#: assets/editor.js:144
+msgid "Round"
+msgstr ""
+
+#: assets/editor.js:144
+msgid "Empty: the current round."
+msgstr ""
+
+#: assets/editor.js:145
+msgid "Statistic"
+msgstr ""
+
+#: assets/editor.js:145
+msgid "Goals"
+msgstr ""
+
+#: assets/editor.js:145
+msgid "Assists"
+msgstr ""
+
+#: assets/editor.js:145
+msgid "Cards"
+msgstr ""
+
+#: assets/editor.js:145
+msgid "Rating"
+msgstr ""
+
+#: assets/editor.js:146
+msgid "Style"
+msgstr ""
+
+#: assets/editor.js:146
+msgid "List of facts"
+msgstr ""
+
+#: assets/editor.js:146
+msgid "One big fact"
+msgstr ""
+
+#: assets/editor.js:147
+msgid "Language buttons"
+msgstr ""
+
+#: assets/editor.js:148
+msgid "Match"
+msgstr ""
+
+#: assets/editor.js:148
+msgid "A match code or its page path on sportstatsapi.com. Empty: the team’s live, next or last match."
+msgstr ""
+
+#: assets/editor.js:149
+msgid "Teams"
+msgstr ""
+
+#: assets/editor.js:149
+msgid "Team names, comma separated. Empty: the leading teams."
+msgstr ""
+
+#: assets/editor.js:150
+msgid "More competitions"
+msgstr ""
+
+#: assets/editor.js:150
+msgid "Competition keys, comma separated (paid plan)."
+msgstr ""
+
+#: assets/editor.js:151
+msgid "Player"
+msgstr ""
+
+#: assets/editor.js:151
+msgid "The player’s name as the website writes it, e.g. joao-pedro."
+msgstr ""
+
+#: assets/editor.js:152
+msgid "Tournament"
+msgstr ""
+
+#: assets/editor.js:152
+msgid "A tournament for the live tab, e.g. us-open."
+msgstr ""
+
+#: assets/editor.js:153
+msgid "TV country"
+msgstr ""
+
+#: assets/editor.js:153
+msgid "Shows TV channels in this country, e.g. United Kingdom."
+msgstr ""
+
+#: assets/editor.js:167
+msgid "Connect to publish: visitors see this widget once SportStatsAPI is connected."
+msgstr ""
+
+#: assets/editor.js:168
+msgid "Settings → SportStatsAPI"
+msgstr ""
+
+#: assets/editor.js:170
+msgid "This widget needs a paid SportStatsAPI plan: with a free key it shows “Widget not available”."
+msgstr ""
+
+#: assets/editor.js:170
+msgid "This competition needs a paid plan key (Settings → SportStatsAPI)."
+msgstr ""
+
+#: assets/editor.js:173
+msgid "Choose a team in the block settings."
+msgstr ""
+
+#: assets/editor.js:176
+msgid "Choose a team or enter a match in the block settings."
+msgstr ""
+
+#: assets/editor.js:179
+msgid "Enter a player in the block settings."
+msgstr ""
+
+#: assets/editor.js:182
+msgid "Widget"
+msgstr ""
+
+#: assets/editor.js:187
+msgid "Look"
+msgstr ""
+
+#: assets/editor.js:188
+#: assets/editor.js:189
+msgid "Site default"
+msgstr ""
+
+#: assets/editor.js:188
+msgid "Auto"
+msgstr ""
+
+#: assets/editor.js:190
+msgid "#RRGGBB. Applies with a paid key."
+msgstr ""
+
+#: assets/editor.js:191
+msgid "Use the page’s font"
+msgstr ""
+
+#: assets/editor.js:195
+msgid "Choose a competition."
 msgstr ""
 
 #: blocks/box-score/block.json

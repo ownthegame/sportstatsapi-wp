@@ -13,7 +13,6 @@
 	var __ = wp.i18n.__;
 	var be = wp.blockEditor;
 	var c = wp.components;
-	var D = 'live-scores-league-tables';
 
 	// The SportStatsAPI icon (assets/icon.svg), drawn for the inserter.
 	var icon = { src: el( 'svg', { viewBox: '0 0 24 24', xmlns: 'http://www.w3.org/2000/svg' },
@@ -33,7 +32,7 @@
 	}
 
 	function compLabel( x ) {
-		return x.name + ( x.country ? ' · ' + x.country : '' ) + ( x.sport && x.sport.toLowerCase() !== 'soccer' ? ' · ' + x.sport : '' ) + ( x.free === false ? ' · ' + __( 'paid', D ) : '' );
+		return x.name + ( x.country ? ' · ' + x.country : '' ) + ( x.sport && x.sport.toLowerCase() !== 'soccer' ? ' · ' + x.sport : '' ) + ( x.free === false ? ' · ' + __( 'paid', 'live-scores-league-tables' ) : '' );
 	}
 
 	// The data-* attributes, as the PHP render builds them (includes/widgets.php).
@@ -92,8 +91,8 @@
 			options.unshift( { value: a.competition, label: a.competitionName || a.competition } );
 		}
 		return el( c.ComboboxControl, {
-			label: __( 'Competition', D ),
-			help: __( 'Type a league, cup or country.', D ),
+			label: __( 'Competition', 'live-scores-league-tables' ),
+			help: __( 'Type a league, cup or country.', 'live-scores-league-tables' ),
 			value: a.competition,
 			options: options,
 			onFilterValueChange: search,
@@ -113,14 +112,14 @@
 			wp.apiFetch( { path: '/sportstatsapi/v1/teams?competition=' + encodeURIComponent( a.competition ) } ).then( setTeams, function () { setTeams( [] ); } );
 		}, [ a.competition ] );
 		if ( ! a.competition ) return null;
-		var opts = [ { value: '', label: props.required ? __( 'Choose a team', D ) : __( 'No team', D ) } ];
+		var opts = [ { value: '', label: props.required ? __( 'Choose a team', 'live-scores-league-tables' ) : __( 'No team', 'live-scores-league-tables' ) } ];
 		( teams || [] ).forEach( function ( t ) { opts.push( { value: slug( t.name ), label: t.name } ); } );
 		if ( a.team && ! ( teams || [] ).some( function ( t ) { return slug( t.name ) === a.team; } ) ) {
 			opts.push( { value: a.team, label: a.teamName || a.team } );
 		}
 		return el( c.SelectControl, {
-			label: __( 'Team', D ),
-			help: teams === null ? __( 'Loading teams…', D ) : ( props.required ? '' : __( 'Optional: highlights or filters one team.', D ) ),
+			label: __( 'Team', 'live-scores-league-tables' ),
+			help: teams === null ? __( 'Loading teams…', 'live-scores-league-tables' ) : ( props.required ? '' : __( 'Optional: highlights or filters one team.', 'live-scores-league-tables' ) ),
 			value: a.team,
 			options: opts,
 			onChange: function ( v ) {
@@ -139,19 +138,19 @@
 			return el( c.TextControl, { key: name, label: label, type: type, help: help, value: a[ name ], onChange: function ( v ) { var o = {}; o[ name ] = v; set( o ); }, __nextHasNoMarginBottom: true } );
 		};
 		switch ( name ) {
-			case 'size': return sel( __( 'Size', D ), [ { value: '', label: __( 'Default', D ) }, { value: 'compact', label: __( 'Compact', D ) }, { value: 'standard', label: __( 'Standard', D ) }, { value: 'full', label: __( 'Full', D ) } ] );
-			case 'view': return sel( __( 'View', D ), [ { value: '', label: __( 'By round', D ) }, { value: 'date', label: __( 'By date', D ) } ] );
-			case 'rows': return txt( __( 'Rows', D ), 'number', __( 'Empty: the default.', D ) );
-			case 'round': return txt( __( 'Round', D ), 'number', __( 'Empty: the current round.', D ) );
-			case 'stat': return sel( __( 'Statistic', D ), [ { value: '', label: __( 'Goals', D ) }, { value: 'assists', label: __( 'Assists', D ) }, { value: 'cards', label: __( 'Cards', D ) }, { value: 'rating', label: __( 'Rating', D ) } ] );
-			case 'style': return sel( __( 'Style', D ), [ { value: '', label: __( 'List of facts', D ) }, { value: 'one', label: __( 'One big fact', D ) } ] );
-			case 'langs': return el( c.ToggleControl, { key: name, label: __( 'Language buttons', D ), checked: !! a.langs, onChange: function ( v ) { set( { langs: v } ); }, __nextHasNoMarginBottom: true } );
-			case 'match': return txt( __( 'Match', D ), 'text', __( 'A match code or its page path on sportstatsapi.com. Empty: the team’s live, next or last match.', D ) );
-			case 'teams': return txt( __( 'Teams', D ), 'text', __( 'Team names, comma separated. Empty: the leading teams.', D ) );
-			case 'leagues': return txt( __( 'More competitions', D ), 'text', __( 'Competition keys, comma separated (paid plan).', D ) );
-			case 'player': return txt( __( 'Player', D ), 'text', __( 'The player’s name as the website writes it, e.g. joao-pedro.', D ) );
-			case 'tournament': return txt( __( 'Tournament', D ), 'text', __( 'A tournament for the live tab, e.g. us-open.', D ) );
-			case 'country': return txt( __( 'TV country', D ), 'text', __( 'Shows TV channels in this country, e.g. United Kingdom.', D ) );
+			case 'size': return sel( __( 'Size', 'live-scores-league-tables' ), [ { value: '', label: __( 'Default', 'live-scores-league-tables' ) }, { value: 'compact', label: __( 'Compact', 'live-scores-league-tables' ) }, { value: 'standard', label: __( 'Standard', 'live-scores-league-tables' ) }, { value: 'full', label: __( 'Full', 'live-scores-league-tables' ) } ] );
+			case 'view': return sel( __( 'View', 'live-scores-league-tables' ), [ { value: '', label: __( 'By round', 'live-scores-league-tables' ) }, { value: 'date', label: __( 'By date', 'live-scores-league-tables' ) } ] );
+			case 'rows': return txt( __( 'Rows', 'live-scores-league-tables' ), 'number', __( 'Empty: the default.', 'live-scores-league-tables' ) );
+			case 'round': return txt( __( 'Round', 'live-scores-league-tables' ), 'number', __( 'Empty: the current round.', 'live-scores-league-tables' ) );
+			case 'stat': return sel( __( 'Statistic', 'live-scores-league-tables' ), [ { value: '', label: __( 'Goals', 'live-scores-league-tables' ) }, { value: 'assists', label: __( 'Assists', 'live-scores-league-tables' ) }, { value: 'cards', label: __( 'Cards', 'live-scores-league-tables' ) }, { value: 'rating', label: __( 'Rating', 'live-scores-league-tables' ) } ] );
+			case 'style': return sel( __( 'Style', 'live-scores-league-tables' ), [ { value: '', label: __( 'List of facts', 'live-scores-league-tables' ) }, { value: 'one', label: __( 'One big fact', 'live-scores-league-tables' ) } ] );
+			case 'langs': return el( c.ToggleControl, { key: name, label: __( 'Language buttons', 'live-scores-league-tables' ), checked: !! a.langs, onChange: function ( v ) { set( { langs: v } ); }, __nextHasNoMarginBottom: true } );
+			case 'match': return txt( __( 'Match', 'live-scores-league-tables' ), 'text', __( 'A match code or its page path on sportstatsapi.com. Empty: the team’s live, next or last match.', 'live-scores-league-tables' ) );
+			case 'teams': return txt( __( 'Teams', 'live-scores-league-tables' ), 'text', __( 'Team names, comma separated. Empty: the leading teams.', 'live-scores-league-tables' ) );
+			case 'leagues': return txt( __( 'More competitions', 'live-scores-league-tables' ), 'text', __( 'Competition keys, comma separated (paid plan).', 'live-scores-league-tables' ) );
+			case 'player': return txt( __( 'Player', 'live-scores-league-tables' ), 'text', __( 'The player’s name as the website writes it, e.g. joao-pedro.', 'live-scores-league-tables' ) );
+			case 'tournament': return txt( __( 'Tournament', 'live-scores-league-tables' ), 'text', __( 'A tournament for the live tab, e.g. us-open.', 'live-scores-league-tables' ) );
+			case 'country': return txt( __( 'TV country', 'live-scores-league-tables' ), 'text', __( 'Shows TV channels in this country, e.g. United Kingdom.', 'live-scores-league-tables' ) );
 		}
 		return null;
 	}
@@ -165,35 +164,35 @@
 			var comp = comps[ a.competition ];
 			var notices = [];
 			var connect = ! cfg.key ? el( c.Notice, { status: 'info', isDismissible: false },
-				__( 'Connect to publish: visitors see this widget once SportStatsAPI is connected.', D ) + ' ',
-				el( 'a', { href: cfg.settings, target: '_blank', rel: 'noopener' }, __( 'Settings → SportStatsAPI', D ) ) ) : null;
+				__( 'Connect to publish: visitors see this widget once SportStatsAPI is connected.', 'live-scores-league-tables' ) + ' ',
+				el( 'a', { href: cfg.settings, target: '_blank', rel: 'noopener' }, __( 'Settings → SportStatsAPI', 'live-scores-league-tables' ) ) ) : null;
 			if ( ! paidKey && ( ! w.free || ( comp && comp.free === false ) ) ) {
-				notices.push( ! w.free ? __( 'This widget needs a paid SportStatsAPI plan: with a free key it shows “Widget not available”.', D ) : __( 'This competition needs a paid plan key (Settings → SportStatsAPI).', D ) );
+				notices.push( ! w.free ? __( 'This widget needs a paid SportStatsAPI plan: with a free key it shows “Widget not available”.', 'live-scores-league-tables' ) : __( 'This competition needs a paid plan key (Settings → SportStatsAPI).', 'live-scores-league-tables' ) );
 			}
 			if ( w.team === 'required' && ! a.team ) {
-				notices.push( __( 'Choose a team in the block settings.', D ) );
+				notices.push( __( 'Choose a team in the block settings.', 'live-scores-league-tables' ) );
 			}
 			if ( w.options.indexOf( 'match' ) >= 0 && ! a.team && ! a.match ) {
-				notices.push( __( 'Choose a team or enter a match in the block settings.', D ) );
+				notices.push( __( 'Choose a team or enter a match in the block settings.', 'live-scores-league-tables' ) );
 			}
 			if ( w.options.indexOf( 'player' ) >= 0 && slug === 'player' && ! a.player ) {
-				notices.push( __( 'Enter a player in the block settings.', D ) );
+				notices.push( __( 'Enter a player in the block settings.', 'live-scores-league-tables' ) );
 			}
 			var inspector = el( be.InspectorControls, null,
-				el( c.PanelBody, { title: __( 'Widget', D ) },
+				el( c.PanelBody, { title: __( 'Widget', 'live-scores-league-tables' ) },
 					row( el( CompetitionPicker, props ), 'c' ),
 					row( w.team !== 'none' && a.competition ? el( TeamPicker, { attributes: a, setAttributes: set, required: w.team === 'required' } ) : null, 't' ),
 					w.options.map( function ( n ) { return row( optionControl( n, a, set ), n ); } )
 				),
-				el( c.PanelBody, { title: __( 'Look', D ), initialOpen: false },
-					row( el( c.SelectControl, { label: __( 'Theme', D ), value: a.theme, options: [ { value: '', label: __( 'Site default', D ) }, { value: 'auto', label: __( 'Auto', D ) }, { value: 'light', label: __( 'Light', D ) }, { value: 'dark', label: __( 'Dark', D ) } ], onChange: function ( v ) { set( { theme: v } ); }, __nextHasNoMarginBottom: true } ), 'th' ),
-					row( el( c.SelectControl, { label: __( 'Language', D ), value: a.lang, options: [ { value: '', label: __( 'Site default', D ) }, { value: 'en', label: 'English' }, { value: 'de', label: 'Deutsch' }, { value: 'es', label: 'Español' }, { value: 'it', label: 'Italiano' }, { value: 'fr', label: 'Français' } ], onChange: function ( v ) { set( { lang: v } ); }, __nextHasNoMarginBottom: true } ), 'la' ),
-					row( el( c.TextControl, { label: __( 'Accent colour', D ), help: __( '#RRGGBB. Applies with a paid key.', D ), value: a.accent, onChange: function ( v ) { set( { accent: v } ); }, __nextHasNoMarginBottom: true } ), 'ac' ),
-					el( c.ToggleControl, { label: __( 'Use the page’s font', D ), checked: !! a.font, onChange: function ( v ) { set( { font: v } ); }, __nextHasNoMarginBottom: true } )
+				el( c.PanelBody, { title: __( 'Look', 'live-scores-league-tables' ), initialOpen: false },
+					row( el( c.SelectControl, { label: __( 'Theme', 'live-scores-league-tables' ), value: a.theme, options: [ { value: '', label: __( 'Site default', 'live-scores-league-tables' ) }, { value: 'auto', label: __( 'Auto', 'live-scores-league-tables' ) }, { value: 'light', label: __( 'Light', 'live-scores-league-tables' ) }, { value: 'dark', label: __( 'Dark', 'live-scores-league-tables' ) } ], onChange: function ( v ) { set( { theme: v } ); }, __nextHasNoMarginBottom: true } ), 'th' ),
+					row( el( c.SelectControl, { label: __( 'Language', 'live-scores-league-tables' ), value: a.lang, options: [ { value: '', label: __( 'Site default', 'live-scores-league-tables' ) }, { value: 'en', label: 'English' }, { value: 'de', label: 'Deutsch' }, { value: 'es', label: 'Español' }, { value: 'it', label: 'Italiano' }, { value: 'fr', label: 'Français' } ], onChange: function ( v ) { set( { lang: v } ); }, __nextHasNoMarginBottom: true } ), 'la' ),
+					row( el( c.TextControl, { label: __( 'Accent colour', 'live-scores-league-tables' ), help: __( '#RRGGBB. Applies with a paid key.', 'live-scores-league-tables' ), value: a.accent, onChange: function ( v ) { set( { accent: v } ); }, __nextHasNoMarginBottom: true } ), 'ac' ),
+					el( c.ToggleControl, { label: __( 'Use the page’s font', 'live-scores-league-tables' ), checked: !! a.font, onChange: function ( v ) { set( { font: v } ); }, __nextHasNoMarginBottom: true } )
 				)
 			);
 			var body = ! a.competition
-				? el( c.Placeholder, { icon: icon.src, label: wp.blocks.getBlockType( props.name ).title, instructions: __( 'Choose a competition.', D ) }, el( 'div', { style: { width: '100%', maxWidth: '420px' } }, el( CompetitionPicker, props ) ) )
+				? el( c.Placeholder, { icon: icon.src, label: wp.blocks.getBlockType( props.name ).title, instructions: __( 'Choose a competition.', 'live-scores-league-tables' ) }, el( 'div', { style: { width: '100%', maxWidth: '420px' } }, el( CompetitionPicker, props ) ) )
 				: el( 'div', null,
 					connect,
 					notices.map( function ( t, i ) { return el( c.Notice, { key: i, status: 'warning', isDismissible: false }, t ); } ),

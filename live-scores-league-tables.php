@@ -29,14 +29,17 @@ if ( is_admin() ) {
 	require SPORTSTATSAPI_DIR . 'includes/settings.php';
 }
 
-register_activation_hook(
-	__FILE__,
-	function () {
-		if ( ! wp_next_scheduled( 'sportstatsapi_check_key' ) ) {
-			wp_schedule_event( time() + DAY_IN_SECONDS, 'daily', 'sportstatsapi_check_key' );
-		}
+/**
+ * Schedules the daily key check on every site that runs the plugin (activation
+ * alone reaches only the current site of a network).
+ */
+function sportstatsapi_schedule_check() {
+	if ( ! wp_next_scheduled( 'sportstatsapi_check_key' ) ) {
+		wp_schedule_event( time() + DAY_IN_SECONDS, 'daily', 'sportstatsapi_check_key' );
 	}
-);
+}
+add_action( 'init', 'sportstatsapi_schedule_check' );
+
 register_deactivation_hook(
 	__FILE__,
 	function () {
