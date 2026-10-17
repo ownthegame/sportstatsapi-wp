@@ -1,0 +1,395 @@
+# Copyright (C) 2026 SportStatsAPI
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Live Scores & League Tables – SportStatsAPI Widgets 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/sportstatsapi-wp\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-17T05:46:03+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.7.1\n"
+"X-Domain: live-scores-league-tables\n"
+
+#. Plugin Name of the plugin
+msgid "Live Scores & League Tables – SportStatsAPI Widgets"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://sportstatsapi.com/widgets/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Live scores, league tables, fixtures, a results ticker, next match and team calendar widgets from SportStatsAPI, as blocks and shortcodes."
+msgstr ""
+
+#. Author of the plugin
+msgid "SportStatsAPI"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://sportstatsapi.com/"
+msgstr ""
+
+#: includes/rest.php:123
+#: includes/rest.php:177
+msgid "SportStatsAPI cannot be reached right now."
+msgstr ""
+
+#: includes/rest.php:173
+msgid "Unknown competition."
+msgstr ""
+
+#: includes/settings.php:102
+#: includes/settings.php:210
+msgid "Settings"
+msgstr ""
+
+#: includes/settings.php:117
+msgid "That is not a SportStatsAPI widget key (ssw_free_… or wk_live_…). The key was not saved."
+msgstr ""
+
+#: includes/settings.php:136
+msgid "You are not allowed to do this."
+msgstr ""
+
+#: includes/settings.php:140
+msgid "Connect is not available right now: paste your key instead."
+msgstr ""
+
+#: includes/settings.php:204
+msgid "SportStatsAPI: your key isn’t set up for this website, so widgets are hidden on your site. Add this site on your account page, or connect again."
+msgstr ""
+
+#: includes/settings.php:205
+msgid "SportStatsAPI: your key isn’t recognised, so widgets are hidden on your site. Connect again or paste a working key."
+msgstr ""
+
+#: includes/settings.php:227
+msgid "The page’s language"
+msgstr ""
+
+#: includes/settings.php:235
+msgid "Auto (the visitor’s setting)"
+msgstr ""
+
+#: includes/settings.php:236
+msgid "Light"
+msgstr ""
+
+#: includes/settings.php:237
+msgid "Dark"
+msgstr ""
+
+#: includes/settings.php:241
+msgid "SportStatsAPI Widgets"
+msgstr ""
+
+#: includes/settings.php:243
+msgid "Connected: your widget key is saved."
+msgstr ""
+
+#: includes/settings.php:245
+msgid "Connect was cancelled. Nothing changed."
+msgstr ""
+
+#: includes/settings.php:247
+msgid "Connect did not finish. Try again, or paste your key."
+msgstr ""
+
+#: includes/settings.php:251
+msgid "Add widgets with the SportStatsAPI blocks in the editor, or with a shortcode:"
+msgstr ""
+
+#: includes/settings.php:255
+msgid "Widgets show on your site once it is connected: Connect creates a free SportStatsAPI key (live scores, tables, fixtures, ticker, next match and calendar for the free competitions, 50,000 views a month). A paid key opens every competition and widget and removes the credit link."
+msgstr ""
+
+#: includes/settings.php:263
+msgid "Connect with SportStatsAPI"
+msgstr ""
+
+#: includes/settings.php:264
+msgid "Opens your SportStatsAPI account and brings this site’s free widget key back here."
+msgstr ""
+
+#: includes/settings.php:268
+msgid "Connect is not available right now: paste the widget key from your SportStatsAPI account below."
+msgstr ""
+
+#: includes/settings.php:275
+msgid "Widget key"
+msgstr ""
+
+#. translators: %s: link to the SportStatsAPI account page
+#: includes/settings.php:282
+msgid "Required to show widgets. Connect fills it in, or copy it from your %s."
+msgstr ""
+
+#: includes/settings.php:283
+msgid "account page"
+msgstr ""
+
+#: includes/settings.php:290
+msgid "Theme"
+msgstr ""
+
+#: includes/settings.php:300
+msgid "Accent colour"
+msgstr ""
+
+#: includes/settings.php:303
+msgid "Your brand colour as #RRGGBB. Applies with a paid key."
+msgstr ""
+
+#: includes/settings.php:307
+msgid "Language"
+msgstr ""
+
+#: includes/settings.php:317
+msgid "Search engines"
+msgstr ""
+
+#: includes/settings.php:321
+msgid "Also print the data as plain HTML for visitors without JavaScript"
+msgstr ""
+
+#: includes/settings.php:323
+msgid "Your server loads each widget’s data from api.sportstatsapi.com and keeps it 10 minutes."
+msgstr ""
+
+#: includes/widgets.php:20
+msgid "League table"
+msgstr ""
+
+#: includes/widgets.php:27
+msgid "Live scores"
+msgstr ""
+
+#: includes/widgets.php:34
+msgid "Fixtures"
+msgstr ""
+
+#: includes/widgets.php:41
+msgid "Results ticker"
+msgstr ""
+
+#: includes/widgets.php:48
+msgid "Next match"
+msgstr ""
+
+#: includes/widgets.php:55
+msgid "Team calendar"
+msgstr ""
+
+#: includes/widgets.php:62
+msgid "Team form"
+msgstr ""
+
+#: includes/widgets.php:253
+msgid "SportStatsAPI: choose a widget and a competition."
+msgstr ""
+
+#: includes/widgets.php:259
+msgid "Connect SportStatsAPI to show this widget"
+msgstr ""
+
+#: includes/widgets.php:447
+msgid "Team"
+msgstr ""
+
+#: includes/widgets.php:447
+msgid "P"
+msgstr ""
+
+#: includes/widgets.php:447
+msgid "Pts"
+msgstr ""
+
+#: includes/widgets.php:475
+msgid "Data by SportStatsAPI"
+msgstr ""
+
+#: blocks/calendar/block.json
+msgctxt "block title"
+msgid "Team calendar"
+msgstr ""
+
+#: blocks/calendar/block.json
+msgctxt "block description"
+msgid "A team's matches to add to the visitor's calendar (.ics subscription)."
+msgstr ""
+
+#: blocks/calendar/block.json
+#: blocks/fixtures/block.json
+#: blocks/next-match/block.json
+#: blocks/scores/block.json
+#: blocks/table/block.json
+#: blocks/team-form/block.json
+#: blocks/ticker/block.json
+msgctxt "block keyword"
+msgid "sportstatsapi"
+msgstr ""
+
+#: blocks/calendar/block.json
+#: blocks/fixtures/block.json
+#: blocks/next-match/block.json
+#: blocks/scores/block.json
+#: blocks/table/block.json
+#: blocks/team-form/block.json
+#: blocks/ticker/block.json
+msgctxt "block keyword"
+msgid "sport"
+msgstr ""
+
+#: blocks/calendar/block.json
+#: blocks/fixtures/block.json
+msgctxt "block keyword"
+msgid "calendar"
+msgstr ""
+
+#: blocks/calendar/block.json
+msgctxt "block keyword"
+msgid "ics"
+msgstr ""
+
+#: blocks/calendar/block.json
+#: blocks/fixtures/block.json
+msgctxt "block keyword"
+msgid "schedule"
+msgstr ""
+
+#: blocks/fixtures/block.json
+msgctxt "block title"
+msgid "Fixtures"
+msgstr ""
+
+#: blocks/fixtures/block.json
+msgctxt "block description"
+msgid "Coming matches of a competition or a team."
+msgstr ""
+
+#: blocks/fixtures/block.json
+msgctxt "block keyword"
+msgid "fixtures"
+msgstr ""
+
+#: blocks/next-match/block.json
+msgctxt "block title"
+msgid "Next match"
+msgstr ""
+
+#: blocks/next-match/block.json
+msgctxt "block description"
+msgid "A team's next match with a countdown."
+msgstr ""
+
+#: blocks/next-match/block.json
+msgctxt "block keyword"
+msgid "next"
+msgstr ""
+
+#: blocks/next-match/block.json
+msgctxt "block keyword"
+msgid "match"
+msgstr ""
+
+#: blocks/next-match/block.json
+msgctxt "block keyword"
+msgid "countdown"
+msgstr ""
+
+#: blocks/scores/block.json
+msgctxt "block title"
+msgid "Live scores"
+msgstr ""
+
+#: blocks/scores/block.json
+msgctxt "block description"
+msgid "Today's matches and live scores of a competition."
+msgstr ""
+
+#: blocks/scores/block.json
+#: blocks/ticker/block.json
+msgctxt "block keyword"
+msgid "live"
+msgstr ""
+
+#: blocks/scores/block.json
+msgctxt "block keyword"
+msgid "scores"
+msgstr ""
+
+#: blocks/scores/block.json
+#: blocks/ticker/block.json
+msgctxt "block keyword"
+msgid "results"
+msgstr ""
+
+#: blocks/table/block.json
+msgctxt "block title"
+msgid "League table"
+msgstr ""
+
+#: blocks/table/block.json
+msgctxt "block description"
+msgid "Standings of a league, with form and zones."
+msgstr ""
+
+#: blocks/table/block.json
+msgctxt "block keyword"
+msgid "table"
+msgstr ""
+
+#: blocks/table/block.json
+msgctxt "block keyword"
+msgid "standings"
+msgstr ""
+
+#: blocks/table/block.json
+msgctxt "block keyword"
+msgid "league"
+msgstr ""
+
+#: blocks/team-form/block.json
+msgctxt "block title"
+msgid "Team form (paid plan)"
+msgstr ""
+
+#: blocks/team-form/block.json
+msgctxt "block description"
+msgid "A team's form and statistics. Needs a paid SportStatsAPI plan."
+msgstr ""
+
+#: blocks/team-form/block.json
+msgctxt "block keyword"
+msgid "form"
+msgstr ""
+
+#: blocks/team-form/block.json
+msgctxt "block keyword"
+msgid "stats"
+msgstr ""
+
+#: blocks/team-form/block.json
+msgctxt "block keyword"
+msgid "team"
+msgstr ""
+
+#: blocks/ticker/block.json
+msgctxt "block title"
+msgid "Results ticker"
+msgstr ""
+
+#: blocks/ticker/block.json
+msgctxt "block description"
+msgid "A compact strip of live scores and results."
+msgstr ""
+
+#: blocks/ticker/block.json
+msgctxt "block keyword"
+msgid "ticker"
+msgstr ""

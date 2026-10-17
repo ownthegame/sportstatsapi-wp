@@ -1,0 +1,83 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "sportstatsapi/table",
+	"title": "League table",
+	"category": "widgets",
+	"icon": "editor-table",
+	"description": "Standings of a league, with form and zones.",
+	"keywords": [
+		"sportstatsapi",
+		"sport",
+		"table",
+		"standings",
+		"league"
+	],
+	"textdomain": "live-scores-league-tables",
+	"attributes": {
+		"competition": {
+			"type": "string",
+			"default": ""
+		},
+		"competitionName": {
+			"type": "string",
+			"default": ""
+		},
+		"team": {
+			"type": "string",
+			"default": ""
+		},
+		"teamName": {
+			"type": "string",
+			"default": ""
+		},
+		"theme": {
+			"type": "string",
+			"default": ""
+		},
+		"lang": {
+			"type": "string",
+			"default": ""
+		},
+		"accent": {
+			"type": "string",
+			"default": ""
+		},
+		"rows": {
+			"type": "string",
+			"default": ""
+		},
+		"size": {
+			"type": "string",
+			"default": ""
+		},
+		"view": {
+			"type": "string",
+			"default": ""
+		},
+		"country": {
+			"type": "string",
+			"default": ""
+		},
+		"round": {
+			"type": "string",
+			"default": ""
+		},
+		"radius": {
+			"type": "string",
+			"default": ""
+		},
+		"font": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		]
+	},
+	"editorScript": "sportstatsapi-editor"
+}
