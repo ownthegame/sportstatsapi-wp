@@ -30,11 +30,11 @@ if ( is_admin() ) {
 }
 
 /**
- * Schedules the daily key check on every site that runs the plugin (activation
- * alone reaches only the current site of a network).
+ * Schedules the daily key check on every site with a key (activation alone
+ * reaches only the current site of a network).
  */
 function sportstatsapi_schedule_check() {
-	if ( ! wp_next_scheduled( 'sportstatsapi_check_key' ) ) {
+	if ( '' !== sportstatsapi_settings()['key'] && ! wp_next_scheduled( 'sportstatsapi_check_key' ) ) {
 		wp_schedule_event( time() + DAY_IN_SECONDS, 'daily', 'sportstatsapi_check_key' );
 	}
 }

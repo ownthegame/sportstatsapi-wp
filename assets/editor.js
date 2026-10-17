@@ -70,7 +70,7 @@
 				doc.head.appendChild( s ); // its first run picks up every widget in the document
 			}
 		}, [ sig ] );
-		return el( 'div', { ref: ref, className: 'sportstatsapi-preview' } );
+		return el( 'div', { ref: ref, className: 'sportstatsapi-preview', style: { pointerEvents: 'none' } } );
 	}
 
 	function CompetitionPicker( props ) {
@@ -165,7 +165,10 @@
 			var notices = [];
 			var connect = ! cfg.key ? el( c.Notice, { status: 'info', isDismissible: false },
 				__( 'Connect to publish: visitors see this widget once SportStatsAPI is connected.', 'live-scores-league-tables' ) + ' ',
-				el( 'a', { href: cfg.settings, target: '_blank', rel: 'noopener' }, __( 'Settings → SportStatsAPI', 'live-scores-league-tables' ) ) ) : null;
+				el( 'a', { href: cfg.settings, target: '_blank', rel: 'noopener' }, __( 'Settings → SportStatsAPI', 'live-scores-league-tables' ) ) )
+				: /^ssw_free_/.test( cfg.key ) && ! cfg.credit ? el( c.Notice, { status: 'warning', isDismissible: false },
+					__( 'Visitors do not see this widget yet: agree to the “Data by SportStatsAPI” link in Settings → SportStatsAPI.', 'live-scores-league-tables' ) + ' ',
+					el( 'a', { href: cfg.settings, target: '_blank', rel: 'noopener' }, __( 'Settings → SportStatsAPI', 'live-scores-league-tables' ) ) ) : null;
 			if ( ! paidKey && ( ! w.free || ( comp && comp.free === false ) ) ) {
 				notices.push( ! w.free ? __( 'This widget needs a paid SportStatsAPI plan: with a free key it shows “Widget not available”.', 'live-scores-league-tables' ) : __( 'This competition needs a paid plan key (Settings → SportStatsAPI).', 'live-scores-league-tables' ) );
 			}

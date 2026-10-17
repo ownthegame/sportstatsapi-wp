@@ -53,7 +53,7 @@ function sportstatsapi_widgets() {
 /**
  * The plugin settings with defaults.
  *
- * @return array{key:string,theme:string,accent:string,lang:string,fallback:bool}
+ * @return array{key:string,theme:string,accent:string,lang:string,fallback:bool,credit:bool}
  */
 function sportstatsapi_settings() {
 	$s = get_option( 'sportstatsapi_settings', array() );
@@ -75,8 +75,23 @@ function sportstatsapi_settings() {
  * @return string
  */
 function sportstatsapi_key() {
-	$key = sportstatsapi_clean( 'key', sportstatsapi_settings()['key'] );
-	return ( '' !== $key && '' !== sportstatsapi_key_error( $key ) ) ? '' : $key;
+	$key   = sportstatsapi_clean( 'key', sportstatsapi_settings()['key'] );
+	$error = '' === $key ? '' : sportstatsapi_key_error( $key );
+	// VIEW_LIMIT keeps the key: the widget itself tells visitors the free views are used up.
+	return ( '' !== $error && 'VIEW_LIMIT' !== $error ) ? '' : $key;
+}
+
+/**
+ * The site's origin (scheme://host[:port]) for the Origin header, '' when unknown.
+ *
+ * @return string
+ */
+function sportstatsapi_origin() {
+	$home = wp_parse_url( home_url() );
+	if ( empty( $home['scheme'] ) || empty( $home['host'] ) ) {
+		return '';
+	}
+	return $home['scheme'] . '://' . $home['host'] . ( isset( $home['port'] ) ? ':' . $home['port'] : '' );
 }
 
 /**
@@ -93,16 +108,17 @@ function sportstatsapi_key_error( $key ) {
 /**
  * Asks the API whether the saved key works (after a save, and daily by WP-Cron),
  * with a free widget the key must open. Network errors and rate limits keep
- * the last answer.
+ * the last answer. Without a key the daily check stops.
  */
 function sportstatsapi_check_key() {
 	$key = sportstatsapi_clean( 'key', sportstatsapi_settings()['key'] );
 	if ( '' === $key ) {
 		delete_option( 'sportstatsapi_key_state' );
+		wp_clear_scheduled_hook( 'sportstatsapi_check_key' );
 		return;
 	}
-	$home = wp_parse_url( home_url() );
-	$res  = wp_remote_get(
+	$origin = sportstatsapi_origin();
+	$res    = wp_remote_get(
 		add_query_arg(
 			array(
 				'w'   => 'table',
@@ -113,7 +129,7 @@ function sportstatsapi_check_key() {
 		),
 		array(
 			'timeout' => 8,
-			'headers' => array( 'Origin' => $home['scheme'] . '://' . $home['host'] . ( isset( $home['port'] ) ? ':' . $home['port'] : '' ) ),
+			'headers' => '' === $origin ? array() : array( 'Origin' => $origin ),
 		)
 	);
 	if ( is_wp_error( $res ) ) {
@@ -124,7 +140,7 @@ function sportstatsapi_check_key() {
 	$error = isset( $body['error']['code'] ) ? (string) $body['error']['code'] : '';
 	if ( 200 === $code ) {
 		$error = '';
-	} elseif ( ! in_array( $error, array( 'UNKNOWN_KEY', 'WRONG_WEBSITE' ), true ) ) {
+	} elseif ( ! in_array( $error, array( 'UNKNOWN_KEY', 'WRONG_WEBSITE', 'VIEW_LIMIT' ), true ) ) {
 		return;
 	}
 	update_option(
@@ -134,7 +150,7 @@ function sportstatsapi_check_key() {
 			'error'   => $error,
 			'checked' => time(),
 		),
-		false
+		true // Small, and read on every page with a widget.
 	);
 }
 add_action( 'sportstatsapi_check_key', 'sportstatsapi_check_key' );
@@ -151,6 +167,9 @@ add_action( 'update_option_sportstatsapi_settings', 'sportstatsapi_check_key' );
 function sportstatsapi_clean( $name, $value ) {
 	if ( is_bool( $value ) ) {
 		$value = $value ? '1' : '';
+	}
+	if ( ! is_scalar( $value ) ) {
+		return '';
 	}
 	$value = trim( (string) $value );
 	$enums = array(
@@ -365,6 +384,7 @@ function sportstatsapi_register_blocks() {
 					'accent' => $set['accent'],
 				),
 				'key'      => sportstatsapi_key(),
+				'credit'   => $set['credit'],
 				'settings' => admin_url( 'options-general.php?page=sportstatsapi' ),
 			)
 		) . ';',
@@ -419,7 +439,9 @@ function sportstatsapi_fallback( array $attrs ) {
 		'ticker'     => 'ticker',
 		'next-match' => 'nextmatch',
 	);
-	if ( ! isset( $kinds[ $attrs['widget'] ] ) ) {
+	// Paid keys only: a free key's views are counted by the script in the visitor's
+	// browser, so a server fetch must not use it.
+	if ( ! isset( $kinds[ $attrs['widget'] ], $attrs['key'] ) || 0 !== strpos( $attrs['key'], 'wk_live_' ) ) {
 		return '';
 	}
 	$query = array(
@@ -432,16 +454,10 @@ function sportstatsapi_fallback( array $attrs ) {
 			$query[ $name ] = $attrs[ $name ];
 		}
 	}
-	// Every widget needs a key (checked in sportstatsapi_render). Only a paid key goes
-	// server-side (with the site as Origin): a free key identifies the site and its
-	// free views a month are counted by the script in the visitor's browser,
-	// so the server fetch must not count them again.
-	$headers = array();
-	if ( isset( $attrs['key'] ) && 0 === strpos( $attrs['key'], 'wk_live_' ) ) {
-		$query['key'] = $attrs['key'];
-		$home         = wp_parse_url( home_url() );
-		$headers      = array( 'Origin' => $home['scheme'] . '://' . $home['host'] . ( isset( $home['port'] ) ? ':' . $home['port'] : '' ) );
-	}
+	$query['key'] = $attrs['key'];
+	$origin       = sportstatsapi_origin();
+	$headers      = '' === $origin ? array() : array( 'Origin' => $origin );
+
 	$url   = add_query_arg( array_map( 'rawurlencode', $query ), SPORTSTATSAPI_API . '/api/widget/v1/data' );
 	$cache = 'sportstatsapi_fb_' . md5( $url );
 	$html  = get_transient( $cache );

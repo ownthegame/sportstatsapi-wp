@@ -9,13 +9,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-17T12:58:49+00:00\n"
+"POT-Creation-Date: 2026-10-17T13:14:51+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: live-scores-league-tables\n"
 
 #. Plugin Name of the plugin
-#: includes/settings.php:243
+#: includes/settings.php:275
 msgid "Live Scores & League Tables"
 msgstr ""
 
@@ -35,132 +35,180 @@ msgstr ""
 msgid "https://sportstatsapi.com/"
 msgstr ""
 
-#: includes/rest.php:123
-#: includes/rest.php:177
+#: includes/rest.php:124
+#: includes/rest.php:178
 msgid "SportStatsAPI cannot be reached right now."
 msgstr ""
 
-#: includes/rest.php:173
+#: includes/rest.php:174
 msgid "Unknown competition."
 msgstr ""
 
-#: includes/settings.php:102
-#: includes/settings.php:212
+#: includes/settings.php:43
+msgid "Connect is off on this site."
+msgstr ""
+
+#: includes/settings.php:47
+msgid "Connect needs your WordPress admin on HTTPS."
+msgstr ""
+
+#: includes/settings.php:53
+msgid "Connect needs your WordPress admin and your site on the same address (host and port)."
+msgstr ""
+
+#: includes/settings.php:69
+msgid "The SportStatsAPI account service does not offer Connect right now."
+msgstr ""
+
+#: includes/settings.php:103
+#: includes/settings.php:243
 msgid "Settings"
 msgstr ""
 
-#: includes/settings.php:117
+#: includes/settings.php:118
 msgid "That is not a SportStatsAPI widget key (ssw_free_… or wk_live_…). The key was not saved."
 msgstr ""
 
-#: includes/settings.php:136
+#: includes/settings.php:124
+msgid "Your free key is saved, but it needs your yes to the small \"Data by SportStatsAPI\" link: free widgets are hidden until you tick \"Credit link\"."
+msgstr ""
+
+#: includes/settings.php:142
 msgid "You are not allowed to do this."
 msgstr ""
 
-#: includes/settings.php:140
-msgid "Connect is not available right now: paste your key instead."
-msgstr ""
-
-#: includes/settings.php:206
-msgid "SportStatsAPI: your key isn’t set up for this website, so widgets are hidden on your site. Add this site on your account page, or connect again."
-msgstr ""
-
-#: includes/settings.php:207
-msgid "SportStatsAPI: your key isn’t recognised, so widgets are hidden on your site. Connect again or paste a working key."
+#: includes/settings.php:147
+msgid "Paste your key instead."
 msgstr ""
 
 #: includes/settings.php:229
+msgid "SportStatsAPI: your key isn’t set up for this website, so widgets are hidden on your site. Add this site on your account page, or connect again."
+msgstr ""
+
+#: includes/settings.php:231
+msgid "SportStatsAPI: your key isn’t recognised, so widgets are hidden on your site. Connect again or paste a working key."
+msgstr ""
+
+#: includes/settings.php:233
+msgid "SportStatsAPI: your free key reached 30,000 views this month: widgets show no data until the month ends. Upgrade: https://sportstatsapi.com/pricing/"
+msgstr ""
+
+#: includes/settings.php:236
+msgid "SportStatsAPI: your free key needs your yes to the small \"Data by SportStatsAPI\" link; free widgets are hidden until you tick it in Settings."
+msgstr ""
+
+#: includes/settings.php:261
 msgid "The page’s language"
 msgstr ""
 
-#: includes/settings.php:237
+#: includes/settings.php:269
 msgid "Auto (the visitor’s setting)"
 msgstr ""
 
-#: includes/settings.php:238
-#: assets/editor.js:188
+#: includes/settings.php:270
+#: assets/editor.js:191
 msgid "Light"
 msgstr ""
 
-#: includes/settings.php:239
-#: assets/editor.js:188
+#: includes/settings.php:271
+#: assets/editor.js:191
 msgid "Dark"
 msgstr ""
 
-#: includes/settings.php:245
+#: includes/settings.php:277
 msgid "Connected: your widget key is saved."
 msgstr ""
 
-#: includes/settings.php:247
+#: includes/settings.php:279
 msgid "Connect was cancelled. Nothing changed."
 msgstr ""
 
-#: includes/settings.php:249
+#: includes/settings.php:281
+msgid "To connect, agree that free widgets show a small \"Data by SportStatsAPI\" link."
+msgstr ""
+
+#: includes/settings.php:283
 msgid "Connect did not finish. Try again, or paste your key."
 msgstr ""
 
-#: includes/settings.php:253
+#: includes/settings.php:287
 msgid "Add widgets with the SportStatsAPI blocks in the editor, or with a shortcode:"
 msgstr ""
 
-#: includes/settings.php:257
-msgid "Widgets show on your site once it is connected: Connect creates a free SportStatsAPI key (live scores, tables, fixtures, ticker, next match and calendar for the free competitions, 50,000 views a month). A paid key opens all 19 widgets and every competition, and removes the credit link."
+#: includes/settings.php:291
+msgid "Widgets show on your site once it is connected: Connect creates a free SportStatsAPI key (live scores, tables, fixtures, ticker, next match and calendar for the free competitions, 25,000 views a month, with a small \"Data by SportStatsAPI\" link in each widget). A paid key opens all 19 widgets and every competition, and removes the credit link."
 msgstr ""
 
-#: includes/settings.php:265
+#: includes/settings.php:301
+msgid "Yes, free widgets may show a small \"Data by SportStatsAPI\" link (required for the free key)."
+msgstr ""
+
+#: includes/settings.php:305
 msgid "Connect with SportStatsAPI"
 msgstr ""
 
-#: includes/settings.php:266
+#: includes/settings.php:306
 msgid "Opens your SportStatsAPI account and brings this site’s free widget key back here."
 msgstr ""
 
-#: includes/settings.php:270
-msgid "Connect is not available right now: paste the widget key from your SportStatsAPI account below."
+#: includes/settings.php:310
+msgid "Paste the widget key from your SportStatsAPI account below."
 msgstr ""
 
-#: includes/settings.php:277
+#: includes/settings.php:317
 msgid "Widget key"
 msgstr ""
 
 #. translators: %s: link to the SportStatsAPI account page
-#: includes/settings.php:284
-msgid "Required to show widgets. Connect fills it in, or copy it from your %s."
-msgstr ""
-
-#: includes/settings.php:285
-msgid "account page"
-msgstr ""
-
-#: includes/settings.php:292
-#: assets/editor.js:188
-msgid "Theme"
-msgstr ""
-
-#: includes/settings.php:302
-#: assets/editor.js:190
-msgid "Accent colour"
-msgstr ""
-
-#: includes/settings.php:305
-msgid "Your brand colour as #RRGGBB. Applies with a paid key."
-msgstr ""
-
-#: includes/settings.php:309
-#: assets/editor.js:189
-msgid "Language"
-msgstr ""
-
-#: includes/settings.php:319
-msgid "Search engines"
-msgstr ""
-
-#: includes/settings.php:323
-msgid "Also print the data as plain HTML for visitors without JavaScript"
+#: includes/settings.php:324
+msgid "Required to show widgets. Connect fills it in, or copy it from your %s. The key is visible in your page source, like any embed code; it only works for widgets and for your website’s address."
 msgstr ""
 
 #: includes/settings.php:325
-msgid "Your server loads each widget’s data from api.sportstatsapi.com and keeps it 10 minutes."
+msgid "account page"
+msgstr ""
+
+#: includes/settings.php:332
+msgid "Credit link"
+msgstr ""
+
+#: includes/settings.php:336
+msgid "Yes, free widgets may show a small \"Data by SportStatsAPI\" link"
+msgstr ""
+
+#: includes/settings.php:338
+msgid "Required for a free key: without it free widgets are not shown. Paid keys show no link."
+msgstr ""
+
+#: includes/settings.php:342
+#: assets/editor.js:191
+msgid "Theme"
+msgstr ""
+
+#: includes/settings.php:352
+#: assets/editor.js:193
+msgid "Accent colour"
+msgstr ""
+
+#: includes/settings.php:355
+msgid "Your brand colour as #RRGGBB. Applies with a paid key."
+msgstr ""
+
+#: includes/settings.php:359
+#: assets/editor.js:192
+msgid "Language"
+msgstr ""
+
+#: includes/settings.php:369
+msgid "Search engines"
+msgstr ""
+
+#: includes/settings.php:373
+msgid "Also print the data as plain HTML for visitors without JavaScript"
+msgstr ""
+
+#: includes/settings.php:375
+msgid "Paid key only. Your server loads each widget’s data from api.sportstatsapi.com and keeps it 10 minutes."
 msgstr ""
 
 #: includes/widgets.php:20
@@ -239,24 +287,28 @@ msgstr ""
 msgid "Tennis"
 msgstr ""
 
-#: includes/widgets.php:249
+#: includes/widgets.php:269
 msgid "SportStatsAPI: choose a widget and a competition."
 msgstr ""
 
-#: includes/widgets.php:255
+#: includes/widgets.php:275
 msgid "Connect SportStatsAPI to show this widget"
 msgstr ""
 
-#: includes/widgets.php:479
+#: includes/widgets.php:281
+msgid "Free widgets show a small \"Data by SportStatsAPI\" link. Agree to it in the settings to show this widget."
+msgstr ""
+
+#: includes/widgets.php:502
 #: assets/editor.js:121
 msgid "Team"
 msgstr ""
 
-#: includes/widgets.php:479
+#: includes/widgets.php:502
 msgid "P"
 msgstr ""
 
-#: includes/widgets.php:479
+#: includes/widgets.php:502
 msgid "Pts"
 msgstr ""
 
@@ -425,55 +477,60 @@ msgid "Connect to publish: visitors see this widget once SportStatsAPI is connec
 msgstr ""
 
 #: assets/editor.js:168
+#: assets/editor.js:171
 msgid "Settings → SportStatsAPI"
 msgstr ""
 
 #: assets/editor.js:170
-msgid "This widget needs a paid SportStatsAPI plan: with a free key it shows “Widget not available”."
-msgstr ""
-
-#: assets/editor.js:170
-msgid "This competition needs a paid plan key (Settings → SportStatsAPI)."
+msgid "Visitors do not see this widget yet: agree to the “Data by SportStatsAPI” link in Settings → SportStatsAPI."
 msgstr ""
 
 #: assets/editor.js:173
-msgid "Choose a team in the block settings."
+msgid "This widget needs a paid SportStatsAPI plan: with a free key it shows “Widget not available”."
+msgstr ""
+
+#: assets/editor.js:173
+msgid "This competition needs a paid plan key (Settings → SportStatsAPI)."
 msgstr ""
 
 #: assets/editor.js:176
-msgid "Choose a team or enter a match in the block settings."
+msgid "Choose a team in the block settings."
 msgstr ""
 
 #: assets/editor.js:179
-msgid "Enter a player in the block settings."
+msgid "Choose a team or enter a match in the block settings."
 msgstr ""
 
 #: assets/editor.js:182
+msgid "Enter a player in the block settings."
+msgstr ""
+
+#: assets/editor.js:185
 msgid "Widget"
 msgstr ""
 
-#: assets/editor.js:187
+#: assets/editor.js:190
 msgid "Look"
 msgstr ""
 
-#: assets/editor.js:188
-#: assets/editor.js:189
+#: assets/editor.js:191
+#: assets/editor.js:192
 msgid "Site default"
 msgstr ""
 
-#: assets/editor.js:188
+#: assets/editor.js:191
 msgid "Auto"
 msgstr ""
 
-#: assets/editor.js:190
+#: assets/editor.js:193
 msgid "#RRGGBB. Applies with a paid key."
 msgstr ""
 
-#: assets/editor.js:191
+#: assets/editor.js:194
 msgid "Use the page’s font"
 msgstr ""
 
-#: assets/editor.js:195
+#: assets/editor.js:198
 msgid "Choose a competition."
 msgstr ""
 

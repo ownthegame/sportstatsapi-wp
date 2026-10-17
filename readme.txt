@@ -34,7 +34,7 @@ Connect your site once (Settings → SportStatsAPI → Connect) to get the free 
 The plugin is free and complete: all 19 blocks and the shortcode are in it, with no code that is switched off or unlocked by payment. The widgets are drawn and their data served by the SportStatsAPI service (https://sportstatsapi.com), and the service decides what a key may show:
 
 * No key: nothing on your site; the editor shows a preview and a "Connect" notice. Every widget needs a key, the free ones too: the free key identifies your site and counts its free views (25,000 a month), so the service needs it.
-* Free key (Connect, no payment): the six free widgets above, for the free competitions, 25,000 views a month. From 25,000 to 30,000 views the widgets keep working and you are told the free limit is reached; from 30,000 views until the month ends they show no data unless you move to a paid plan. To use the free key you tick "Yes, free widgets may show a small 'Data by SportStatsAPI' link" (at Connect or in the settings); without that yes free widgets are not shown. As part of the free plan's terms (https://sportstatsapi.com/legal/terms/) the SportStatsAPI script draws a small "Data by SportStatsAPI" credit link inside each widget; the plugin itself adds no links or credits to your site.
+* Free key (Connect, no payment): the six free widgets above, for the free competitions, 25,000 views a month. From 25,000 to 30,000 views the widgets keep working and you are told the free limit is reached; from 30,000 views until the month ends they show no data unless you move to a paid plan: the widget itself shows visitors a notice, and wp-admin shows you a notice with the upgrade link. To use the free key you tick "Yes, free widgets may show a small 'Data by SportStatsAPI' link" (at Connect or in the settings); without that yes free widgets are not shown. As part of the free plan's terms (https://sportstatsapi.com/legal/terms/) the SportStatsAPI script draws a small "Data by SportStatsAPI" credit link inside each widget; the plugin itself adds no links or credits to your site.
 * Paid key (a SportStatsAPI plan, see https://sportstatsapi.com/pricing/): all 19 widgets, about 3,000 competitions, your accent colour, no credit link.
 
 With a free key the 13 paid blocks are marked "(paid plan)" in the inserter, show a notice in the editor, and the service answers "Widget not available" for them. You can use the plugin forever with the free key.
@@ -54,8 +54,9 @@ This plugin shows data from SportStatsAPI (https://sportstatsapi.com), a sports 
 * In the block editor, the preview of a block is the real widget: the editor loads the same script and data from api.sportstatsapi.com as visitors do (below), with your widget key if one is saved.
 * Visitors' browsers load the widget script from https://api.sportstatsapi.com/api/widget/v1/embed.js on pages with a widget, and the script loads each widget's data, team logos and fonts from api.sportstatsapi.com and img.sportstatsapi.com. Sent: the visitor's IP address and browser details (as with any web request), the page's address (Origin), the widget's settings (widget, competition, team, language) and your widget key.
 * In the block editor, when you type in the competition search, your server asks api.sportstatsapi.com for matching competitions (https://api.sportstatsapi.com/api/widget/v1/competitions; until that is available, the list at https://sportstatsapi.com/widgets/competitions.json), and for the teams of the chosen competition. Sent: the text typed, the competition chosen. Kept in a cache for 10 minutes (searches) and 12 hours (lists, teams).
-* When you save a widget key, and once a day after that, your server asks api.sportstatsapi.com whether the key works. Sent: the key and your site's address. If the key is refused, widgets are hidden and admins see a notice.
-* Only if you turn on "Search engines" in Settings → SportStatsAPI: your server loads each widget's data from api.sportstatsapi.com (sent: the widget's settings, and a paid key with your site's address) and keeps it 10 minutes.
+* When you save a widget key, and once a day after that, your server asks api.sportstatsapi.com whether the key works. Sent: the key and your site's address. If the key is refused, widgets are hidden and admins see a notice; if a free key has used up its views for the month, admins see a notice too.
+* Your widget key is visible in your page source, like any embed code; it only works for widgets and for your website's address.
+* Only with a paid key, and only if you turn on "Search engines" in Settings → SportStatsAPI: your server loads each widget's data from api.sportstatsapi.com (sent: the widget's settings, the paid key and your site's address) and keeps it 10 minutes, to print it as plain HTML for visitors without JavaScript. With a free key nothing is loaded by your server.
 * On Settings → SportStatsAPI, your server checks at most once an hour whether account.sportstatsapi.com offers Connect (nothing is sent but the request). When you click "Connect with SportStatsAPI", your browser goes to account.sportstatsapi.com with your site's address and the settings page address; there you sign in or create a free account with your email address, and your browser comes back with your widget key.
 
 The plugin itself sets no cookies, does no tracking and adds no links or credits to your pages. With a free key, the SportStatsAPI script draws a credit link inside each widget, as the free plan's terms require (https://sportstatsapi.com/legal/terms/); a paid key removes it.
@@ -82,7 +83,7 @@ Free, with the free key from Connect: league table, live scores, fixtures, resul
 
 = Does the plugin send data anywhere? =
 
-Only to SportStatsAPI, the service that draws the widgets. See "External services" below for what is sent and when. The plugin sets no cookies and does no tracking.
+Only to SportStatsAPI, the service that draws the widgets. See "External services" above for what is sent and when. The plugin sets no cookies and does no tracking.
 
 = Where do I find competition keys and team names? =
 
@@ -104,4 +105,4 @@ The widget script loads once, asynchronously, only on pages with a widget, and w
 == Changelog ==
 
 = 0.1.0 =
-* First version: all 19 widgets as blocks and shortcodes, Connect, settings, optional server fallback.
+* First version: all 19 widgets as blocks and shortcodes, Connect, settings, optional server fallback (paid keys).
