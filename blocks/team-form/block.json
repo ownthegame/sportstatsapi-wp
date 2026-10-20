@@ -11,7 +11,7 @@
 		"team form",
 		"paid"
 	],
-	"textdomain": "live-scores-league-tables",
+	"textdomain": "sportstatsapi-live-scores",
 	"attributes": {
 		"competition": {
 			"type": "string",

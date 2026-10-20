@@ -17,25 +17,25 @@ defined( 'ABSPATH' ) || exit;
 function sportstatsapi_widgets() {
 	// slug => kind (the embed's data-widget), title, team (none, optional, required), options, free.
 	$list = array(
-		'table'        => array( 'table', __( 'League table', 'live-scores-league-tables' ), 'optional', array( 'size', 'rows' ), true ),
-		'scores'       => array( 'scores', __( 'Live scores', 'live-scores-league-tables' ), 'optional', array( 'round' ), true ),
-		'fixtures'     => array( 'fixtures', __( 'Fixtures', 'live-scores-league-tables' ), 'optional', array( 'view', 'country' ), true ),
-		'ticker'       => array( 'ticker', __( 'Results ticker', 'live-scores-league-tables' ), 'none', array( 'leagues' ), true ),
-		'next-match'   => array( 'next-match', __( 'Next match', 'live-scores-league-tables' ), 'required', array( 'country' ), true ),
-		'calendar'     => array( 'calendar', __( 'Team calendar', 'live-scores-league-tables' ), 'required', array(), true ),
-		'match-centre' => array( 'match-centre', __( 'Match centre', 'live-scores-league-tables' ), 'optional', array( 'match' ), false ),
-		'match-facts'  => array( 'match-facts', __( 'Match facts', 'live-scores-league-tables' ), 'none', array( 'style', 'langs' ), false ),
-		'preview'      => array( 'preview', __( 'Match preview', 'live-scores-league-tables' ), 'optional', array( 'match' ), false ),
-		'head-to-head' => array( 'head-to-head', __( 'Head to head', 'live-scores-league-tables' ), 'optional', array( 'match' ), false ),
-		'box-score'    => array( 'box-score', __( 'Box score', 'live-scores-league-tables' ), 'optional', array( 'match' ), false ),
-		'team-form'    => array( 'team-form', __( 'Team form', 'live-scores-league-tables' ), 'required', array(), false ),
-		'club-season'  => array( 'club-season', __( 'Club season', 'live-scores-league-tables' ), 'required', array(), false ),
-		'squad'        => array( 'squad', __( 'Squad', 'live-scores-league-tables' ), 'required', array(), false ),
-		'injuries'     => array( 'injuries', __( 'Injuries and suspensions', 'live-scores-league-tables' ), 'optional', array(), false ),
-		'race'         => array( 'race', __( 'Season race', 'live-scores-league-tables' ), 'optional', array( 'teams' ), false ),
-		'top-players'  => array( 'top-players', __( 'Top players', 'live-scores-league-tables' ), 'none', array( 'stat', 'rows' ), false ),
-		'player'       => array( 'player', __( 'Player card', 'live-scores-league-tables' ), 'required', array( 'player' ), false ),
-		'tennis'       => array( 'tennis', __( 'Tennis', 'live-scores-league-tables' ), 'none', array( 'player', 'tournament' ), false ),
+		'table'        => array( 'table', __( 'League table', 'sportstatsapi-live-scores' ), 'optional', array( 'size', 'rows' ), true ),
+		'scores'       => array( 'scores', __( 'Live scores', 'sportstatsapi-live-scores' ), 'optional', array( 'round' ), true ),
+		'fixtures'     => array( 'fixtures', __( 'Fixtures', 'sportstatsapi-live-scores' ), 'optional', array( 'view', 'country' ), true ),
+		'ticker'       => array( 'ticker', __( 'Results ticker', 'sportstatsapi-live-scores' ), 'none', array( 'leagues' ), true ),
+		'next-match'   => array( 'next-match', __( 'Next match', 'sportstatsapi-live-scores' ), 'required', array( 'country' ), true ),
+		'calendar'     => array( 'calendar', __( 'Team calendar', 'sportstatsapi-live-scores' ), 'required', array(), true ),
+		'match-centre' => array( 'match-centre', __( 'Match centre', 'sportstatsapi-live-scores' ), 'optional', array( 'match' ), false ),
+		'match-facts'  => array( 'match-facts', __( 'Match facts', 'sportstatsapi-live-scores' ), 'none', array( 'style', 'langs' ), false ),
+		'preview'      => array( 'preview', __( 'Match preview', 'sportstatsapi-live-scores' ), 'optional', array( 'match' ), false ),
+		'head-to-head' => array( 'head-to-head', __( 'Head to head', 'sportstatsapi-live-scores' ), 'optional', array( 'match' ), false ),
+		'box-score'    => array( 'box-score', __( 'Box score', 'sportstatsapi-live-scores' ), 'optional', array( 'match' ), false ),
+		'team-form'    => array( 'team-form', __( 'Team form', 'sportstatsapi-live-scores' ), 'required', array(), false ),
+		'club-season'  => array( 'club-season', __( 'Club season', 'sportstatsapi-live-scores' ), 'required', array(), false ),
+		'squad'        => array( 'squad', __( 'Squad', 'sportstatsapi-live-scores' ), 'required', array(), false ),
+		'injuries'     => array( 'injuries', __( 'Injuries and suspensions', 'sportstatsapi-live-scores' ), 'optional', array(), false ),
+		'race'         => array( 'race', __( 'Season race', 'sportstatsapi-live-scores' ), 'optional', array( 'teams' ), false ),
+		'top-players'  => array( 'top-players', __( 'Top players', 'sportstatsapi-live-scores' ), 'none', array( 'stat', 'rows' ), false ),
+		'player'       => array( 'player', __( 'Player card', 'sportstatsapi-live-scores' ), 'required', array( 'player' ), false ),
+		'tennis'       => array( 'tennis', __( 'Tennis', 'sportstatsapi-live-scores' ), 'none', array( 'player', 'tournament' ), false ),
 	);
 	$out  = array();
 	foreach ( $list as $slug => $w ) {
@@ -266,19 +266,19 @@ function sportstatsapi_render( $slug, array $in ) {
 	$admin = current_user_can( 'edit_posts' );
 	if ( null === $attrs || empty( $attrs['competition'] ) ) {
 		return $admin
-			? '<p class="sportstatsapi-missing">' . esc_html__( 'SportStatsAPI: choose a widget and a competition.', 'live-scores-league-tables' ) . '</p>'
+			? '<p class="sportstatsapi-missing">' . esc_html__( 'SportStatsAPI: choose a widget and a competition.', 'sportstatsapi-live-scores' ) . '</p>'
 			: '';
 	}
 	// Connect is required: no key, no widget (editors see why).
 	if ( empty( $attrs['key'] ) ) {
 		return $admin
-			? '<p class="sportstatsapi-missing"><a href="' . esc_url( admin_url( 'options-general.php?page=sportstatsapi' ) ) . '">' . esc_html__( 'Connect SportStatsAPI to show this widget', 'live-scores-league-tables' ) . '</a></p>'
+			? '<p class="sportstatsapi-missing"><a href="' . esc_url( admin_url( 'options-general.php?page=sportstatsapi' ) ) . '">' . esc_html__( 'Connect SportStatsAPI to show this widget', 'sportstatsapi-live-scores' ) . '</a></p>'
 			: '';
 	}
 	// A free key needs the site owner's yes to the credit link the free plan shows (settings).
 	if ( 0 === strpos( $attrs['key'], 'ssw_free_' ) && ! sportstatsapi_settings()['credit'] ) {
 		return $admin
-			? '<p class="sportstatsapi-missing"><a href="' . esc_url( admin_url( 'options-general.php?page=sportstatsapi' ) ) . '">' . esc_html__( 'Free widgets show a small "Data by SportStatsAPI" link. Agree to it in the settings to show this widget.', 'live-scores-league-tables' ) . '</a></p>'
+			? '<p class="sportstatsapi-missing"><a href="' . esc_url( admin_url( 'options-general.php?page=sportstatsapi' ) ) . '">' . esc_html__( 'Free widgets show a small "Data by SportStatsAPI" link. Agree to it in the settings to show this widget.', 'sportstatsapi-live-scores' ) . '</a></p>'
 			: '';
 	}
 	wp_enqueue_script( 'sportstatsapi-embed' );
@@ -390,7 +390,7 @@ function sportstatsapi_register_blocks() {
 		) . ';',
 		'before'
 	);
-	wp_set_script_translations( 'sportstatsapi-editor', 'live-scores-league-tables' );
+	wp_set_script_translations( 'sportstatsapi-editor', 'sportstatsapi-live-scores' );
 
 	foreach ( array_keys( sportstatsapi_widgets() ) as $slug ) {
 		register_block_type(
@@ -499,7 +499,7 @@ function sportstatsapi_fallback_html( array $d ) {
 		$body .= '<tr><td>' . (int) $r['pos'] . '</td><td>' . esc_html( (string) $r['team'] ) . '</td><td>' . (int) $r['played'] . '</td><td>' . (int) $r['points'] . '</td></tr>';
 	}
 	if ( '' !== $body ) {
-		$out .= '<table class="sportstatsapi-fallback"><thead><tr><th>#</th><th>' . esc_html__( 'Team', 'live-scores-league-tables' ) . '</th><th>' . esc_html__( 'P', 'live-scores-league-tables' ) . '</th><th>' . esc_html__( 'Pts', 'live-scores-league-tables' ) . '</th></tr></thead><tbody>' . $body . '</tbody></table>';
+		$out .= '<table class="sportstatsapi-fallback"><thead><tr><th>#</th><th>' . esc_html__( 'Team', 'sportstatsapi-live-scores' ) . '</th><th>' . esc_html__( 'P', 'sportstatsapi-live-scores' ) . '</th><th>' . esc_html__( 'Pts', 'sportstatsapi-live-scores' ) . '</th></tr></thead><tbody>' . $body . '</tbody></table>';
 	}
 	$matches = isset( $d['matches'] ) && is_array( $d['matches'] ) ? $d['matches'] : array();
 	if ( ! empty( $d['groups'] ) && is_array( $d['groups'] ) ) {

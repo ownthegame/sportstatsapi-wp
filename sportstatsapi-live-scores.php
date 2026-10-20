@@ -1,16 +1,16 @@
 <?php
 /**
- * Plugin Name:       Live Scores & League Tables
+ * Plugin Name:       SportStatsAPI Live Scores & League Tables
  * Plugin URI:        https://sportstatsapi.com/widgets/
  * Description:       Live scores, league tables, fixtures, a results ticker, next match and team calendar widgets from SportStatsAPI, as blocks and shortcodes.
  * Version:           0.1.0
  * Requires at least: 6.3
  * Requires PHP:      7.4
- * Author:            SportStatsAPI
+ * Author:            Modulout LLC (SportStatsAPI)
  * Author URI:        https://sportstatsapi.com/
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       live-scores-league-tables
+ * Text Domain:       sportstatsapi-live-scores
  *
  * @package SportStatsAPI_Widgets
  */
