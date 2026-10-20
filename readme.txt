@@ -1,4 +1,4 @@
-=== Live Scores & League Tables ===
+=== SportStatsAPI Live Scores & League Tables ===
 Contributors: modulout
 Tags: live scores, football, soccer, league table, fixtures
 Requires at least: 6.3
@@ -11,6 +11,8 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Live scores, league tables and fixtures for football, soccer, NBA, NFL and more: free widgets as blocks and shortcodes, with live data.
 
 == Description ==
+
+SportStatsAPI (https://sportstatsapi.com) is a brand of Modulout LLC, the author of this plugin.
 
 Add live sports data to your site in a few clicks. Pick a widget block, type a competition, and the editor shows the real widget with live data.
 
