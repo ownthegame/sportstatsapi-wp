@@ -45,3 +45,5 @@ if ( is_multisite() ) {
 } else {
 	sportstatsapi_uninstall_site();
 }
+// Dismissed notices (user meta is shared by every site of a network).
+delete_metadata( 'user', 0, 'sportstatsapi_dismissed', '', true );
