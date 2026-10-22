@@ -230,7 +230,8 @@ function sportstatsapi_key_notices() {
 		$text = __( 'SportStatsAPI: your free key reached 30,000 views this month: widgets show no data until the month ends. Upgrade: https://sportstatsapi.com/pricing/', 'sportstatsapi-live-scores' );
 	}
 	if ( isset( $text ) ) {
-		$out['key'] = array( md5( $key . '|' . $error ), $text );
+		// The view limit comes back every month: a new month is a new condition.
+		$out['key'] = array( md5( $key . '|' . $error . ( 'VIEW_LIMIT' === $error ? '|' . gmdate( 'Y-m' ) : '' ) ), $text );
 	}
 	if ( 0 === strpos( $key, 'ssw_free_' ) && ! sportstatsapi_settings()['credit'] ) {
 		$out['credit'] = array( md5( $key ), __( 'SportStatsAPI: your free key needs your yes to the small "Data by SportStatsAPI" link; free widgets are hidden until you tick it in Settings.', 'sportstatsapi-live-scores' ) );
