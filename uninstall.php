@@ -32,7 +32,12 @@ function sportstatsapi_uninstall_site() {
 }
 
 if ( is_multisite() ) {
-	foreach ( get_sites( array( 'fields' => 'ids', 'number' => 0 ) ) as $sportstatsapi_site_id ) {
+	foreach ( get_sites(
+		array(
+			'fields' => 'ids',
+			'number' => 0,
+		)
+	) as $sportstatsapi_site_id ) {
 		switch_to_blog( $sportstatsapi_site_id );
 		sportstatsapi_uninstall_site();
 		restore_current_blog();
