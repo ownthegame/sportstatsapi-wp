@@ -210,41 +210,91 @@ function sportstatsapi_connect_finish() {
 add_action( 'admin_init', 'sportstatsapi_connect_finish' );
 
 /**
- * Dismissible notices on the dashboard, the Plugins screen and the settings page
- * while the API refuses the saved key, the free views are used up, or a free key
- * waits for the yes to the credit link.
+ * The key notices that apply now: kind => [ state, text ]. The state names the
+ * condition (key and error code), so a dismissed notice comes back when it changes.
+ *
+ * @return array
+ */
+function sportstatsapi_key_notices() {
+	$key = sportstatsapi_clean( 'key', sportstatsapi_settings()['key'] );
+	if ( '' === $key ) {
+		return array();
+	}
+	$error = sportstatsapi_key_error( $key );
+	$out   = array();
+	if ( 'WRONG_WEBSITE' === $error ) {
+		$text = __( 'SportStatsAPI: your key isn’t set up for this website, so widgets are hidden on your site. Add this site on your account page, or connect again.', 'sportstatsapi-live-scores' );
+	} elseif ( 'UNKNOWN_KEY' === $error ) {
+		$text = __( 'SportStatsAPI: your key isn’t recognised, so widgets are hidden on your site. Connect again or paste a working key.', 'sportstatsapi-live-scores' );
+	} elseif ( 'VIEW_LIMIT' === $error ) {
+		$text = __( 'SportStatsAPI: your free key reached 30,000 views this month: widgets show no data until the month ends. Upgrade: https://sportstatsapi.com/pricing/', 'sportstatsapi-live-scores' );
+	}
+	if ( isset( $text ) ) {
+		// The view limit comes back every month: a new month is a new condition.
+		$out['key'] = array( md5( $key . '|' . $error . ( 'VIEW_LIMIT' === $error ? '|' . gmdate( 'Y-m' ) : '' ) ), $text );
+	}
+	if ( 0 === strpos( $key, 'ssw_free_' ) && ! sportstatsapi_settings()['credit'] ) {
+		$out['credit'] = array( md5( $key ), __( 'SportStatsAPI: your free key needs your yes to the small "Data by SportStatsAPI" link; free widgets are hidden until you tick it in Settings.', 'sportstatsapi-live-scores' ) );
+	}
+	return $out;
+}
+
+/**
+ * Key notices on the dashboard, the Plugins screen and the settings page while
+ * the API refuses the saved key, the free views are used up, or a free key waits
+ * for the yes to the credit link. Dismissing one hides it for that user until its
+ * condition changes; the settings page always shows the current state.
  */
 function sportstatsapi_key_notice() {
 	$screen = get_current_screen();
 	if ( ! current_user_can( 'manage_options' ) || ! $screen || ! in_array( $screen->id, array( 'dashboard', 'plugins', 'settings_page_sportstatsapi' ), true ) ) {
 		return;
 	}
-	$key = sportstatsapi_clean( 'key', sportstatsapi_settings()['key'] );
-	if ( '' === $key ) {
-		return;
-	}
-	$error = sportstatsapi_key_error( $key );
-	$texts = array();
-	if ( 'WRONG_WEBSITE' === $error ) {
-		$texts[] = __( 'SportStatsAPI: your key isn’t set up for this website, so widgets are hidden on your site. Add this site on your account page, or connect again.', 'sportstatsapi-live-scores' );
-	} elseif ( 'UNKNOWN_KEY' === $error ) {
-		$texts[] = __( 'SportStatsAPI: your key isn’t recognised, so widgets are hidden on your site. Connect again or paste a working key.', 'sportstatsapi-live-scores' );
-	} elseif ( 'VIEW_LIMIT' === $error ) {
-		$texts[] = __( 'SportStatsAPI: your free key reached 30,000 views this month: widgets show no data until the month ends. Upgrade: https://sportstatsapi.com/pricing/', 'sportstatsapi-live-scores' );
-	}
-	if ( 0 === strpos( $key, 'ssw_free_' ) && ! sportstatsapi_settings()['credit'] ) {
-		$texts[] = __( 'SportStatsAPI: your free key needs your yes to the small "Data by SportStatsAPI" link; free widgets are hidden until you tick it in Settings.', 'sportstatsapi-live-scores' );
-	}
-	foreach ( $texts as $text ) {
+	$settings  = 'settings_page_sportstatsapi' === $screen->id;
+	$dismissed = array_filter( (array) get_user_meta( get_current_user_id(), 'sportstatsapi_dismissed', true ) );
+	$shown     = false;
+	foreach ( sportstatsapi_key_notices() as $kind => $notice ) {
+		if ( ! $settings && isset( $dismissed[ $kind ] ) && $dismissed[ $kind ] === $notice[0] ) {
+			continue;
+		}
 		printf(
-			'<div class="notice notice-warning is-dismissible"><p>%s <a href="%s">%s</a></p></div>',
-			esc_html( $text ),
+			'<div class="notice notice-warning%s" data-sportstatsapi-notice="%s"><p>%s <a href="%s">%s</a></p></div>',
+			$settings ? '' : ' is-dismissible',
+			esc_attr( $kind ),
+			esc_html( $notice[1] ),
 			esc_url( sportstatsapi_connect_return() ),
 			esc_html__( 'Settings', 'sportstatsapi-live-scores' )
+		);
+		$shown = true;
+	}
+	if ( $shown && ! $settings ) {
+		wp_add_inline_script(
+			'common',
+			sprintf(
+				'jQuery(document).on("click","[data-sportstatsapi-notice] .notice-dismiss",function(){jQuery.post(ajaxurl,{action:"sportstatsapi_dismiss",kind:jQuery(this).closest("[data-sportstatsapi-notice]").data("sportstatsapiNotice"),_ajax_nonce:%s});});',
+				wp_json_encode( wp_create_nonce( 'sportstatsapi_dismiss' ) )
+			)
 		);
 	}
 }
 add_action( 'admin_notices', 'sportstatsapi_key_notice' );
+
+/**
+ * AJAX: the user dismissed a key notice; remember its current condition.
+ */
+function sportstatsapi_dismiss_notice() {
+	check_ajax_referer( 'sportstatsapi_dismiss' );
+	$kind    = isset( $_POST['kind'] ) ? sanitize_key( $_POST['kind'] ) : '';
+	$notices = sportstatsapi_key_notices();
+	if ( ! current_user_can( 'manage_options' ) || ! isset( $notices[ $kind ] ) ) {
+		wp_send_json_error( null, 400 );
+	}
+	$dismissed          = array_filter( (array) get_user_meta( get_current_user_id(), 'sportstatsapi_dismissed', true ) );
+	$dismissed[ $kind ] = $notices[ $kind ][0];
+	update_user_meta( get_current_user_id(), 'sportstatsapi_dismissed', $dismissed );
+	wp_send_json_success();
+}
+add_action( 'wp_ajax_sportstatsapi_dismiss', 'sportstatsapi_dismiss_notice' );
 
 /**
  * The settings page.
