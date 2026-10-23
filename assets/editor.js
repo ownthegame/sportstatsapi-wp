@@ -164,7 +164,7 @@
 			var comp = comps[ a.competition ];
 			var notices = [];
 			var connect = ! cfg.key ? el( c.Notice, { status: 'info', isDismissible: false },
-				__( 'Connect to publish: visitors see this widget once SportStatsAPI is connected.', 'sportstatsapi-live-scores' ) + ' ',
+				__( 'Connect SportStatsAPI to see this widget: the preview and your visitors need the site’s widget key.', 'sportstatsapi-live-scores' ) + ' ',
 				el( 'a', { href: cfg.settings, target: '_blank', rel: 'noopener' }, __( 'Settings → SportStatsAPI', 'sportstatsapi-live-scores' ) ) )
 				: /^ssw_free_/.test( cfg.key ) && ! cfg.credit ? el( c.Notice, { status: 'warning', isDismissible: false },
 					__( 'Visitors do not see this widget yet: agree to the “Data by SportStatsAPI” link in Settings → SportStatsAPI.', 'sportstatsapi-live-scores' ) + ' ',
@@ -199,7 +199,8 @@
 				: el( 'div', null,
 					connect,
 					notices.map( function ( t, i ) { return el( c.Notice, { key: i, status: 'warning', isDismissible: false }, t ); } ),
-					el( Preview, { attrs: dataAttrs( slug, a ) } ) );
+					// No key, no data (the API answers KEY_REQUIRED): the notice stands in for the preview.
+					cfg.key ? el( Preview, { attrs: dataAttrs( slug, a ) } ) : null );
 			return el( 'div', blockProps, inspector, body );
 		};
 	}
