@@ -14,7 +14,7 @@ Live scores, league tables and fixtures for football, soccer, NBA, NFL and more:
 
 SportStatsAPI (https://sportstatsapi.com) is a brand of Modulout LLC, the author of this plugin.
 
-Add live sports data to your site in a few clicks. Pick a widget block, type a competition, and the editor shows the real widget with live data.
+Add live sports data to your site in a few clicks. Pick a widget block, type a competition, and, once your site is connected (free), the editor shows the real widget with live data.
 
 All 19 SportStatsAPI widgets, each a block (in the SportStatsAPI group of the inserter) and a shortcode.
 
@@ -29,13 +29,13 @@ Free (with the free key from Connect):
 
 With a paid SportStatsAPI plan: match centre, match facts, match preview, head to head, box score, team form, club season, squad, injuries and suspensions, season race, top players, player card and tennis.
 
-Connect your site once (Settings → SportStatsAPI → Connect) to get the free key: the six free widgets for the free competitions (Premier League, Bundesliga, LaLiga, Serie A, Ligue 1, MLS, NBA, NHL, MLB, NFL, EuroLeague, the Champions League and more), 25,000 views a month. A paid key opens every widget, about 3,000 competitions, your accent colour and no credit link. Until the site is connected, widgets show only in the editor preview.
+Connect your site once (Settings → SportStatsAPI → Connect) to get the free key: the six free widgets for the free competitions (Premier League, Bundesliga, LaLiga, Serie A, Ligue 1, MLS, NBA, NHL, MLB, NFL, EuroLeague, the Champions League and more), 25,000 views a month. A paid key opens every widget, about 3,000 competitions, your accent colour and no credit link. Until the site is connected, no widget is shown: the editor shows a "Connect" notice in its place.
 
 = Free and paid =
 
 The plugin is free and complete: all 19 blocks and the shortcode are in it, with no code that is switched off or unlocked by payment. The widgets are drawn and their data served by the SportStatsAPI service (https://sportstatsapi.com), and the service decides what a key may show:
 
-* No key: nothing on your site; the editor shows a preview and a "Connect" notice. Every widget needs a key, the free ones too: the free key identifies your site and counts its free views (25,000 a month), so the service needs it.
+* No key: nothing on your site; the editor shows a "Connect" notice instead of the preview. Every widget needs a key, the free ones too: the free key identifies your site and counts its free views (25,000 a month), so the service needs it.
 * Free key (Connect, no payment): the six free widgets above, for the free competitions, 25,000 views a month. From 25,000 to 30,000 views the widgets keep working and you are told the free limit is reached; from 30,000 views until the month ends they show no data unless you move to a paid plan: the widget itself shows visitors a notice, and wp-admin shows you a notice with the upgrade link. To use the free key you tick "Yes, free widgets may show a small 'Data by SportStatsAPI' link" (at Connect or in the settings); without that yes free widgets are not shown. As part of the free plan's terms (https://sportstatsapi.com/legal/terms/) the SportStatsAPI script draws a small "Data by SportStatsAPI" credit link inside each widget; the plugin itself adds no links or credits to your site.
 * Paid key (a SportStatsAPI plan, see https://sportstatsapi.com/pricing/): all 19 widgets, about 3,000 competitions, your accent colour, no credit link.
 
@@ -77,7 +77,7 @@ Cookies: https://sportstatsapi.com/legal/cookies/
 
 = Do I need an account? =
 
-A free one: Connect creates it with your email address and brings the free key back (25,000 views a month; you agree that free widgets show a small "Data by SportStatsAPI" link). Without a key, widgets show only in the editor. A paid key opens every competition and widget.
+A free one: Connect creates it with your email address and brings the free key back (25,000 views a month; you agree that free widgets show a small "Data by SportStatsAPI" link). Without a key, widgets are not shown. A paid key opens every competition and widget.
 
 = What is free and what needs a paid plan? =
 

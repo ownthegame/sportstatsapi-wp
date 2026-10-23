@@ -1,4 +1,4 @@
-# Copyright (C) 2026 SportStatsAPI
+# Copyright (C) 2026 Modulout LLC (SportStatsAPI)
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
@@ -9,29 +9,34 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-17T13:14:51+00:00\n"
+"POT-Creation-Date: 2026-10-23T07:17:40+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: sportstatsapi-live-scores\n"
 
 #. Plugin Name of the plugin
-#: includes/settings.php:275
+#: sportstatsapi-live-scores.php
+#: includes/settings.php:325
 msgid "SportStatsAPI Live Scores & League Tables"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: sportstatsapi-live-scores.php
 msgid "https://sportstatsapi.com/widgets/"
 msgstr ""
 
 #. Description of the plugin
+#: sportstatsapi-live-scores.php
 msgid "Live scores, league tables, fixtures, a results ticker, next match and team calendar widgets from SportStatsAPI, as blocks and shortcodes."
 msgstr ""
 
 #. Author of the plugin
-msgid "SportStatsAPI"
+#: sportstatsapi-live-scores.php
+msgid "Modulout LLC (SportStatsAPI)"
 msgstr ""
 
 #. Author URI of the plugin
+#: sportstatsapi-live-scores.php
 msgid "https://sportstatsapi.com/"
 msgstr ""
 
@@ -61,7 +66,7 @@ msgid "The SportStatsAPI account service does not offer Connect right now."
 msgstr ""
 
 #: includes/settings.php:103
-#: includes/settings.php:243
+#: includes/settings.php:266
 msgid "Settings"
 msgstr ""
 
@@ -81,133 +86,134 @@ msgstr ""
 msgid "Paste your key instead."
 msgstr ""
 
-#: includes/settings.php:229
+#: includes/settings.php:226
 msgid "SportStatsAPI: your key isn’t set up for this website, so widgets are hidden on your site. Add this site on your account page, or connect again."
 msgstr ""
 
-#: includes/settings.php:231
+#: includes/settings.php:228
 msgid "SportStatsAPI: your key isn’t recognised, so widgets are hidden on your site. Connect again or paste a working key."
 msgstr ""
 
-#: includes/settings.php:233
+#: includes/settings.php:230
 msgid "SportStatsAPI: your free key reached 30,000 views this month: widgets show no data until the month ends. Upgrade: https://sportstatsapi.com/pricing/"
 msgstr ""
 
-#: includes/settings.php:236
+#: includes/settings.php:237
 msgid "SportStatsAPI: your free key needs your yes to the small \"Data by SportStatsAPI\" link; free widgets are hidden until you tick it in Settings."
 msgstr ""
 
-#: includes/settings.php:261
+#: includes/settings.php:311
 msgid "The page’s language"
 msgstr ""
 
-#: includes/settings.php:269
+#: includes/settings.php:319
 msgid "Auto (the visitor’s setting)"
 msgstr ""
 
-#: includes/settings.php:270
+#: includes/settings.php:320
 #: assets/editor.js:191
 msgid "Light"
 msgstr ""
 
-#: includes/settings.php:271
+#: includes/settings.php:321
 #: assets/editor.js:191
 msgid "Dark"
 msgstr ""
 
-#: includes/settings.php:277
+#: includes/settings.php:327
 msgid "Connected: your widget key is saved."
 msgstr ""
 
-#: includes/settings.php:279
+#: includes/settings.php:329
 msgid "Connect was cancelled. Nothing changed."
 msgstr ""
 
-#: includes/settings.php:281
+#: includes/settings.php:331
 msgid "To connect, agree that free widgets show a small \"Data by SportStatsAPI\" link."
 msgstr ""
 
-#: includes/settings.php:283
+#: includes/settings.php:333
 msgid "Connect did not finish. Try again, or paste your key."
 msgstr ""
 
-#: includes/settings.php:287
+#: includes/settings.php:337
 msgid "Add widgets with the SportStatsAPI blocks in the editor, or with a shortcode:"
 msgstr ""
 
-#: includes/settings.php:291
+#: includes/settings.php:341
 msgid "Widgets show on your site once it is connected: Connect creates a free SportStatsAPI key (live scores, tables, fixtures, ticker, next match and calendar for the free competitions, 25,000 views a month, with a small \"Data by SportStatsAPI\" link in each widget). A paid key opens all 19 widgets and every competition, and removes the credit link."
 msgstr ""
 
-#: includes/settings.php:301
+#: includes/settings.php:351
 msgid "Yes, free widgets may show a small \"Data by SportStatsAPI\" link (required for the free key)."
 msgstr ""
 
-#: includes/settings.php:305
+#: includes/settings.php:355
 msgid "Connect with SportStatsAPI"
 msgstr ""
 
-#: includes/settings.php:306
+#: includes/settings.php:356
 msgid "Opens your SportStatsAPI account and brings this site’s free widget key back here."
 msgstr ""
 
-#: includes/settings.php:310
+#: includes/settings.php:360
 msgid "Paste the widget key from your SportStatsAPI account below."
 msgstr ""
 
-#: includes/settings.php:317
+#: includes/settings.php:367
 msgid "Widget key"
 msgstr ""
 
 #. translators: %s: link to the SportStatsAPI account page
-#: includes/settings.php:324
+#: includes/settings.php:374
+#, php-format
 msgid "Required to show widgets. Connect fills it in, or copy it from your %s. The key is visible in your page source, like any embed code; it only works for widgets and for your website’s address."
 msgstr ""
 
-#: includes/settings.php:325
+#: includes/settings.php:375
 msgid "account page"
 msgstr ""
 
-#: includes/settings.php:332
+#: includes/settings.php:382
 msgid "Credit link"
 msgstr ""
 
-#: includes/settings.php:336
+#: includes/settings.php:386
 msgid "Yes, free widgets may show a small \"Data by SportStatsAPI\" link"
 msgstr ""
 
-#: includes/settings.php:338
+#: includes/settings.php:388
 msgid "Required for a free key: without it free widgets are not shown. Paid keys show no link."
 msgstr ""
 
-#: includes/settings.php:342
+#: includes/settings.php:392
 #: assets/editor.js:191
 msgid "Theme"
 msgstr ""
 
-#: includes/settings.php:352
+#: includes/settings.php:402
 #: assets/editor.js:193
 msgid "Accent colour"
 msgstr ""
 
-#: includes/settings.php:355
+#: includes/settings.php:405
 msgid "Your brand colour as #RRGGBB. Applies with a paid key."
 msgstr ""
 
-#: includes/settings.php:359
+#: includes/settings.php:409
 #: assets/editor.js:192
 msgid "Language"
 msgstr ""
 
-#: includes/settings.php:369
+#: includes/settings.php:419
 msgid "Search engines"
 msgstr ""
 
-#: includes/settings.php:373
+#: includes/settings.php:423
 msgid "Also print the data as plain HTML for visitors without JavaScript"
 msgstr ""
 
-#: includes/settings.php:375
+#: includes/settings.php:425
 msgid "Paid key only. Your server loads each widget’s data from api.sportstatsapi.com and keeps it 10 minutes."
 msgstr ""
 
@@ -473,7 +479,7 @@ msgid "Shows TV channels in this country, e.g. United Kingdom."
 msgstr ""
 
 #: assets/editor.js:167
-msgid "Connect to publish: visitors see this widget once SportStatsAPI is connected."
+msgid "Connect SportStatsAPI to see this widget: the preview and your visitors need the site’s widget key."
 msgstr ""
 
 #: assets/editor.js:168
@@ -553,8 +559,8 @@ msgstr ""
 #: blocks/match-centre/block.json
 #: blocks/match-facts/block.json
 #: blocks/next-match/block.json
-#: blocks/player/block.json
-#: blocks/preview/block.json
+#: blockslayer/block.json
+#: blocksreview/block.json
 #: blocks/race/block.json
 #: blocks/scores/block.json
 #: blocks/squad/block.json
@@ -576,8 +582,8 @@ msgstr ""
 #: blocks/match-centre/block.json
 #: blocks/match-facts/block.json
 #: blocks/next-match/block.json
-#: blocks/player/block.json
-#: blocks/preview/block.json
+#: blockslayer/block.json
+#: blocksreview/block.json
 #: blocks/race/block.json
 #: blocks/scores/block.json
 #: blocks/squad/block.json
@@ -601,8 +607,8 @@ msgstr ""
 #: blocks/injuries/block.json
 #: blocks/match-centre/block.json
 #: blocks/match-facts/block.json
-#: blocks/player/block.json
-#: blocks/preview/block.json
+#: blockslayer/block.json
+#: blocksreview/block.json
 #: blocks/race/block.json
 #: blocks/squad/block.json
 #: blocks/team-form/block.json
@@ -742,32 +748,32 @@ msgctxt "block keyword"
 msgid "next match"
 msgstr ""
 
-#: blocks/player/block.json
+#: blockslayer/block.json
 msgctxt "block title"
 msgid "Player card (paid plan)"
 msgstr ""
 
-#: blocks/player/block.json
+#: blockslayer/block.json
 msgctxt "block description"
 msgid "One player's card with season statistics. Needs a paid SportStatsAPI plan."
 msgstr ""
 
-#: blocks/player/block.json
+#: blockslayer/block.json
 msgctxt "block keyword"
 msgid "player"
 msgstr ""
 
-#: blocks/preview/block.json
+#: blocksreview/block.json
 msgctxt "block title"
 msgid "Match preview (paid plan)"
 msgstr ""
 
-#: blocks/preview/block.json
+#: blocksreview/block.json
 msgctxt "block description"
 msgid "A preview of a team's next match, or of a match by code. Needs a paid SportStatsAPI plan."
 msgstr ""
 
-#: blocks/preview/block.json
+#: blocksreview/block.json
 msgctxt "block keyword"
 msgid "preview"
 msgstr ""
