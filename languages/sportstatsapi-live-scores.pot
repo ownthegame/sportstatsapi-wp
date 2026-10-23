@@ -559,8 +559,8 @@ msgstr ""
 #: blocks/match-centre/block.json
 #: blocks/match-facts/block.json
 #: blocks/next-match/block.json
-#: blockslayer/block.json
-#: blocksreview/block.json
+#: blocks/player/block.json
+#: blocks/preview/block.json
 #: blocks/race/block.json
 #: blocks/scores/block.json
 #: blocks/squad/block.json
@@ -582,8 +582,8 @@ msgstr ""
 #: blocks/match-centre/block.json
 #: blocks/match-facts/block.json
 #: blocks/next-match/block.json
-#: blockslayer/block.json
-#: blocksreview/block.json
+#: blocks/player/block.json
+#: blocks/preview/block.json
 #: blocks/race/block.json
 #: blocks/scores/block.json
 #: blocks/squad/block.json
@@ -607,8 +607,8 @@ msgstr ""
 #: blocks/injuries/block.json
 #: blocks/match-centre/block.json
 #: blocks/match-facts/block.json
-#: blockslayer/block.json
-#: blocksreview/block.json
+#: blocks/player/block.json
+#: blocks/preview/block.json
 #: blocks/race/block.json
 #: blocks/squad/block.json
 #: blocks/team-form/block.json
@@ -748,32 +748,32 @@ msgctxt "block keyword"
 msgid "next match"
 msgstr ""
 
-#: blockslayer/block.json
+#: blocks/player/block.json
 msgctxt "block title"
 msgid "Player card (paid plan)"
 msgstr ""
 
-#: blockslayer/block.json
+#: blocks/player/block.json
 msgctxt "block description"
 msgid "One player's card with season statistics. Needs a paid SportStatsAPI plan."
 msgstr ""
 
-#: blockslayer/block.json
+#: blocks/player/block.json
 msgctxt "block keyword"
 msgid "player"
 msgstr ""
 
-#: blocksreview/block.json
+#: blocks/preview/block.json
 msgctxt "block title"
 msgid "Match preview (paid plan)"
 msgstr ""
 
-#: blocksreview/block.json
+#: blocks/preview/block.json
 msgctxt "block description"
 msgid "A preview of a team's next match, or of a match by code. Needs a paid SportStatsAPI plan."
 msgstr ""
 
-#: blocksreview/block.json
+#: blocks/preview/block.json
 msgctxt "block keyword"
 msgid "preview"
 msgstr ""
