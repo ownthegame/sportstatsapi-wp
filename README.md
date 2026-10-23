@@ -3,6 +3,14 @@
 Gutenberg blocks and shortcodes for the [SportStatsAPI](https://sportstatsapi.com/widgets/)
 embeddable widgets: league tables, live scores, fixtures, results ticker, next match, team calendar, team form.
 
+**WordPress.org:** https://wordpress.org/plugins/sportstatsapi-live-scores/
+
+## Install
+
+1. In WordPress: Plugins > Add New, search "SportStatsAPI Live Scores", Install and Activate (or upload the zip from the [latest release](https://github.com/ownthegame/sportstatsapi-wp/releases/latest)).
+2. Settings > SportStatsAPI > Connect (free key).
+3. Add a SportStatsAPI block in the editor, or use a shortcode.
+
 See [PLAN.md](PLAN.md) for the architecture and roadmap, `readme.txt` for the
 wordpress.org description.
 
